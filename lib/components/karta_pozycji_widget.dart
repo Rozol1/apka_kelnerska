@@ -287,22 +287,24 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                     size: 14.0,
                                   ),
                                   onPressed: () async {
-                                    await widget.daneZamowienia!.reference
-                                        .update({
-                                      ...createOrderedItemsRecordData(
-                                        itemTotalPrice: functions.obliczKwote(
-                                            containerProductsRecord.price
-                                                .toDouble(),
-                                            functions.zmniejszIlosc(widget
-                                                .daneZamowienia!.quantity)),
-                                      ),
-                                      ...mapToFirestore(
-                                        {
-                                          'quantity':
-                                              FieldValue.increment(-(1)),
-                                        },
-                                      ),
-                                    });
+                                    if (widget.daneZamowienia!.quantity > 1) {
+                                      await widget.daneZamowienia!.reference
+                                          .update({
+                                        ...createOrderedItemsRecordData(
+                                          itemTotalPrice: functions.obliczKwote(
+                                              containerProductsRecord.price
+                                                  .toDouble(),
+                                              functions.zmniejszIlosc(widget
+                                                  .daneZamowienia!.quantity)),
+                                        ),
+                                        ...mapToFirestore(
+                                          {
+                                            'quantity':
+                                                FieldValue.increment(-(1)),
+                                          },
+                                        ),
+                                      });
+                                    }
                                   },
                                 ),
                                 Text(

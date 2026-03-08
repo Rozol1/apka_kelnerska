@@ -80,7 +80,7 @@ bool czyPokazacDanie(
   if (wybraneAlergeny != null && wybraneAlergeny.isNotEmpty) {
     if (wybraneAlergeny.contains('Jaja') && maJajka) return false;
     if (wybraneAlergeny.contains('Laktoza') && maMleko) return false;
-    if (wybraneAlergeny.contains('Gluten') && !jestBezGlutenu) return false;
+    if (wybraneAlergeny.contains('Gluten') && jestBezGlutenu) return false;
   }
 
   return true; // Pokaż danie

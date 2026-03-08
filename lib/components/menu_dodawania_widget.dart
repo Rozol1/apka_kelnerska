@@ -57,7 +57,7 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
@@ -224,7 +224,7 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                               ChipData('Wszystkie'),
                               ChipData('Przystawki'),
                               ChipData('Zupy'),
-                              ChipData('Dania główne'),
+                              ChipData('Dania Główne'),
                               ChipData('Desery'),
                               ChipData('Napoje'),
                               ChipData('Śniadania'),
@@ -233,9 +233,14 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                             onChanged: (val) async {
                               safeSetState(() =>
                                   _model.choiceChipsValue1 = val?.firstOrNull);
-                              _model.wybranaKategoria =
-                                  _model.choiceChipsValue1;
-                              safeSetState(() {});
+                              if (_model.choiceChipsValue1 == 'Wszystkie') {
+                                _model.wybranaKategoria = null;
+                                safeSetState(() {});
+                              } else {
+                                _model.wybranaKategoria =
+                                    _model.choiceChipsValue1;
+                                safeSetState(() {});
+                              }
                             },
                             selectedChipStyle: ChipStyle(
                               backgroundColor:
@@ -304,11 +309,10 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                             chipSpacing: 8.0,
                             rowSpacing: 8.0,
                             multiselect: false,
-                            initialized: _model.choiceChipsValue1 != null,
                             alignment: WrapAlignment.start,
                             controller: _model.choiceChipsValueController1 ??=
                                 FormFieldController<List<String>>(
-                              [_model.wybranaKategoria!],
+                              [],
                             ),
                             wrapped: true,
                           ),
@@ -431,36 +435,45 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 8.0,
-                      color: Color(0x1A000000),
-                      offset: Offset(
-                        0.0,
-                        2.0,
-                      ),
-                      spreadRadius: 0.0,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Dostępne dania',
-                        style:
-                            FlutterFlowTheme.of(context).titleMedium.override(
-                                  font: GoogleFonts.interTight(
+            Expanded(
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 8.0,
+                        color: Color(0x1A000000),
+                        offset: Offset(
+                          0.0,
+                          2.0,
+                        ),
+                        spreadRadius: 0.0,
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'Dostępne dania',
+                          style:
+                              FlutterFlowTheme.of(context).titleMedium.override(
+                                    font: GoogleFonts.interTight(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .fontWeight,
@@ -468,117 +481,112 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                         .titleMedium
                                         .fontStyle,
                                   ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .fontStyle,
-                                ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 1.0,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).alternate,
                         ),
-                      ),
-                      StreamBuilder<List<ProductsRecord>>(
-                        stream: queryProductsRecord(
-                          queryBuilder: (productsRecord) =>
-                              productsRecord.where(
-                            'category',
-                            isEqualTo: _model.wybranaKategoria != ''
-                                ? _model.wybranaKategoria
-                                : null,
+                        Container(
+                          width: double.infinity,
+                          height: 1.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).alternate,
                           ),
                         ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    FlutterFlowTheme.of(context).primary,
-                                  ),
-                                ),
+                        Expanded(
+                          child: StreamBuilder<List<ProductsRecord>>(
+                            stream: queryProductsRecord(
+                              queryBuilder: (productsRecord) =>
+                                  productsRecord.where(
+                                'category',
+                                isEqualTo: _model.wybranaKategoria != ''
+                                    ? _model.wybranaKategoria
+                                    : null,
                               ),
-                            );
-                          }
-                          List<ProductsRecord> listViewProductsRecordList =
-                              snapshot.data!;
-
-                          return ListView.separated(
-                            padding: EdgeInsets.zero,
-                            primary: false,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: listViewProductsRecordList.length,
-                            separatorBuilder: (_, __) => SizedBox(height: 2.0),
-                            itemBuilder: (context, listViewIndex) {
-                              final listViewProductsRecord =
-                                  listViewProductsRecordList[listViewIndex];
-                              return Visibility(
-                                visible: functions.czyPokazacDanie(
-                                    listViewProductsRecord.containsEggs,
-                                    listViewProductsRecord.containsMilk,
-                                    listViewProductsRecord.isGlutenFree,
-                                    _model.choiceChipsValues2?.toList(),
-                                    listViewProductsRecord.name,
-                                    _model.textController.text),
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 50.0,
+                                    height: 50.0,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        FlutterFlowTheme.of(context).primary,
+                                      ),
+                                    ),
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 12.0, 16.0, 12.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
+                                );
+                              }
+                              List<ProductsRecord> listViewProductsRecordList =
+                                  snapshot.data!;
+
+                              return ListView.separated(
+                                padding: EdgeInsets.zero,
+                                primary: false,
+                                scrollDirection: Axis.vertical,
+                                itemCount: listViewProductsRecordList.length,
+                                separatorBuilder: (_, __) =>
+                                    SizedBox(height: 2.0),
+                                itemBuilder: (context, listViewIndex) {
+                                  final listViewProductsRecord =
+                                      listViewProductsRecordList[listViewIndex];
+                                  return Visibility(
+                                    visible: functions.czyPokazacDanie(
+                                        listViewProductsRecord.containsEggs,
+                                        listViewProductsRecord.containsMilk,
+                                        listViewProductsRecord.isGlutenFree,
+                                        _model.choiceChipsValues2?.toList(),
+                                        listViewProductsRecord.name,
+                                        _model.textController.text),
+                                    child: Container(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 12.0, 16.0, 12.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    height: 22.0,
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Container(
+                                                        height: 22.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
                                                               .accent2,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              6.0),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  8.0,
-                                                                  2.0,
-                                                                  8.0,
-                                                                  2.0),
-                                                      child: Text(
-                                                        listViewProductsRecord
-                                                            .category,
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      6.0),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      8.0,
+                                                                      2.0,
+                                                                      8.0,
+                                                                      2.0),
+                                                          child: Text(
+                                                            listViewProductsRecord
+                                                                .category,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
                                                                 .labelSmall
                                                                 .override(
                                                                   font:
@@ -607,183 +615,184 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                                                       .labelSmall
                                                                       .fontStyle,
                                                                 ),
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
+                                                      if (listViewProductsRecord
+                                                          .isGlutenFree)
+                                                        Container(
+                                                          height: 22.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .accent3,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6.0),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        8.0,
+                                                                        2.0,
+                                                                        8.0,
+                                                                        2.0),
+                                                            child: Text(
+                                                              'Gluten',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .labelSmall
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .inter(
+                                                                      fontWeight: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .labelSmall
+                                                                          .fontWeight,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .labelSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .tertiary,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelSmall
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      if (listViewProductsRecord
+                                                          .containsMilk)
+                                                        Container(
+                                                          height: 22.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .accent3,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6.0),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        8.0,
+                                                                        2.0,
+                                                                        8.0,
+                                                                        2.0),
+                                                            child: Text(
+                                                              'Laktoza',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .labelSmall
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .inter(
+                                                                      fontWeight: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .labelSmall
+                                                                          .fontWeight,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .labelSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .tertiary,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelSmall
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      if (listViewProductsRecord
+                                                          .containsEggs)
+                                                        Container(
+                                                          height: 22.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .accent3,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6.0),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        8.0,
+                                                                        2.0,
+                                                                        8.0,
+                                                                        2.0),
+                                                            child: Text(
+                                                              'Jaja',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .labelSmall
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .inter(
+                                                                      fontWeight: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .labelSmall
+                                                                          .fontWeight,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .labelSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .tertiary,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelSmall
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                    ].divide(
+                                                        SizedBox(width: 8.0)),
                                                   ),
-                                                  if (listViewProductsRecord
-                                                      .isGlutenFree)
-                                                    Container(
-                                                      height: 22.0,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .accent3,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(6.0),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    8.0,
-                                                                    2.0,
-                                                                    8.0,
-                                                                    2.0),
-                                                        child: Text(
-                                                          'Gluten',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .labelSmall
-                                                              .override(
-                                                                font:
-                                                                    GoogleFonts
-                                                                        .inter(
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelSmall
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelSmall
-                                                                      .fontStyle,
-                                                                ),
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .tertiary,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontStyle,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  if (listViewProductsRecord
-                                                      .containsMilk)
-                                                    Container(
-                                                      height: 22.0,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .accent3,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(6.0),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    8.0,
-                                                                    2.0,
-                                                                    8.0,
-                                                                    2.0),
-                                                        child: Text(
-                                                          'Laktoza',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .labelSmall
-                                                              .override(
-                                                                font:
-                                                                    GoogleFonts
-                                                                        .inter(
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelSmall
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelSmall
-                                                                      .fontStyle,
-                                                                ),
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .tertiary,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontStyle,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  if (listViewProductsRecord
-                                                      .containsEggs)
-                                                    Container(
-                                                      height: 22.0,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .accent3,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(6.0),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    8.0,
-                                                                    2.0,
-                                                                    8.0,
-                                                                    2.0),
-                                                        child: Text(
-                                                          'Jaja',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .labelSmall
-                                                              .override(
-                                                                font:
-                                                                    GoogleFonts
-                                                                        .inter(
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelSmall
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelSmall
-                                                                      .fontStyle,
-                                                                ),
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .tertiary,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelSmall
-                                                                    .fontStyle,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                ].divide(SizedBox(width: 8.0)),
-                                              ),
-                                              Text(
-                                                listViewProductsRecord.name,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                                  Text(
+                                                    listViewProductsRecord.name,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
                                                         .titleSmall
                                                         .override(
                                                           font: GoogleFonts
@@ -811,12 +820,12 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                                                   .titleSmall
                                                                   .fontStyle,
                                                         ),
-                                              ),
-                                              Text(
-                                                listViewProductsRecord
-                                                    .description,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                                  ),
+                                                  Text(
+                                                    listViewProductsRecord
+                                                        .description,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
                                                         .labelMedium
                                                         .override(
                                                           font:
@@ -844,84 +853,89 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                                                   .labelMedium
                                                                   .fontStyle,
                                                         ),
-                                              ),
-                                              Text(
-                                                listViewProductsRecord.price
-                                                    .toString(),
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyLarge
-                                                    .override(
-                                                      font: GoogleFonts.inter(
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyLarge
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyLarge
-                                                                .fontStyle,
-                                                      ),
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                  ),
+                                                  Text(
+                                                    listViewProductsRecord.price
+                                                        .toString(),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyLarge
+                                                        .override(
+                                                          font:
+                                                              GoogleFonts.inter(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyLarge
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyLarge
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
                                                               .primary,
-                                                      letterSpacing: 0.0,
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyLarge
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyLarge
-                                                              .fontStyle,
-                                                    ),
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyLarge
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyLarge
+                                                                  .fontStyle,
+                                                        ),
+                                                  ),
+                                                ].divide(SizedBox(height: 4.0)),
                                               ),
-                                            ].divide(SizedBox(height: 4.0)),
-                                          ),
+                                            ),
+                                            FlutterFlowIconButton(
+                                              borderColor: Colors.transparent,
+                                              borderRadius: 18.0,
+                                              borderWidth: 1.0,
+                                              buttonSize: 36.0,
+                                              fillColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              icon: Icon(
+                                                Icons.add_rounded,
+                                                color: Colors.white,
+                                                size: 20.0,
+                                              ),
+                                              onPressed: () async {
+                                                await OrderedItemsRecord
+                                                        .createDoc(
+                                                            widget.stolikRef!)
+                                                    .set(
+                                                        createOrderedItemsRecordData(
+                                                  quantity: 1,
+                                                  productRef:
+                                                      listViewProductsRecord
+                                                          .reference,
+                                                  itemTotalPrice:
+                                                      listViewProductsRecord
+                                                          .price
+                                                          .toDouble(),
+                                                ));
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
                                         ),
-                                        FlutterFlowIconButton(
-                                          borderColor: Colors.transparent,
-                                          borderRadius: 18.0,
-                                          borderWidth: 1.0,
-                                          buttonSize: 36.0,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          icon: Icon(
-                                            Icons.add_rounded,
-                                            color: Colors.white,
-                                            size: 20.0,
-                                          ),
-                                          onPressed: () async {
-                                            await OrderedItemsRecord.createDoc(
-                                                    widget.stolikRef!)
-                                                .set(
-                                                    createOrderedItemsRecordData(
-                                              quantity: 1,
-                                              productRef: listViewProductsRecord
-                                                  .reference,
-                                              itemTotalPrice:
-                                                  listViewProductsRecord.price
-                                                      .toDouble(),
-                                            ));
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                      ),
-                    ].divide(SizedBox(height: 4.0)),
+                          ),
+                        ),
+                      ].divide(SizedBox(height: 4.0)),
+                    ),
                   ),
                 ),
               ),
