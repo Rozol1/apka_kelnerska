@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "998524524407",
+    "project_id": "apkakelnerska-cpnck0",
+    "storage_bucket": "apkakelnerska-cpnck0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998524524407:android:5656d1fd97053a8e197372",
+        "android_client_info": {
+          "package_name": "com.mycompany.apkakelnerska"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6g2J9ysrVhF3Nkh8uC3rEaTDKCroDKFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

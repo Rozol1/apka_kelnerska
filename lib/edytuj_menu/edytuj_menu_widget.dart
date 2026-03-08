@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'edytuj_menu_model.dart';
@@ -62,8 +63,8 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
               color: FlutterFlowTheme.of(context).primaryText,
               size: 24.0,
             ),
-            onPressed: () {
-              print('IconButton pressed ...');
+            onPressed: () async {
+              context.pushNamed(UstawieniaWidget.routeName);
             },
           ),
           title: Text(
@@ -91,8 +92,8 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
                 color: FlutterFlowTheme.of(context).primary,
                 size: 24.0,
               ),
-              onPressed: () {
-                print('IconButton pressed ...');
+              onPressed: () async {
+                context.pushNamed(DodajDoMenuWidget.routeName);
               },
             ),
           ],
@@ -486,8 +487,9 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
                                               .secondaryBackground,
                                           size: 18.0,
                                         ),
-                                        onPressed: () {
-                                          print('IconButton pressed ...');
+                                        onPressed: () async {
+                                          context.pushNamed(
+                                              EdytujZMenuWidget.routeName);
                                         },
                                       ),
                                       FlutterFlowIconButton(
@@ -1742,8 +1744,8 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: FFButtonWidget(
-                      onPressed: () {
-                        print('Button pressed ...');
+                      onPressed: () async {
+                        context.pushNamed(DodajDoMenuWidget.routeName);
                       },
                       text: 'Dodaj Nowe Danie',
                       icon: Icon(

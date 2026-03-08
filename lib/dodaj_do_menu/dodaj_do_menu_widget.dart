@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dodaj_do_menu_model.dart';
@@ -76,8 +77,8 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
               color: FlutterFlowTheme.of(context).primaryText,
               size: 24.0,
             ),
-            onPressed: () {
-              print('IconButton pressed ...');
+            onPressed: () async {
+              context.pushNamed(EdytujMenuWidget.routeName);
             },
           ),
           title: Text(
@@ -960,8 +961,8 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
                       children: [
                         Expanded(
                           child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              context.pushNamed(EdytujMenuWidget.routeName);
                             },
                             text: 'Anuluj',
                             options: FFButtonOptions(

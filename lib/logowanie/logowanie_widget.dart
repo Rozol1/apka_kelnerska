@@ -1,6 +1,8 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'logowanie_model.dart';
@@ -27,10 +29,10 @@ class _LogowanieWidgetState extends State<LogowanieWidget> {
     super.initState();
     _model = createModel(context, () => LogowanieModel());
 
-    _model.textController1 ??= TextEditingController();
+    _model.emailTextController ??= TextEditingController();
     _model.textFieldFocusNode1 ??= FocusNode();
 
-    _model.textController2 ??= TextEditingController();
+    _model.passwordTextController ??= TextEditingController();
     _model.textFieldFocusNode2 ??= FocusNode();
   }
 
@@ -124,7 +126,7 @@ class _LogowanieWidgetState extends State<LogowanieWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             TextFormField(
-                              controller: _model.textController1,
+                              controller: _model.emailTextController,
                               focusNode: _model.textFieldFocusNode1,
                               autofocus: false,
                               obscureText: false,
@@ -207,11 +209,11 @@ class _LogowanieWidgetState extends State<LogowanieWidget> {
                                         .fontStyle,
                                   ),
                               keyboardType: TextInputType.emailAddress,
-                              validator: _model.textController1Validator
+                              validator: _model.emailTextControllerValidator
                                   .asValidator(context),
                             ),
                             TextFormField(
-                              controller: _model.textController2,
+                              controller: _model.passwordTextController,
                               focusNode: _model.textFieldFocusNode2,
                               autofocus: false,
                               obscureText: !_model.passwordVisibility,
@@ -309,7 +311,7 @@ class _LogowanieWidgetState extends State<LogowanieWidget> {
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                              validator: _model.textController2Validator
+                              validator: _model.passwordTextControllerValidator
                                   .asValidator(context),
                             ),
                             Row(
@@ -346,8 +348,21 @@ class _LogowanieWidgetState extends State<LogowanieWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              GoRouter.of(context).prepareAuthEvent();
+
+                              final user = await authManager.signInWithEmail(
+                                context,
+                                _model.emailTextController.text,
+                                _model.passwordTextController.text,
+                              );
+                              if (user == null) {
+                                return;
+                              }
+
+                              context.goNamedAuth(
+                                  StronaStartowaWidget.routeName,
+                                  context.mounted);
                             },
                             text: 'Zaloguj się',
                             options: FFButtonOptions(
@@ -409,25 +424,36 @@ class _LogowanieWidgetState extends State<LogowanieWidget> {
                                           .fontStyle,
                                     ),
                               ),
-                              Text(
-                                'Zarejestruj się',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      font: GoogleFonts.inter(
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  context
+                                      .pushNamed(RejestracjaWidget.routeName);
+                                },
+                                child: Text(
+                                  'Zarejestruj się',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
                                         fontStyle: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .fontStyle,
                                       ),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w600,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
+                                ),
                               ),
                             ].divide(SizedBox(width: 8.0)),
                           ),
