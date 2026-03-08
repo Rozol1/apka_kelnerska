@@ -920,13 +920,6 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                                       listViewProductsRecord
                                                           .price
                                                           .toDouble(),
-                                                ));
-
-                                                await OrderedItemsRecord
-                                                        .createDoc(
-                                                            widget.stolikRef!)
-                                                    .set(
-                                                        createOrderedItemsRecordData(
                                                   czyDostarczone: false,
                                                 ));
 
