@@ -28,10 +28,9 @@ class MenuDodawaniaModel extends FlutterFlowModel<MenuDodawaniaWidget> {
       choiceChipsValueController1?.value = val != null ? [val] : [];
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController2;
-  String? get choiceChipsValue2 =>
-      choiceChipsValueController2?.value?.firstOrNull;
-  set choiceChipsValue2(String? val) =>
-      choiceChipsValueController2?.value = val != null ? [val] : [];
+  List<String>? get choiceChipsValues2 => choiceChipsValueController2?.value;
+  set choiceChipsValues2(List<String>? val) =>
+      choiceChipsValueController2?.value = val;
 
   @override
   void initState(BuildContext context) {}

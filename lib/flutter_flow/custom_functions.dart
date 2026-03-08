@@ -60,3 +60,28 @@ double obliczSumeRachunku(List<OrderedItemsRecord> lista) {
 
   return suma;
 }
+
+bool czyPokazacDanie(
+  bool maJajka,
+  bool maMleko,
+  bool jestBezGlutenu,
+  List<String>? wybraneAlergeny,
+  String nazwaDania,
+  String? szukanaFraza,
+) {
+// 1. Wyszukiwarka - sprawdzamy wpisany tekst (ignorując wielkość liter)
+  if (szukanaFraza != null && szukanaFraza.trim().isNotEmpty) {
+    if (!nazwaDania.toLowerCase().contains(szukanaFraza.toLowerCase())) {
+      return false; // Ukryj, jeśli nazwa nie pasuje do wyszukiwania
+    }
+  }
+
+  // 2. Alergeny - sprawdzamy wykluczenia
+  if (wybraneAlergeny != null && wybraneAlergeny.isNotEmpty) {
+    if (wybraneAlergeny.contains('Jaja') && maJajka) return false;
+    if (wybraneAlergeny.contains('Laktoza') && maMleko) return false;
+    if (wybraneAlergeny.contains('Gluten') && !jestBezGlutenu) return false;
+  }
+
+  return true; // Pokaż danie
+}
