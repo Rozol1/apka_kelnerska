@@ -119,7 +119,7 @@ class _StolikWidgetState extends State<StolikWidget> {
             body: SafeArea(
               top: true,
               child: Column(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     width: double.infinity,
@@ -404,7 +404,7 @@ class _StolikWidgetState extends State<StolikWidget> {
                               child: Padding(
                                 padding: EdgeInsets.all(16.0),
                                 child: Column(
-                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -547,7 +547,7 @@ class _StolikWidgetState extends State<StolikWidget> {
                                               listViewOrderedItemsRecordList
                                                   .length,
                                           separatorBuilder: (_, __) =>
-                                              SizedBox(height: 8.0),
+                                              SizedBox(height: 4.0),
                                           itemBuilder:
                                               (context, listViewIndex) {
                                             final listViewOrderedItemsRecord =
@@ -563,10 +563,7 @@ class _StolikWidgetState extends State<StolikWidget> {
                                         );
                                       },
                                     ),
-                                  ]
-                                      .divide(SizedBox(height: 12.0))
-                                      .addToStart(SizedBox(height: 16.0))
-                                      .addToEnd(SizedBox(height: 16.0)),
+                                  ].divide(SizedBox(height: 12.0)),
                                 ),
                               ),
                             ),
