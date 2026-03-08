@@ -81,7 +81,7 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
             child: Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisSize: MainAxisSize.max,
@@ -337,80 +337,26 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                       ),
                     ],
                   ),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _model.textController,
-                      focusNode: _model.textFieldFocusNode,
-                      onChanged: (_) => EasyDebounce.debounce(
-                        '_model.textController',
-                        Duration(milliseconds: 2000),
-                        () async {
-                          await widget.daneZamowienia!.reference
-                              .update(createOrderedItemsRecordData(
-                            comment: _model.textController.text,
-                          ));
-                        },
-                      ),
-                      autofocus: false,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: 'Komentarz do pozycji...',
-                        hintStyle: FlutterFlowTheme.of(context)
-                            .bodySmall
-                            .override(
-                              font: GoogleFonts.inter(
-                                fontWeight: FlutterFlowTheme.of(context)
-                                    .bodySmall
-                                    .fontWeight,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodySmall
-                                    .fontStyle,
-                              ),
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              fontSize: 12.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .fontWeight,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .fontStyle,
-                            ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).alternate,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(8.0, 6.0, 8.0, 6.0),
-                      ),
-                      style: FlutterFlowTheme.of(context).bodySmall.override(
+                  TextFormField(
+                    controller: _model.textController,
+                    focusNode: _model.textFieldFocusNode,
+                    onChanged: (_) => EasyDebounce.debounce(
+                      '_model.textController',
+                      Duration(milliseconds: 2000),
+                      () async {
+                        await widget.daneZamowienia!.reference
+                            .update(createOrderedItemsRecordData(
+                          comment: _model.textController.text,
+                        ));
+                      },
+                    ),
+                    autofocus: false,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      hintText: 'Komentarz do pozycji...',
+                      hintStyle: FlutterFlowTheme.of(context)
+                          .bodySmall
+                          .override(
                             font: GoogleFonts.inter(
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodySmall
@@ -419,6 +365,7 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                   .bodySmall
                                   .fontStyle,
                             ),
+                            color: FlutterFlowTheme.of(context).secondaryText,
                             fontSize: 12.0,
                             letterSpacing: 0.0,
                             fontWeight: FlutterFlowTheme.of(context)
@@ -428,10 +375,59 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                 .bodySmall
                                 .fontStyle,
                           ),
-                      maxLines: 2,
-                      validator:
-                          _model.textControllerValidator.asValidator(context),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).alternate,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0x00000000),
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
+                      filled: true,
+                      fillColor:
+                          FlutterFlowTheme.of(context).secondaryBackground,
+                      contentPadding:
+                          EdgeInsetsDirectional.fromSTEB(8.0, 6.0, 8.0, 6.0),
                     ),
+                    style: FlutterFlowTheme.of(context).bodySmall.override(
+                          font: GoogleFonts.inter(
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodySmall
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodySmall
+                                .fontStyle,
+                          ),
+                          fontSize: 12.0,
+                          letterSpacing: 0.0,
+                          fontWeight:
+                              FlutterFlowTheme.of(context).bodySmall.fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodySmall.fontStyle,
+                        ),
+                    maxLines: 2,
+                    validator:
+                        _model.textControllerValidator.asValidator(context),
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
