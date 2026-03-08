@@ -2,6 +2,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -226,25 +227,6 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                FlutterFlowIconButton(
-                                  borderRadius: 8.0,
-                                  buttonSize: 30.0,
-                                  fillColor: FlutterFlowTheme.of(context).error,
-                                  icon: Icon(
-                                    Icons.delete_forever,
-                                    color: FlutterFlowTheme.of(context).info,
-                                    size: 15.0,
-                                  ),
-                                  onPressed: () async {
-                                    await widget.daneZamowienia!.reference
-                                        .delete();
-                                  },
-                                ),
-                              ],
-                            ),
                             Text(
                               formatNumber(
                                 functions.obliczKwote(
@@ -365,26 +347,81 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                         ),
                       ],
                     ),
-                    TextFormField(
-                      controller: _model.textController,
-                      focusNode: _model.textFieldFocusNode,
-                      onChanged: (_) => EasyDebounce.debounce(
-                        '_model.textController',
-                        Duration(milliseconds: 2000),
-                        () async {
-                          await widget.daneZamowienia!.reference
-                              .update(createOrderedItemsRecordData(
-                            comment: _model.textController.text,
-                          ));
-                        },
-                      ),
-                      autofocus: false,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: 'Komentarz do pozycji...',
-                        hintStyle: FlutterFlowTheme.of(context)
-                            .bodySmall
-                            .override(
+                    Expanded(
+                      child: TextFormField(
+                        controller: _model.textController,
+                        focusNode: _model.textFieldFocusNode,
+                        onChanged: (_) => EasyDebounce.debounce(
+                          '_model.textController',
+                          Duration(milliseconds: 2000),
+                          () async {
+                            await widget.daneZamowienia!.reference
+                                .update(createOrderedItemsRecordData(
+                              comment: _model.textController.text,
+                            ));
+                          },
+                        ),
+                        autofocus: false,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: 'Komentarz do pozycji...',
+                          hintStyle: FlutterFlowTheme.of(context)
+                              .bodySmall
+                              .override(
+                                font: GoogleFonts.inter(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodySmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodySmall
+                                      .fontStyle,
+                                ),
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                fontSize: 12.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .fontStyle,
+                              ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: FlutterFlowTheme.of(context).alternate,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0x00000000),
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0x00000000),
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0x00000000),
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          filled: true,
+                          fillColor:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          contentPadding: EdgeInsetsDirectional.fromSTEB(
+                              8.0, 6.0, 8.0, 6.0),
+                        ),
+                        style: FlutterFlowTheme.of(context).bodySmall.override(
                               font: GoogleFonts.inter(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodySmall
@@ -393,7 +430,6 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                     .bodySmall
                                     .fontStyle,
                               ),
-                              color: FlutterFlowTheme.of(context).secondaryText,
                               fontSize: 12.0,
                               letterSpacing: 0.0,
                               fontWeight: FlutterFlowTheme.of(context)
@@ -403,61 +439,132 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                   .bodySmall
                                   .fontStyle,
                             ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).alternate,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(8.0, 6.0, 8.0, 6.0),
+                        maxLines: 2,
+                        validator:
+                            _model.textControllerValidator.asValidator(context),
                       ),
-                      style: FlutterFlowTheme.of(context).bodySmall.override(
-                            font: GoogleFonts.inter(
-                              fontWeight: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .fontWeight,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .fontStyle,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Usuń tą pozycję',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                             ),
-                            fontSize: 12.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .bodySmall
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodySmall
-                                .fontStyle,
-                          ),
-                      maxLines: 2,
-                      validator:
-                          _model.textControllerValidator.asValidator(context),
+                            FlutterFlowIconButton(
+                              borderRadius: 8.0,
+                              buttonSize: 30.0,
+                              fillColor: FlutterFlowTheme.of(context).error,
+                              icon: Icon(
+                                Icons.delete_forever,
+                                color: FlutterFlowTheme.of(context).info,
+                                size: 15.0,
+                              ),
+                              onPressed: () async {
+                                await widget.daneZamowienia!.reference
+                                    .delete();
+                              },
+                            ),
+                          ],
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              'Dostarczono',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                            ),
+                            Transform.scale(
+                              scaleX: 1.6,
+                              scaleY: 1.6,
+                              child: Theme(
+                                data: ThemeData(
+                                  checkboxTheme: CheckboxThemeData(
+                                    visualDensity: VisualDensity.compact,
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                  ),
+                                  unselectedWidgetColor:
+                                      FlutterFlowTheme.of(context).alternate,
+                                ),
+                                child: Checkbox(
+                                  value: _model.checkboxValue ??=
+                                      widget.daneZamowienia!.czyDostarczone,
+                                  onChanged: (newValue) async {
+                                    safeSetState(
+                                        () => _model.checkboxValue = newValue!);
+                                    if (newValue!) {
+                                      await widget.daneZamowienia!.reference
+                                          .update(createOrderedItemsRecordData(
+                                        czyDostarczone: _model.checkboxValue,
+                                      ));
+                                      await actions.sprawdzWydawke(
+                                        widget.daneZamowienia!.parentReference,
+                                      );
+                                    }
+                                  },
+                                  side: (FlutterFlowTheme.of(context)
+                                              .alternate !=
+                                          null)
+                                      ? BorderSide(
+                                          width: 2,
+                                          color: FlutterFlowTheme.of(context)
+                                              .alternate,
+                                        )
+                                      : null,
+                                  activeColor:
+                                      FlutterFlowTheme.of(context).primary,
+                                  checkColor: FlutterFlowTheme.of(context).info,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ].divide(SizedBox(width: 25.0)),
                     ),
                   ].divide(SizedBox(height: 8.0)),
                 ),

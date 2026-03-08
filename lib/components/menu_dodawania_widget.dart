@@ -921,6 +921,19 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                                           .price
                                                           .toDouble(),
                                                 ));
+
+                                                await OrderedItemsRecord
+                                                        .createDoc(
+                                                            widget.stolikRef!)
+                                                    .set(
+                                                        createOrderedItemsRecordData(
+                                                  czyDostarczone: false,
+                                                ));
+
+                                                await widget.stolikRef!.update(
+                                                    createTablesRecordData(
+                                                  status: 'Zajęty',
+                                                ));
                                                 Navigator.pop(context);
                                               },
                                             ),

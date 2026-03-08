@@ -35,6 +35,11 @@ class OrderedItemsRecord extends FirestoreRecord {
   double get itemTotalPrice => _itemTotalPrice ?? 0.0;
   bool hasItemTotalPrice() => _itemTotalPrice != null;
 
+  // "czy_dostarczone" field.
+  bool? _czyDostarczone;
+  bool get czyDostarczone => _czyDostarczone ?? false;
+  bool hasCzyDostarczone() => _czyDostarczone != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -42,6 +47,7 @@ class OrderedItemsRecord extends FirestoreRecord {
     _quantity = castToType<int>(snapshotData['quantity']);
     _comment = snapshotData['comment'] as String?;
     _itemTotalPrice = castToType<double>(snapshotData['item_total_price']);
+    _czyDostarczone = snapshotData['czy_dostarczone'] as bool?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -88,6 +94,7 @@ Map<String, dynamic> createOrderedItemsRecordData({
   int? quantity,
   String? comment,
   double? itemTotalPrice,
+  bool? czyDostarczone,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -95,6 +102,7 @@ Map<String, dynamic> createOrderedItemsRecordData({
       'quantity': quantity,
       'comment': comment,
       'item_total_price': itemTotalPrice,
+      'czy_dostarczone': czyDostarczone,
     }.withoutNulls,
   );
 
@@ -110,12 +118,18 @@ class OrderedItemsRecordDocumentEquality
     return e1?.productRef == e2?.productRef &&
         e1?.quantity == e2?.quantity &&
         e1?.comment == e2?.comment &&
-        e1?.itemTotalPrice == e2?.itemTotalPrice;
+        e1?.itemTotalPrice == e2?.itemTotalPrice &&
+        e1?.czyDostarczone == e2?.czyDostarczone;
   }
 
   @override
-  int hash(OrderedItemsRecord? e) => const ListEquality()
-      .hash([e?.productRef, e?.quantity, e?.comment, e?.itemTotalPrice]);
+  int hash(OrderedItemsRecord? e) => const ListEquality().hash([
+        e?.productRef,
+        e?.quantity,
+        e?.comment,
+        e?.itemTotalPrice,
+        e?.czyDostarczone
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is OrderedItemsRecord;

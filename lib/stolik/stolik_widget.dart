@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -190,10 +191,22 @@ class _StolikWidgetState extends State<StolikWidget> {
                                           onChanged: (val) async {
                                             safeSetState(() =>
                                                 _model.dropDownValue = val);
-                                            await stolikTablesRecord.reference
-                                                .update(createTablesRecordData(
-                                              status: _model.dropDownValue,
-                                            ));
+                                            if (_model.dropDownValue ==
+                                                'Wolny') {
+                                              await widget.tableRef!.update(
+                                                  createTablesRecordData(
+                                                status: 'Wolny',
+                                                guestsCount: 0,
+                                              ));
+                                              await actions.wyczyscStolik(
+                                                widget.tableRef!,
+                                              );
+                                            } else {
+                                              await widget.tableRef!.update(
+                                                  createTablesRecordData(
+                                                status: _model.dropDownValue,
+                                              ));
+                                            }
                                           },
                                           width: 120.0,
                                           height: 40.0,
@@ -359,6 +372,11 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                     },
                                                   ),
                                                 });
+
+                                                await widget.tableRef!.update(
+                                                    createTablesRecordData(
+                                                  status: 'Zajęty',
+                                                ));
                                               },
                                             ),
                                           ].divide(SizedBox(width: 8.0)),

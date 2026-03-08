@@ -9,6 +9,8 @@ class KartaPozycjiModel extends FlutterFlowModel<KartaPozycjiWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  // State field(s) for Checkbox widget.
+  bool? checkboxValue;
 
   @override
   void initState(BuildContext context) {}
