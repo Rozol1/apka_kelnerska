@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -40,20 +41,10 @@ class ProductsRecord extends FirestoreRecord {
   String get description => _description ?? '';
   bool hasDescription() => _description != null;
 
-  // "is_gluten_free" field.
-  bool? _isGlutenFree;
-  bool get isGlutenFree => _isGlutenFree ?? false;
-  bool hasIsGlutenFree() => _isGlutenFree != null;
-
-  // "contains_eggs" field.
-  bool? _containsEggs;
-  bool get containsEggs => _containsEggs ?? false;
-  bool hasContainsEggs() => _containsEggs != null;
-
-  // "contains_milk" field.
-  bool? _containsMilk;
-  bool get containsMilk => _containsMilk ?? false;
-  bool hasContainsMilk() => _containsMilk != null;
+  // "allergens" field.
+  List<String>? _allergens;
+  List<String> get allergens => _allergens ?? const [];
+  bool hasAllergens() => _allergens != null;
 
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
@@ -61,9 +52,7 @@ class ProductsRecord extends FirestoreRecord {
     _category = snapshotData['category'] as String?;
     _calories = castToType<int>(snapshotData['calories']);
     _description = snapshotData['description'] as String?;
-    _isGlutenFree = snapshotData['is_gluten_free'] as bool?;
-    _containsEggs = snapshotData['contains_eggs'] as bool?;
-    _containsMilk = snapshotData['contains_milk'] as bool?;
+    _allergens = getDataList(snapshotData['allergens']);
   }
 
   static CollectionReference get collection =>
@@ -106,9 +95,6 @@ Map<String, dynamic> createProductsRecordData({
   String? category,
   int? calories,
   String? description,
-  bool? isGlutenFree,
-  bool? containsEggs,
-  bool? containsMilk,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -117,9 +103,6 @@ Map<String, dynamic> createProductsRecordData({
       'category': category,
       'calories': calories,
       'description': description,
-      'is_gluten_free': isGlutenFree,
-      'contains_eggs': containsEggs,
-      'contains_milk': containsMilk,
     }.withoutNulls,
   );
 
@@ -131,14 +114,13 @@ class ProductsRecordDocumentEquality implements Equality<ProductsRecord> {
 
   @override
   bool equals(ProductsRecord? e1, ProductsRecord? e2) {
+    const listEquality = ListEquality();
     return e1?.name == e2?.name &&
         e1?.price == e2?.price &&
         e1?.category == e2?.category &&
         e1?.calories == e2?.calories &&
         e1?.description == e2?.description &&
-        e1?.isGlutenFree == e2?.isGlutenFree &&
-        e1?.containsEggs == e2?.containsEggs &&
-        e1?.containsMilk == e2?.containsMilk;
+        listEquality.equals(e1?.allergens, e2?.allergens);
   }
 
   @override
@@ -148,9 +130,7 @@ class ProductsRecordDocumentEquality implements Equality<ProductsRecord> {
         e?.category,
         e?.calories,
         e?.description,
-        e?.isGlutenFree,
-        e?.containsEggs,
-        e?.containsMilk
+        e?.allergens
       ]);
 
   @override

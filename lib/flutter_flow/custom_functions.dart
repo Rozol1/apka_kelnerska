@@ -19,24 +19,11 @@ double? obliczKwote(
   return cena! * ilosc!;
 }
 
-String? wypiszAlergeny(
-  bool? gluten,
-  bool? jajka,
-  bool? laktoza,
-) {
-  List<String> lista = [];
-
-  if (gluten == true) lista.add('Gluten');
-  if (jajka == true) lista.add('Jajka');
-  if (laktoza == true) lista.add('Laktoza');
-  // Jeśli masz inne, dopisz je tutaj analogicznie, np:
-  // if (laktoza == true) lista.add('Laktoza');
-
-  if (lista.isEmpty) {
-    return 'Brak alergenów'; // lub return ''; jeśli ma być zupełnie puste
+String? wypiszAlergeny(List<String>? alergenyDania) {
+  if (alergenyDania == null || alergenyDania.isEmpty) {
+    return 'Brak alergenów';
   }
-
-  return lista.join(', ');
+  return alergenyDania.join(', ');
 }
 
 int zwiekszIlosc(int obecnaIlosc) {
@@ -62,28 +49,25 @@ double obliczSumeRachunku(List<OrderedItemsRecord> lista) {
 }
 
 bool czyPokazacDanie(
-  bool maJajka,
-  bool maMleko,
-  bool jestBezGlutenu,
   List<String>? wybraneAlergeny,
   String nazwaDania,
   String? szukanaFraza,
+  List<String>? alergenyDania,
 ) {
-// 1. Wyszukiwarka - sprawdzamy wpisany tekst (ignorując wielkość liter)
   if (szukanaFraza != null && szukanaFraza.trim().isNotEmpty) {
     if (!nazwaDania.toLowerCase().contains(szukanaFraza.toLowerCase())) {
-      return false; // Ukryj, jeśli nazwa nie pasuje do wyszukiwania
+      return false;
     }
   }
 
-  // 2. Alergeny - sprawdzamy wykluczenia
   if (wybraneAlergeny != null && wybraneAlergeny.isNotEmpty) {
-    if (wybraneAlergeny.contains('Jaja') && maJajka) return false;
-    if (wybraneAlergeny.contains('Laktoza') && maMleko) return false;
-    if (wybraneAlergeny.contains('Gluten') && jestBezGlutenu) return false;
+    if (alergenyDania != null && alergenyDania.isNotEmpty) {
+      for (var alergen in wybraneAlergeny) {
+        if (alergenyDania.contains(alergen)) return false;
+      }
+    }
   }
-
-  return true; // Pokaż danie
+  return true;
 }
 
 List<String> pobierzUnikalneKategorie(List<ProductsRecord>? produkty) {

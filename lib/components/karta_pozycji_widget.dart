@@ -179,9 +179,8 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                   Text(
                                     valueOrDefault<String>(
                                       functions.wypiszAlergeny(
-                                          containerProductsRecord.isGlutenFree,
-                                          containerProductsRecord.containsEggs,
-                                          containerProductsRecord.containsMilk),
+                                          containerProductsRecord.allergens
+                                              .toList()),
                                       'Brak alergenów',
                                     ),
                                     style: FlutterFlowTheme.of(context)
