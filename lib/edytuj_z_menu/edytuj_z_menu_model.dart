@@ -22,12 +22,13 @@ class EdytujZMenuModel extends FlutterFlowModel<EdytujZMenuWidget> {
   // State field(s) for DropDown widget.
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
+  // State field(s) for nowaKategoriaField widget.
+  FocusNode? nowaKategoriaFieldFocusNode;
+  TextEditingController? nowaKategoriaFieldTextController;
+  String? Function(BuildContext, String?)?
+      nowaKategoriaFieldTextControllerValidator;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode4;
-  TextEditingController? textController4;
-  String? Function(BuildContext, String?)? textController4Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode5;
   TextEditingController? textController5;
   String? Function(BuildContext, String?)? textController5Validator;
   // State field(s) for ChoiceChips widget.
@@ -35,8 +36,6 @@ class EdytujZMenuModel extends FlutterFlowModel<EdytujZMenuWidget> {
   List<String>? get choiceChipsValues => choiceChipsValueController?.value;
   set choiceChipsValues(List<String>? val) =>
       choiceChipsValueController?.value = val;
-  // State field(s) for SwitchListTile widget.
-  bool? switchListTileValue;
 
   @override
   void initState(BuildContext context) {}
@@ -52,10 +51,10 @@ class EdytujZMenuModel extends FlutterFlowModel<EdytujZMenuWidget> {
     textFieldFocusNode3?.dispose();
     textController3?.dispose();
 
-    textFieldFocusNode4?.dispose();
-    textController4?.dispose();
+    nowaKategoriaFieldFocusNode?.dispose();
+    nowaKategoriaFieldTextController?.dispose();
 
-    textFieldFocusNode5?.dispose();
+    textFieldFocusNode4?.dispose();
     textController5?.dispose();
   }
 }

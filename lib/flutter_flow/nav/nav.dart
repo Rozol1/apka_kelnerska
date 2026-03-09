@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -136,7 +137,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: EdytujZMenuWidget.routeName,
           path: EdytujZMenuWidget.routePath,
-          builder: (context, params) => EdytujZMenuWidget(),
+          asyncParams: {
+            'danieDoEdycji': getDoc(['products'], ProductsRecord.fromSnapshot),
+          },
+          builder: (context, params) => EdytujZMenuWidget(
+            danieDoEdycji: params.getParam(
+              'danieDoEdycji',
+              ParamType.Document,
+            ),
+          ),
         ),
         FFRoute(
           name: DodajDoMenuWidget.routeName,

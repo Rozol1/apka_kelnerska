@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -5,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +15,12 @@ export 'edytuj_z_menu_model.dart';
 
 /// Dodaj podstronę do edycji tych pozycji z menu
 class EdytujZMenuWidget extends StatefulWidget {
-  const EdytujZMenuWidget({super.key});
+  const EdytujZMenuWidget({
+    super.key,
+    required this.danieDoEdycji,
+  });
+
+  final ProductsRecord? danieDoEdycji;
 
   static String routeName = 'edytuj_z_menu';
   static String routePath = '/edytujZMenu';
@@ -33,24 +40,28 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
     _model = createModel(context, () => EdytujZMenuModel());
 
     _model.textController1 ??=
-        TextEditingController(text: 'Spaghetti Carbonara');
+        TextEditingController(text: widget.danieDoEdycji?.name);
     _model.textFieldFocusNode1 ??= FocusNode();
 
-    _model.textController2 ??= TextEditingController(text: '24.50');
+    _model.textController2 ??= TextEditingController(
+        text: formatNumber(
+      widget.danieDoEdycji?.price,
+      formatType: FormatType.custom,
+      format: '0.00',
+      locale: '',
+    ));
     _model.textFieldFocusNode2 ??= FocusNode();
 
-    _model.textController3 ??= TextEditingController(text: '650');
+    _model.textController3 ??= TextEditingController(
+        text: widget.danieDoEdycji?.calories.toString());
     _model.textFieldFocusNode3 ??= FocusNode();
 
-    _model.textController4 ??= TextEditingController(
-        text:
-            'Klasyczne włoskie spaghetti z sosem carbonara, bekonem, jajkami i parmezanem');
-    _model.textFieldFocusNode4 ??= FocusNode();
+    _model.nowaKategoriaFieldTextController ??= TextEditingController();
+    _model.nowaKategoriaFieldFocusNode ??= FocusNode();
 
-    _model.textController5 ??= TextEditingController(
-        text:
-            'Makaron spaghetti, boczek, jajka, parmezan, czosnek, pieprz, oliwa z oliwek');
-    _model.textFieldFocusNode5 ??= FocusNode();
+    _model.textController5 ??=
+        TextEditingController(text: widget.danieDoEdycji?.description);
+    _model.textFieldFocusNode4 ??= FocusNode();
   }
 
   @override
@@ -338,12 +349,37 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                                       .fontStyle,
                                             ),
                                         keyboardType: const TextInputType
-                                            .numberWithOptions(
-                                            signed: true, decimal: true),
+                                            .numberWithOptions(decimal: true),
                                         validator: _model
                                             .textController2Validator
                                             .asValidator(context),
                                       ),
+                                    ),
+                                    Text(
+                                      'zł',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                     ),
                                     Expanded(
                                       child: TextFormField(
@@ -449,26 +485,201 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                             .asValidator(context),
                                       ),
                                     ),
+                                    Text(
+                                      'kcal',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                    ),
                                   ].divide(SizedBox(width: 12.0)),
                                 ),
-                                FlutterFlowDropDown<String>(
-                                  controller: _model.dropDownValueController ??=
-                                      FormFieldController<String>(null),
-                                  options: [
-                                    'Przystawki',
-                                    'Zupy',
-                                    'Dania główne',
-                                    'Desery',
-                                    'Napoje'
-                                  ],
-                                  onChanged: (val) => safeSetState(
-                                      () => _model.dropDownValue = val),
-                                  width: double.infinity,
-                                  height: 56.0,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.inter(
+                                StreamBuilder<List<ProductsRecord>>(
+                                  stream: queryProductsRecord(),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 50.0,
+                                          height: 50.0,
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    List<ProductsRecord>
+                                        dropDownProductsRecordList =
+                                        snapshot.data!;
+
+                                    return FlutterFlowDropDown<String>(
+                                      controller:
+                                          _model.dropDownValueController ??=
+                                              FormFieldController<String>(
+                                        _model.dropDownValue ??=
+                                            widget.danieDoEdycji?.category,
+                                      ),
+                                      options:
+                                          functions.pobierzUnikalneKategorie(
+                                              dropDownProductsRecordList
+                                                  .toList()),
+                                      onChanged: (val) => safeSetState(
+                                          () => _model.dropDownValue = val),
+                                      width: double.infinity,
+                                      height: 56.0,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                      hintText: 'Kategoria',
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        size: 24.0,
+                                      ),
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                      elevation: 0.0,
+                                      borderColor: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                      borderWidth: 1.0,
+                                      borderRadius: 8.0,
+                                      margin: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 0.0),
+                                      hidesUnderline: true,
+                                      isSearchable: false,
+                                      isMultiSelect: false,
+                                    );
+                                  },
+                                ),
+                                if (_model.dropDownValue == 'Inna kategoria...')
+                                  TextFormField(
+                                    controller:
+                                        _model.nowaKategoriaFieldTextController,
+                                    focusNode:
+                                        _model.nowaKategoriaFieldFocusNode,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      labelStyle: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontStyle,
+                                          ),
+                                      hintText: 'Wpisz nową kategorię...',
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .alternate,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      filled: true,
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
@@ -478,34 +689,10 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                                   .bodyMedium
                                                   .fontStyle,
                                         ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                  hintText: 'Kategoria',
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 24.0,
+                                    validator: _model
+                                        .nowaKategoriaFieldTextControllerValidator
+                                        .asValidator(context),
                                   ),
-                                  fillColor: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  elevation: 0.0,
-                                  borderColor:
-                                      FlutterFlowTheme.of(context).alternate,
-                                  borderWidth: 1.0,
-                                  borderRadius: 8.0,
-                                  margin: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  hidesUnderline: true,
-                                  isSearchable: false,
-                                  isMultiSelect: false,
-                                ),
                               ].divide(SizedBox(height: 16.0)),
                             ),
                             Column(
@@ -532,7 +719,7 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                       ),
                                 ),
                                 TextFormField(
-                                  controller: _model.textController4,
+                                  controller: _model.textController5,
                                   focusNode: _model.textFieldFocusNode4,
                                   obscureText: false,
                                   decoration: InputDecoration(
@@ -617,95 +804,6 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                       ),
                                   maxLines: 3,
                                   keyboardType: TextInputType.multiline,
-                                  validator: _model.textController4Validator
-                                      .asValidator(context),
-                                ),
-                                TextFormField(
-                                  controller: _model.textController5,
-                                  focusNode: _model.textFieldFocusNode5,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    labelStyle: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .override(
-                                          font: GoogleFonts.inter(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodySmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodySmall
-                                                    .fontStyle,
-                                          ),
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodySmall
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodySmall
-                                                  .fontStyle,
-                                        ),
-                                    hintText: 'Wymień składniki...',
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .alternate,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    filled: true,
-                                    fillColor: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.inter(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                  maxLines: 4,
-                                  keyboardType: TextInputType.multiline,
                                   validator: _model.textController5Validator
                                       .asValidator(context),
                                 ),
@@ -763,13 +861,8 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                 FlutterFlowChoiceChips(
                                   options: [
                                     ChipData('Gluten'),
-                                    ChipData('Jajka'),
-                                    ChipData('Mleko'),
-                                    ChipData('Orzechy'),
-                                    ChipData('Soja'),
-                                    ChipData('Ryby'),
-                                    ChipData('Skorupiaki'),
-                                    ChipData('Sezam')
+                                    ChipData('Laktoza'),
+                                    ChipData('Jajka')
                                   ],
                                   onChanged: (val) => safeSetState(
                                       () => _model.choiceChipsValues = val),
@@ -852,103 +945,6 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                     [],
                                   ),
                                   wrapped: true,
-                                ),
-                              ].divide(SizedBox(height: 16.0)),
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Dostępność',
-                                  style: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .override(
-                                        font: GoogleFonts.interTight(
-                                          fontWeight: FontWeight.w600,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleMedium
-                                                  .fontStyle,
-                                        ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w600,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .titleMedium
-                                            .fontStyle,
-                                      ),
-                                ),
-                                Material(
-                                  color: Colors.transparent,
-                                  child: SwitchListTile(
-                                    value: _model.switchListTileValue ??= true,
-                                    onChanged: (newValue) async {
-                                      safeSetState(() => _model
-                                          .switchListTileValue = newValue);
-                                    },
-                                    title: Text(
-                                      'Dostępne w menu',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                    subtitle: Text(
-                                      'Czy danie jest obecnie dostępne dla klientów',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodySmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodySmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                    tileColor: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    activeThumbColor:
-                                        FlutterFlowTheme.of(context).primary,
-                                    dense: false,
-                                    controlAffinity:
-                                        ListTileControlAffinity.trailing,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
                                 ),
                               ].divide(SizedBox(height: 16.0)),
                             ),

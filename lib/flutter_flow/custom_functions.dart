@@ -85,3 +85,24 @@ bool czyPokazacDanie(
 
   return true; // Pokaż danie
 }
+
+List<String> pobierzUnikalneKategorie(List<ProductsRecord>? produkty) {
+  if (produkty == null || produkty.isEmpty) {
+    return ['Inna kategoria...'];
+  }
+
+  List<String> unikalne = [];
+
+  for (var item in produkty) {
+    if (item.hasCategory() && item.category.isNotEmpty) {
+      if (!unikalne.contains(item.category)) {
+        unikalne.add(item.category);
+      }
+    }
+  }
+
+  // ZAWSZE dodajemy tę opcję na sam koniec listy
+  unikalne.add('Inna kategoria...');
+
+  return unikalne;
+}
