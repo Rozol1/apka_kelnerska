@@ -5,8 +5,22 @@ import 'edytuj_z_menu_widget.dart' show EdytujZMenuWidget;
 import 'package:flutter/material.dart';
 
 class EdytujZMenuModel extends FlutterFlowModel<EdytujZMenuWidget> {
+  ///  Local state fields for this page.
+
+  List<String> listaAlergenow = [];
+  void addToListaAlergenow(String item) => listaAlergenow.add(item);
+  void removeFromListaAlergenow(String item) => listaAlergenow.remove(item);
+  void removeAtIndexFromListaAlergenow(int index) =>
+      listaAlergenow.removeAt(index);
+  void insertAtIndexInListaAlergenow(int index, String item) =>
+      listaAlergenow.insert(index, item);
+  void updateListaAlergenowAtIndex(int index, Function(String) updateFn) =>
+      listaAlergenow[index] = updateFn(listaAlergenow[index]);
+
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - pobierzAlergenyZbazy] action in edytuj_z_menu widget.
+  List<String>? pobraneAlergeny;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -36,6 +50,11 @@ class EdytujZMenuModel extends FlutterFlowModel<EdytujZMenuWidget> {
   List<String>? get choiceChipsValues => choiceChipsValueController?.value;
   set choiceChipsValues(List<String>? val) =>
       choiceChipsValueController?.value = val;
+  // State field(s) for nowyAlergenField widget.
+  FocusNode? nowyAlergenFieldFocusNode;
+  TextEditingController? nowyAlergenFieldTextController;
+  String? Function(BuildContext, String?)?
+      nowyAlergenFieldTextControllerValidator;
 
   @override
   void initState(BuildContext context) {}
@@ -56,5 +75,8 @@ class EdytujZMenuModel extends FlutterFlowModel<EdytujZMenuWidget> {
 
     textFieldFocusNode4?.dispose();
     textController5?.dispose();
+
+    nowyAlergenFieldFocusNode?.dispose();
+    nowyAlergenFieldTextController?.dispose();
   }
 }

@@ -90,3 +90,26 @@ List<String> pobierzUnikalneKategorie(List<ProductsRecord>? produkty) {
 
   return unikalne;
 }
+
+List<String> polaczAlergeny(
+  List<String>? zChipsow,
+  String? wpisanyTekst,
+) {
+  Set<String> unikalne = {};
+
+  // Dodajemy te przeklikane z ChoiceChips
+  if (zChipsow != null && zChipsow.isNotEmpty) {
+    unikalne.addAll(zChipsow);
+  }
+
+  // Rozcinamy po przecinkach i dodajemy nowe z pola tekstowego
+  if (wpisanyTekst != null && wpisanyTekst.trim().isNotEmpty) {
+    var podzielone =
+        wpisanyTekst.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty);
+    unikalne.addAll(podzielone);
+  }
+
+  List<String> wynik = unikalne.toList();
+  wynik.sort();
+  return wynik;
+}

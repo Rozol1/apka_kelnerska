@@ -6,9 +6,11 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'edytuj_z_menu_model.dart';
 export 'edytuj_z_menu_model.dart';
@@ -39,6 +41,13 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
     super.initState();
     _model = createModel(context, () => EdytujZMenuModel());
 
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.pobraneAlergeny = await actions.pobierzAlergenyZbazy();
+      _model.listaAlergenow = _model.pobraneAlergeny!.toList().cast<String>();
+      safeSetState(() {});
+    });
+
     _model.textController1 ??=
         TextEditingController(text: widget.danieDoEdycji?.name);
     _model.textFieldFocusNode1 ??= FocusNode();
@@ -62,6 +71,9 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
     _model.textController5 ??=
         TextEditingController(text: widget.danieDoEdycji?.description);
     _model.textFieldFocusNode4 ??= FocusNode();
+
+    _model.nowyAlergenFieldTextController ??= TextEditingController();
+    _model.nowyAlergenFieldFocusNode ??= FocusNode();
   }
 
   @override
@@ -859,16 +871,14 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                       ),
                                 ),
                                 FlutterFlowChoiceChips(
-                                  options: [
-                                    ChipData('Gluten'),
-                                    ChipData('Laktoza'),
-                                    ChipData('Jajka')
-                                  ],
+                                  options: _model.listaAlergenow
+                                      .map((label) => ChipData(label))
+                                      .toList(),
                                   onChanged: (val) => safeSetState(
                                       () => _model.choiceChipsValues = val),
                                   selectedChipStyle: ChipStyle(
                                     backgroundColor:
-                                        FlutterFlowTheme.of(context).primary,
+                                        FlutterFlowTheme.of(context).tertiary,
                                     textStyle: FlutterFlowTheme.of(context)
                                         .bodySmall
                                         .override(
@@ -942,9 +952,99 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                   controller:
                                       _model.choiceChipsValueController ??=
                                           FormFieldController<List<String>>(
-                                    [],
+                                    widget.danieDoEdycji?.allergens,
                                   ),
                                   wrapped: true,
+                                ),
+                                TextFormField(
+                                  controller:
+                                      _model.nowyAlergenFieldTextController,
+                                  focusNode: _model.nowyAlergenFieldFocusNode,
+                                  obscureText: false,
+                                  decoration: InputDecoration(
+                                    labelStyle: FlutterFlowTheme.of(context)
+                                        .bodySmall
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodySmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodySmall
+                                                  .fontStyle,
+                                        ),
+                                    hintText:
+                                        'Brak na liście? Wpisz nowe po przecinku',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    filled: true,
+                                    fillColor: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                  ),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                  validator: _model
+                                      .nowyAlergenFieldTextControllerValidator
+                                      .asValidator(context),
                                 ),
                               ].divide(SizedBox(height: 16.0)),
                             ),
@@ -961,8 +1061,8 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                       children: [
                         Expanded(
                           child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              context.safePop();
                             },
                             text: 'Anuluj',
                             options: FFButtonOptions(
@@ -1004,8 +1104,45 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                         ),
                         Expanded(
                           child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              await widget.danieDoEdycji!.reference.update({
+                                ...createProductsRecordData(
+                                  name: _model.textController1.text,
+                                  description: _model.textController5.text,
+                                  price:
+                                      int.tryParse(_model.textController2.text),
+                                  calories:
+                                      int.tryParse(_model.textController3.text),
+                                  category: _model.dropDownValue ==
+                                          'Inna kategoria...'
+                                      ? _model
+                                          .nowaKategoriaFieldTextController.text
+                                      : _model.dropDownValue,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'allergens': functions.polaczAlergeny(
+                                        _model.choiceChipsValues?.toList(),
+                                        _model.nowyAlergenFieldTextController
+                                            .text),
+                                  },
+                                ),
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Danie zostało zaktualizowane!',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).success,
+                                ),
+                              );
+                              context.safePop();
                             },
                             text: 'Zapisz zmiany',
                             options: FFButtonOptions(
