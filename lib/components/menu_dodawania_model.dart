@@ -14,8 +14,20 @@ class MenuDodawaniaModel extends FlutterFlowModel<MenuDodawaniaWidget> {
 
   bool wymagajBezGlutenu = false;
 
+  List<String> listaAlergenow = [];
+  void addToListaAlergenow(String item) => listaAlergenow.add(item);
+  void removeFromListaAlergenow(String item) => listaAlergenow.remove(item);
+  void removeAtIndexFromListaAlergenow(int index) =>
+      listaAlergenow.removeAt(index);
+  void insertAtIndexInListaAlergenow(int index, String item) =>
+      listaAlergenow.insert(index, item);
+  void updateListaAlergenowAtIndex(int index, Function(String) updateFn) =>
+      listaAlergenow[index] = updateFn(listaAlergenow[index]);
+
   ///  State fields for stateful widgets in this component.
 
+  // Stores action output result for [Custom Action - pobierzAlergenyZbazy] action in MenuDodawania widget.
+  List<String>? wynikZAkcji;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;

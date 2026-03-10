@@ -4,9 +4,11 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'menu_dodawania_model.dart';
 export 'menu_dodawania_model.dart';
@@ -36,6 +38,13 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => MenuDodawaniaModel());
+
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.wynikZAkcji = await actions.pobierzAlergenyZbazy();
+      _model.listaAlergenow = _model.wynikZAkcji!.toList().cast<String>();
+      safeSetState(() {});
+    });
 
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
@@ -343,58 +352,111 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                           ),
                         ].divide(SizedBox(height: 6.0)),
                       ),
-                      StreamBuilder<List<ProductsRecord>>(
-                        stream: queryProductsRecord(),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    FlutterFlowTheme.of(context).primary,
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Wyklucz alergeny',
+                            style: FlutterFlowTheme.of(context)
+                                .labelLarge
+                                .override(
+                                  font: GoogleFonts.inter(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelLarge
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelLarge
+                                        .fontStyle,
                                   ),
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelLarge
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelLarge
+                                      .fontStyle,
                                 ),
-                              ),
-                            );
-                          }
-                          List<ProductsRecord> columnProductsRecordList =
-                              snapshot.data!;
-
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: List.generate(
-                                columnProductsRecordList.length, (columnIndex) {
-                              final columnProductsRecord =
-                                  columnProductsRecordList[columnIndex];
-                              return Text(
-                                'Wyklucz alergeny',
-                                style: FlutterFlowTheme.of(context)
-                                    .labelLarge
-                                    .override(
-                                      font: GoogleFonts.inter(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .labelLarge
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .labelLarge
-                                            .fontStyle,
-                                      ),
-                                      letterSpacing: 0.0,
+                          ),
+                        ].divide(SizedBox(height: 6.0)),
+                      ),
+                      FlutterFlowChoiceChips(
+                        options: _model.listaAlergenow
+                            .map((label) => ChipData(label))
+                            .toList(),
+                        onChanged: (val) =>
+                            safeSetState(() => _model.choiceChipsValues2 = val),
+                        selectedChipStyle: ChipStyle(
+                          backgroundColor: Color(0xFFFFEDE8),
+                          textStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    font: GoogleFonts.inter(
                                       fontWeight: FlutterFlowTheme.of(context)
-                                          .labelLarge
+                                          .bodyMedium
                                           .fontWeight,
                                       fontStyle: FlutterFlowTheme.of(context)
-                                          .labelLarge
+                                          .bodyMedium
                                           .fontStyle,
                                     ),
-                              );
-                            }).divide(SizedBox(height: 6.0)),
-                          );
-                        },
+                                    color: FlutterFlowTheme.of(context).error,
+                                    fontSize: 12.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                          iconColor: FlutterFlowTheme.of(context).primaryText,
+                          iconSize: 18.0,
+                          elevation: 4.0,
+                          borderColor: FlutterFlowTheme.of(context).error,
+                          borderWidth: 1.0,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        unselectedChipStyle: ChipStyle(
+                          backgroundColor:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          textStyle: FlutterFlowTheme.of(context)
+                              .bodySmall
+                              .override(
+                                font: GoogleFonts.inter(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodySmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodySmall
+                                      .fontStyle,
+                                ),
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                fontSize: 12.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .fontStyle,
+                              ),
+                          iconColor: FlutterFlowTheme.of(context).primaryText,
+                          iconSize: 18.0,
+                          elevation: 0.0,
+                          borderColor: FlutterFlowTheme.of(context).alternate,
+                          borderWidth: 1.0,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        chipSpacing: 8.0,
+                        rowSpacing: 8.0,
+                        multiselect: true,
+                        initialized: _model.choiceChipsValues2 != null,
+                        alignment: WrapAlignment.start,
+                        controller: _model.choiceChipsValueController2 ??=
+                            FormFieldController<List<String>>(
+                          [],
+                        ),
+                        wrapped: true,
                       ),
                     ].divide(SizedBox(height: 12.0)),
                   ),

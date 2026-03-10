@@ -90,26 +90,3 @@ List<String> pobierzUnikalneKategorie(List<ProductsRecord>? produkty) {
 
   return unikalne;
 }
-
-List<String> pobierzUnikalneAlergeny(List<ProductsRecord>? produkty) {
-  if (produkty == null || produkty.isEmpty) {
-    return [];
-  }
-
-  Set<String> unikalne = {};
-
-  for (var produkt in produkty) {
-    if (produkt.allergens != null && produkt.allergens.isNotEmpty) {
-      for (var wpis in produkt.allergens) {
-        // Ta linijka tnie tekst po przecinkach i usuwa spacje z przodu/tyłu
-        var podzielone =
-            wpis.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty);
-        unikalne.addAll(podzielone);
-      }
-    }
-  }
-
-  List<String> wynik = unikalne.toList();
-  wynik.sort();
-  return wynik;
-}
