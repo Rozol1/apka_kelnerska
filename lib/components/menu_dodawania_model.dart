@@ -24,10 +24,22 @@ class MenuDodawaniaModel extends FlutterFlowModel<MenuDodawaniaWidget> {
   void updateListaAlergenowAtIndex(int index, Function(String) updateFn) =>
       listaAlergenow[index] = updateFn(listaAlergenow[index]);
 
+  List<String> listaKategorii = [];
+  void addToListaKategorii(String item) => listaKategorii.add(item);
+  void removeFromListaKategorii(String item) => listaKategorii.remove(item);
+  void removeAtIndexFromListaKategorii(int index) =>
+      listaKategorii.removeAt(index);
+  void insertAtIndexInListaKategorii(int index, String item) =>
+      listaKategorii.insert(index, item);
+  void updateListaKategoriiAtIndex(int index, Function(String) updateFn) =>
+      listaKategorii[index] = updateFn(listaKategorii[index]);
+
   ///  State fields for stateful widgets in this component.
 
   // Stores action output result for [Custom Action - pobierzAlergenyZbazy] action in MenuDodawania widget.
   List<String>? wynikZAkcji;
+  // Stores action output result for [Custom Action - pobierzKategorieZbazy] action in MenuDodawania widget.
+  List<String>? wynikKategorii;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;

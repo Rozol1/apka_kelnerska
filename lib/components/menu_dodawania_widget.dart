@@ -44,6 +44,9 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
       _model.wynikZAkcji = await actions.pobierzAlergenyZbazy();
       _model.listaAlergenow = _model.wynikZAkcji!.toList().cast<String>();
       safeSetState(() {});
+      _model.wynikKategorii = await actions.pobierzKategorieZbazy();
+      _model.listaKategorii = _model.wynikKategorii!.toList().cast<String>();
+      safeSetState(() {});
     });
 
     _model.textController ??= TextEditingController();
@@ -254,16 +257,9 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                 ),
                           ),
                           FlutterFlowChoiceChips(
-                            options: [
-                              ChipData('Wszystkie'),
-                              ChipData('Przystawki'),
-                              ChipData('Zupy'),
-                              ChipData('Dania Główne'),
-                              ChipData('Desery'),
-                              ChipData('Napoje'),
-                              ChipData('Śniadania'),
-                              ChipData('Sałatki')
-                            ],
+                            options: _model.listaKategorii
+                                .map((label) => ChipData(label))
+                                .toList(),
                             onChanged: (val) async {
                               safeSetState(() =>
                                   _model.choiceChipsValue1 = val?.firstOrNull);
@@ -343,10 +339,11 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                             chipSpacing: 8.0,
                             rowSpacing: 8.0,
                             multiselect: false,
+                            initialized: _model.choiceChipsValue1 != null,
                             alignment: WrapAlignment.start,
                             controller: _model.choiceChipsValueController1 ??=
                                 FormFieldController<List<String>>(
-                              [],
+                              ['Wszystkie'],
                             ),
                             wrapped: true,
                           ),

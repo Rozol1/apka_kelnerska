@@ -2,3 +2,4 @@ export 'sprawdz_wydawke.dart' show sprawdzWydawke;
 export 'wyczysc_stolik.dart' show wyczyscStolik;
 export 'zmien_liczbe_stolikow.dart' show zmienLiczbeStolikow;
 export 'pobierz_alergeny_zbazy.dart' show pobierzAlergenyZbazy;
+export 'pobierz_kategorie_zbazy.dart' show pobierzKategorieZbazy;
