@@ -113,3 +113,27 @@ List<String> polaczAlergeny(
   wynik.sort();
   return wynik;
 }
+
+List<ProductsRecord> wyszukajDania(
+  List<ProductsRecord>? bazaDan,
+  String? szukanaFraza,
+) {
+// Jeśli baza jest pusta, zwróć pustą listę
+  if (bazaDan == null || bazaDan.isEmpty) {
+    return [];
+  }
+
+  // Jeśli nikt nic nie wpisał w wyszukiwarkę, pokaż wszystkie dania
+  if (szukanaFraza == null || szukanaFraza.trim().isEmpty) {
+    return bazaDan;
+  }
+
+  // Zamieniamy wpisaną frazę na małe litery, żeby ignorować wielkość znaków
+  final fraza = szukanaFraza.toLowerCase().trim();
+
+  // Filtrujemy listę sprawdzając, czy nazwa dania zawiera wpisaną frazę
+  return bazaDan.where((danie) {
+    final nazwaDania = danie.name?.toLowerCase() ?? '';
+    return nazwaDania.contains(fraza);
+  }).toList();
+}
