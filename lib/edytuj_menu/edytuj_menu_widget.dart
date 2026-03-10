@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'edytuj_menu_model.dart';
@@ -110,6 +111,11 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
                   TextFormField(
                     controller: _model.textController,
                     focusNode: _model.textFieldFocusNode,
+                    onChanged: (_) => EasyDebounce.debounce(
+                      '_model.textController',
+                      Duration(milliseconds: 2000),
+                      () => safeSetState(() {}),
+                    ),
                     obscureText: false,
                     decoration: InputDecoration(
                       hintText: 'Szukaj dania...',
@@ -618,9 +624,11 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
                                                               },
                                                             ) ??
                                                             false;
-                                                    await widoczneDaniaItem
-                                                        .reference
-                                                        .delete();
+                                                    if (confirmDialogResponse) {
+                                                      await widoczneDaniaItem
+                                                          .reference
+                                                          .delete();
+                                                    }
                                                   },
                                                 ),
                                               ].divide(SizedBox(height: 8.0)),

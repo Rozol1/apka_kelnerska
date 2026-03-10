@@ -8,18 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'strona_startowa_model.dart';
 export 'strona_startowa_model.dart';
 
-/// Chcę stworzyć stronę startową aplikacji która ma pomagać w pracy
-/// kelnerowi, powinna się na niej znajdować nazwa restauracji dla celów
-/// testowych niech to bedzie Umami, Lista stolików w restauracji ze
-/// statusami: zajęty, do posprzątania, oczekuje na kelnera, odpowiedni status
-/// ma się podświetlać dla celów testowych niech będzie 15 stolików, po
-/// kliknięciu na jeden ze stolików ma nas przenieść na jego podstronę gdzie
-/// możemy ilość osób przy stoliku, dodawać ich zamówienmie na podstawie menu
-/// zaciąganego z bazy danych (są tam pola id potrawy, nazwa, skład,
-/// kaloryczność, alergeny i cena) oraz do każdej pozycji dodać komentarz, na
-/// końcu ma się wyświetlać suma zamówienia oraz przycisk powrót na stronę
-/// główną możesz też tam zmienić status stolika
-///
 class StronaStartowaWidget extends StatefulWidget {
   const StronaStartowaWidget({super.key});
 
