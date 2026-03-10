@@ -83,10 +83,31 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        'Wybierz danie',
-                        style:
-                            FlutterFlowTheme.of(context).headlineSmall.override(
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FlutterFlowIconButton(
+                            borderRadius: 8.0,
+                            buttonSize: 40.0,
+                            fillColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: FlutterFlowTheme.of(context).secondary,
+                              size: 24.0,
+                            ),
+                            onPressed: () async {
+                              context.safePop();
+                            },
+                          ),
+                          Spacer(),
+                          Text(
+                            'Wybierz danie',
+                            textAlign: TextAlign.start,
+                            style: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .override(
                                   font: GoogleFonts.interTight(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .headlineSmall
@@ -103,6 +124,10 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                       .headlineSmall
                                       .fontStyle,
                                 ),
+                          ),
+                          Spacer(),
+                          Spacer(),
+                        ],
                       ),
                       TextFormField(
                         controller: _model.textController,
@@ -195,7 +220,7 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                       ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
                             'Typ dania',
@@ -318,117 +343,58 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                           ),
                         ].divide(SizedBox(height: 6.0)),
                       ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Wyklucz alergeny',
-                            style: FlutterFlowTheme.of(context)
-                                .labelLarge
-                                .override(
-                                  font: GoogleFonts.inter(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .labelLarge
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .labelLarge
-                                        .fontStyle,
+                      StreamBuilder<List<ProductsRecord>>(
+                        stream: queryProductsRecord(),
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50.0,
+                                height: 50.0,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
                                   ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .labelLarge
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .labelLarge
-                                      .fontStyle,
                                 ),
-                          ),
-                          FlutterFlowChoiceChips(
-                            options: [
-                              ChipData('Gluten'),
-                              ChipData('Laktoza'),
-                              ChipData('Jaja')
-                            ],
-                            onChanged: (val) => safeSetState(
-                                () => _model.choiceChipsValues2 = val),
-                            selectedChipStyle: ChipStyle(
-                              backgroundColor: Color(0xFFFFEDE8),
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.inter(
+                              ),
+                            );
+                          }
+                          List<ProductsRecord> columnProductsRecordList =
+                              snapshot.data!;
+
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: List.generate(
+                                columnProductsRecordList.length, (columnIndex) {
+                              final columnProductsRecord =
+                                  columnProductsRecordList[columnIndex];
+                              return Text(
+                                'Wyklucz alergeny',
+                                style: FlutterFlowTheme.of(context)
+                                    .labelLarge
+                                    .override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelLarge
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelLarge
+                                            .fontStyle,
+                                      ),
+                                      letterSpacing: 0.0,
                                       fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
+                                          .labelLarge
                                           .fontWeight,
                                       fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
+                                          .labelLarge
                                           .fontStyle,
                                     ),
-                                    color: FlutterFlowTheme.of(context).error,
-                                    fontSize: 12.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                              iconColor:
-                                  FlutterFlowTheme.of(context).primaryText,
-                              iconSize: 18.0,
-                              elevation: 4.0,
-                              borderColor: FlutterFlowTheme.of(context).error,
-                              borderWidth: 1.0,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            unselectedChipStyle: ChipStyle(
-                              backgroundColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    fontSize: 12.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .fontStyle,
-                                  ),
-                              iconColor:
-                                  FlutterFlowTheme.of(context).primaryText,
-                              iconSize: 18.0,
-                              elevation: 0.0,
-                              borderColor:
-                                  FlutterFlowTheme.of(context).alternate,
-                              borderWidth: 1.0,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            chipSpacing: 8.0,
-                            rowSpacing: 8.0,
-                            multiselect: true,
-                            initialized: _model.choiceChipsValues2 != null,
-                            alignment: WrapAlignment.start,
-                            controller: _model.choiceChipsValueController2 ??=
-                                FormFieldController<List<String>>(
-                              [],
-                            ),
-                            wrapped: true,
-                          ),
-                        ].divide(SizedBox(height: 6.0)),
+                              );
+                            }).divide(SizedBox(height: 6.0)),
+                          );
+                        },
                       ),
                     ].divide(SizedBox(height: 12.0)),
                   ),
@@ -532,7 +498,7 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                     visible: functions.czyPokazacDanie(
                                         _model.choiceChipsValues2?.toList(),
                                         listViewProductsRecord.name,
-                                        _model.choiceChipsValue1,
+                                        _model.textController.text,
                                         listViewProductsRecord.allergens
                                             .toList()),
                                     child: Container(
