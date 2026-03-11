@@ -712,7 +712,7 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Opis i składniki',
+                                  'Składniki',
                                   style: FlutterFlowTheme.of(context)
                                       .titleMedium
                                       .override(

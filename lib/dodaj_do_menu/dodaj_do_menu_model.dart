@@ -5,8 +5,34 @@ import 'dodaj_do_menu_widget.dart' show DodajDoMenuWidget;
 import 'package:flutter/material.dart';
 
 class DodajDoMenuModel extends FlutterFlowModel<DodajDoMenuWidget> {
+  ///  Local state fields for this page.
+
+  List<String> listaAlergenow = [];
+  void addToListaAlergenow(String item) => listaAlergenow.add(item);
+  void removeFromListaAlergenow(String item) => listaAlergenow.remove(item);
+  void removeAtIndexFromListaAlergenow(int index) =>
+      listaAlergenow.removeAt(index);
+  void insertAtIndexInListaAlergenow(int index, String item) =>
+      listaAlergenow.insert(index, item);
+  void updateListaAlergenowAtIndex(int index, Function(String) updateFn) =>
+      listaAlergenow[index] = updateFn(listaAlergenow[index]);
+
+  List<String> listaKategorii = [];
+  void addToListaKategorii(String item) => listaKategorii.add(item);
+  void removeFromListaKategorii(String item) => listaKategorii.remove(item);
+  void removeAtIndexFromListaKategorii(int index) =>
+      listaKategorii.removeAt(index);
+  void insertAtIndexInListaKategorii(int index, String item) =>
+      listaKategorii.insert(index, item);
+  void updateListaKategoriiAtIndex(int index, Function(String) updateFn) =>
+      listaKategorii[index] = updateFn(listaKategorii[index]);
+
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - pobierzAlergenyZbazy] action in dodaj_do_menu widget.
+  List<String>? pobraneAlergeny;
+  // Stores action output result for [Custom Action - pobierzKategorieZbazy] action in dodaj_do_menu widget.
+  List<String>? pobraneKategorie;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -35,8 +61,11 @@ class DodajDoMenuModel extends FlutterFlowModel<DodajDoMenuWidget> {
   List<String>? get choiceChipsValues => choiceChipsValueController?.value;
   set choiceChipsValues(List<String>? val) =>
       choiceChipsValueController?.value = val;
-  // State field(s) for SwitchListTile widget.
-  bool? switchListTileValue;
+  // State field(s) for nowyAlergenDodaj widget.
+  FocusNode? nowyAlergenDodajFocusNode;
+  TextEditingController? nowyAlergenDodajTextController;
+  String? Function(BuildContext, String?)?
+      nowyAlergenDodajTextControllerValidator;
 
   @override
   void initState(BuildContext context) {}
@@ -57,5 +86,8 @@ class DodajDoMenuModel extends FlutterFlowModel<DodajDoMenuWidget> {
 
     textFieldFocusNode5?.dispose();
     textController5?.dispose();
+
+    nowyAlergenDodajFocusNode?.dispose();
+    nowyAlergenDodajTextController?.dispose();
   }
 }
