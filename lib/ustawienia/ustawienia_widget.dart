@@ -315,7 +315,7 @@ class _UstawieniaWidgetState extends State<UstawieniaWidget> {
                                                 ),
                                           ),
                                           Text(
-                                            'Zarządzaj pozycjami w menu restauracji',
+                                            'Zarządzaj pozycjami w menu',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodySmall
                                                 .override(

@@ -84,17 +84,20 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
                 ),
           ),
           actions: [
-            FlutterFlowIconButton(
-              borderRadius: 20.0,
-              buttonSize: 40.0,
-              icon: Icon(
-                Icons.add_rounded,
-                color: FlutterFlowTheme.of(context).primary,
-                size: 24.0,
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 15.0, 0.0),
+              child: FlutterFlowIconButton(
+                borderRadius: 20.0,
+                buttonSize: 40.0,
+                icon: Icon(
+                  Icons.add_rounded,
+                  color: FlutterFlowTheme.of(context).primary,
+                  size: 40.0,
+                ),
+                onPressed: () async {
+                  context.pushNamed(DodajDoMenuWidget.routeName);
+                },
               ),
-              onPressed: () async {
-                context.pushNamed(DodajDoMenuWidget.routeName);
-              },
             ),
           ],
           centerTitle: true,

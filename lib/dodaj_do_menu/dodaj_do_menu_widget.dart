@@ -567,7 +567,7 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
                                       borderWidth: 1.0,
                                       borderRadius: 8.0,
                                       margin: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 0.0),
+                                          10.0, 0.0, 0.0, 0.0),
                                       hidesUnderline: true,
                                       isSearchable: false,
                                       isMultiSelect: false,
