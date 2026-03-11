@@ -7,38 +7,42 @@ class ZmianaHaslaModel extends FlutterFlowModel<ZmianaHaslaWidget> {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode1;
-  TextEditingController? textController1;
-  late bool passwordVisibility1;
-  String? Function(BuildContext, String?)? textController1Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode2;
-  TextEditingController? textController2;
-  late bool passwordVisibility2;
-  String? Function(BuildContext, String?)? textController2Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode3;
-  TextEditingController? textController3;
-  late bool passwordVisibility3;
-  String? Function(BuildContext, String?)? textController3Validator;
+  // State field(s) for AktualneHasloText widget.
+  FocusNode? aktualneHasloTextFocusNode;
+  TextEditingController? aktualneHasloTextTextController;
+  late bool aktualneHasloTextVisibility;
+  String? Function(BuildContext, String?)?
+      aktualneHasloTextTextControllerValidator;
+  // State field(s) for noweHasloText widget.
+  FocusNode? noweHasloTextFocusNode;
+  TextEditingController? noweHasloTextTextController;
+  late bool noweHasloTextVisibility;
+  String? Function(BuildContext, String?)? noweHasloTextTextControllerValidator;
+  // State field(s) for potwierdzNoweHasloText widget.
+  FocusNode? potwierdzNoweHasloTextFocusNode;
+  TextEditingController? potwierdzNoweHasloTextTextController;
+  late bool potwierdzNoweHasloTextVisibility;
+  String? Function(BuildContext, String?)?
+      potwierdzNoweHasloTextTextControllerValidator;
+  // Stores action output result for [Custom Action - zmienHasloBezpiecznie] action in Button widget.
+  String? wynikZmiany;
 
   @override
   void initState(BuildContext context) {
-    passwordVisibility1 = false;
-    passwordVisibility2 = false;
-    passwordVisibility3 = false;
+    aktualneHasloTextVisibility = false;
+    noweHasloTextVisibility = false;
+    potwierdzNoweHasloTextVisibility = false;
   }
 
   @override
   void dispose() {
-    textFieldFocusNode1?.dispose();
-    textController1?.dispose();
+    aktualneHasloTextFocusNode?.dispose();
+    aktualneHasloTextTextController?.dispose();
 
-    textFieldFocusNode2?.dispose();
-    textController2?.dispose();
+    noweHasloTextFocusNode?.dispose();
+    noweHasloTextTextController?.dispose();
 
-    textFieldFocusNode3?.dispose();
-    textController3?.dispose();
+    potwierdzNoweHasloTextFocusNode?.dispose();
+    potwierdzNoweHasloTextTextController?.dispose();
   }
 }

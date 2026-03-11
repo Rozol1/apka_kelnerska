@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,14 +31,14 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
     super.initState();
     _model = createModel(context, () => ZmianaHaslaModel());
 
-    _model.textController1 ??= TextEditingController();
-    _model.textFieldFocusNode1 ??= FocusNode();
+    _model.aktualneHasloTextTextController ??= TextEditingController();
+    _model.aktualneHasloTextFocusNode ??= FocusNode();
 
-    _model.textController2 ??= TextEditingController();
-    _model.textFieldFocusNode2 ??= FocusNode();
+    _model.noweHasloTextTextController ??= TextEditingController();
+    _model.noweHasloTextFocusNode ??= FocusNode();
 
-    _model.textController3 ??= TextEditingController();
-    _model.textFieldFocusNode3 ??= FocusNode();
+    _model.potwierdzNoweHasloTextTextController ??= TextEditingController();
+    _model.potwierdzNoweHasloTextFocusNode ??= FocusNode();
   }
 
   @override
@@ -159,10 +160,10 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                             ),
                           ),
                           TextFormField(
-                            controller: _model.textController1,
-                            focusNode: _model.textFieldFocusNode1,
+                            controller: _model.aktualneHasloTextTextController,
+                            focusNode: _model.aktualneHasloTextFocusNode,
                             autofocus: false,
-                            obscureText: !_model.passwordVisibility1,
+                            obscureText: !_model.aktualneHasloTextVisibility,
                             decoration: InputDecoration(
                               hintText: 'Wprowadź aktualne hasło',
                               hintStyle: FlutterFlowTheme.of(context)
@@ -222,12 +223,12 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                               suffixIcon: InkWell(
                                 onTap: () async {
                                   safeSetState(() =>
-                                      _model.passwordVisibility1 =
-                                          !_model.passwordVisibility1);
+                                      _model.aktualneHasloTextVisibility =
+                                          !_model.aktualneHasloTextVisibility);
                                 },
                                 focusNode: FocusNode(skipTraversal: true),
                                 child: Icon(
-                                  _model.passwordVisibility1
+                                  _model.aktualneHasloTextVisibility
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
                                   color: FlutterFlowTheme.of(context)
@@ -256,7 +257,8 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                                       .bodyMedium
                                       .fontStyle,
                                 ),
-                            validator: _model.textController1Validator
+                            validator: _model
+                                .aktualneHasloTextTextControllerValidator
                                 .asValidator(context),
                           ),
                         ],
@@ -290,10 +292,10 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                             ),
                           ),
                           TextFormField(
-                            controller: _model.textController2,
-                            focusNode: _model.textFieldFocusNode2,
+                            controller: _model.noweHasloTextTextController,
+                            focusNode: _model.noweHasloTextFocusNode,
                             autofocus: false,
-                            obscureText: !_model.passwordVisibility2,
+                            obscureText: !_model.noweHasloTextVisibility,
                             decoration: InputDecoration(
                               hintText: 'Wprowadź nowe hasło',
                               hintStyle: FlutterFlowTheme.of(context)
@@ -353,12 +355,12 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                               suffixIcon: InkWell(
                                 onTap: () async {
                                   safeSetState(() =>
-                                      _model.passwordVisibility2 =
-                                          !_model.passwordVisibility2);
+                                      _model.noweHasloTextVisibility =
+                                          !_model.noweHasloTextVisibility);
                                 },
                                 focusNode: FocusNode(skipTraversal: true),
                                 child: Icon(
-                                  _model.passwordVisibility2
+                                  _model.noweHasloTextVisibility
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
                                   color: FlutterFlowTheme.of(context)
@@ -387,7 +389,8 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                                       .bodyMedium
                                       .fontStyle,
                                 ),
-                            validator: _model.textController2Validator
+                            validator: _model
+                                .noweHasloTextTextControllerValidator
                                 .asValidator(context),
                           ),
                         ],
@@ -421,10 +424,12 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                             ),
                           ),
                           TextFormField(
-                            controller: _model.textController3,
-                            focusNode: _model.textFieldFocusNode3,
+                            controller:
+                                _model.potwierdzNoweHasloTextTextController,
+                            focusNode: _model.potwierdzNoweHasloTextFocusNode,
                             autofocus: false,
-                            obscureText: !_model.passwordVisibility3,
+                            obscureText:
+                                !_model.potwierdzNoweHasloTextVisibility,
                             decoration: InputDecoration(
                               hintText: 'Wprowadź ponownie nowe hasło',
                               hintStyle: FlutterFlowTheme.of(context)
@@ -483,13 +488,13 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                                   16.0, 16.0, 16.0, 16.0),
                               suffixIcon: InkWell(
                                 onTap: () async {
-                                  safeSetState(() =>
-                                      _model.passwordVisibility3 =
-                                          !_model.passwordVisibility3);
+                                  safeSetState(() => _model
+                                          .potwierdzNoweHasloTextVisibility =
+                                      !_model.potwierdzNoweHasloTextVisibility);
                                 },
                                 focusNode: FocusNode(skipTraversal: true),
                                 child: Icon(
-                                  _model.passwordVisibility3
+                                  _model.potwierdzNoweHasloTextVisibility
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
                                   color: FlutterFlowTheme.of(context)
@@ -518,7 +523,8 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                                       .bodyMedium
                                       .fontStyle,
                                 ),
-                            validator: _model.textController3Validator
+                            validator: _model
+                                .potwierdzNoweHasloTextTextControllerValidator
                                 .asValidator(context),
                           ),
                         ],
@@ -578,8 +584,79 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
                 ),
                 Spacer(),
                 FFButtonWidget(
-                  onPressed: () {
-                    print('Button pressed ...');
+                  onPressed: () async {
+                    if (_model.noweHasloTextTextController.text ==
+                        _model.potwierdzNoweHasloTextTextController.text) {
+                      if (_model.noweHasloTextTextController.text !=
+                          _model.aktualneHasloTextTextController.text) {
+                        _model.wynikZmiany =
+                            await actions.zmienHasloBezpiecznie(
+                          _model.aktualneHasloTextTextController.text,
+                          _model.noweHasloTextTextController.text,
+                        );
+                        if (_model.wynikZmiany == 'sukces') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Hasło zmienione pomyślnie!',
+                                style: TextStyle(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).success,
+                            ),
+                          );
+
+                          context.pushNamed(UstawieniaWidget.routeName);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                _model.wynikZmiany!,
+                                style: TextStyle(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).error,
+                            ),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Nowe hasło musi być inne niż obecne!',
+                              style: TextStyle(
+                                color: FlutterFlowTheme.of(context).primaryText,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor: FlutterFlowTheme.of(context).error,
+                          ),
+                        );
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Podane nowe hasła nie są identyczne!',
+                            style: TextStyle(
+                              color: FlutterFlowTheme.of(context).primaryText,
+                            ),
+                          ),
+                          duration: Duration(milliseconds: 4000),
+                          backgroundColor: FlutterFlowTheme.of(context).error,
+                        ),
+                      );
+                    }
+
+                    safeSetState(() {});
                   },
                   text: 'Zmień hasło',
                   options: FFButtonOptions(
