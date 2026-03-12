@@ -537,6 +537,14 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                     await actions.odswiezStatusStolika(
                                       _model.stolikRef!,
                                     );
+                                  } else {
+                                    await widget.daneZamowienia!.reference
+                                        .update(createOrderedItemsRecordData(
+                                      czyDostarczone: _model.checkboxValue,
+                                    ));
+                                    await actions.odswiezStatusStolika(
+                                      _model.stolikRef!,
+                                    );
                                   }
                                 },
                                 side: (FlutterFlowTheme.of(context).alternate !=
