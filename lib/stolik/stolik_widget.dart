@@ -217,6 +217,7 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                 await widget.tableRef!.update(
                                                     createTablesRecordData(
                                                   guestsCount: 0,
+                                                  status: 'Wolny',
                                                 ));
                                               }
                                             },
