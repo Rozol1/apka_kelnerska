@@ -376,7 +376,7 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                     ),
                                   ),
                                   Text(
-                                    'Zajęty',
+                                    'Zajęty (dania do podania)',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
