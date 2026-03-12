@@ -1,12 +1,10 @@
 import '/backend/backend.dart';
 import '/components/karta_pozycji_widget.dart';
 import '/components/menu_dodawania_widget.dart';
-import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/form_field_controller.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
@@ -175,76 +173,92 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                         .fontStyle,
                                               ),
                                         ),
-                                        FlutterFlowDropDown<String>(
-                                          controller:
-                                              _model.dropDownValueController ??=
-                                                  FormFieldController<String>(
-                                            _model.dropDownValue ??=
-                                                stolikTablesRecord.status,
+                                        if (stolikTablesRecord.status ==
+                                            'Do posprzątania')
+                                          FFButtonWidget(
+                                            onPressed: () async {
+                                              var confirmDialogResponse =
+                                                  await showDialog<bool>(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                                'Zwolnienie stolika'),
+                                                            content: Text(
+                                                                'Czy goście na pewno zapłacili? Ta akcja trwale usunie wszystkie dania i wyzeruje rachunek!'),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext,
+                                                                        false),
+                                                                child: Text(
+                                                                    'Anuluj'),
+                                                              ),
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext,
+                                                                        true),
+                                                                child:
+                                                                    Text('Tak'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      ) ??
+                                                      false;
+                                              if (confirmDialogResponse) {
+                                                await actions.wyczyscStolik(
+                                                  widget.tableRef!,
+                                                );
+
+                                                await widget.tableRef!.update(
+                                                    createTablesRecordData());
+                                              }
+                                            },
+                                            text: 'Zwolnij stolik',
+                                            options: FFButtonOptions(
+                                              height: 32.0,
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      12.0, 0.0, 12.0, 0.0),
+                                              iconPadding: EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              textStyle: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.inter(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryBackground,
+                                                    fontSize: 14.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                              elevation: 0.0,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
                                           ),
-                                          options: [
-                                            'Wolny',
-                                            'Zajęty',
-                                            'Oczekuje na kelnera',
-                                            'Do posprzątania'
-                                          ],
-                                          onChanged: (val) async {
-                                            safeSetState(() =>
-                                                _model.dropDownValue = val);
-                                            if (_model.dropDownValue ==
-                                                'Wolny') {
-                                              await widget.tableRef!.update(
-                                                  createTablesRecordData(
-                                                status: 'Wolny',
-                                                guestsCount: 0,
-                                              ));
-                                              await actions.wyczyscStolik(
-                                                widget.tableRef!,
-                                              );
-                                            } else {
-                                              await widget.tableRef!.update(
-                                                  createTablesRecordData(
-                                                status: _model.dropDownValue,
-                                              ));
-                                            }
-                                          },
-                                          width: 120.0,
-                                          height: 40.0,
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                fontSize: 14.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w500,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                          hintText: 'Status',
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .accent1,
-                                          elevation: 0.0,
-                                          borderColor: Colors.transparent,
-                                          borderWidth: 0.0,
-                                          borderRadius: 8.0,
-                                          margin:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  8.0, 0.0, 8.0, 0.0),
-                                          hidesUnderline: true,
-                                          isSearchable: false,
-                                          isMultiSelect: false,
-                                        ),
                                       ],
                                     ),
                                     Row(
@@ -400,7 +414,7 @@ class _StolikWidgetState extends State<StolikWidget> {
 
                                                 await widget.tableRef!.update(
                                                     createTablesRecordData(
-                                                  status: 'Zajęty',
+                                                  status: 'Oczekuje na kelnera',
                                                 ));
                                               },
                                             ),
