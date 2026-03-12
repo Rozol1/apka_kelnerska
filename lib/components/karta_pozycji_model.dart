@@ -3,6 +3,10 @@ import 'karta_pozycji_widget.dart' show KartaPozycjiWidget;
 import 'package:flutter/material.dart';
 
 class KartaPozycjiModel extends FlutterFlowModel<KartaPozycjiWidget> {
+  ///  Local state fields for this component.
+
+  DocumentReference? stolikRef;
+
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for TextField widget.

@@ -755,12 +755,11 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                                           .price,
                                                   czyDostarczone: false,
                                                 ));
-
-                                                await widget.stolikRef!.update(
-                                                    createTablesRecordData(
-                                                  status: 'Zajęty',
-                                                ));
                                                 Navigator.pop(context);
+                                                await actions
+                                                    .odswiezStatusStolika(
+                                                  widget.stolikRef!,
+                                                );
                                               },
                                             ),
                                           ],

@@ -30,10 +30,16 @@ class TablesRecord extends FirestoreRecord {
   int get guestsCount => _guestsCount ?? 0;
   bool hasGuestsCount() => _guestsCount != null;
 
+  // "czas_zmiany_statusu" field.
+  DateTime? _czasZmianyStatusu;
+  DateTime? get czasZmianyStatusu => _czasZmianyStatusu;
+  bool hasCzasZmianyStatusu() => _czasZmianyStatusu != null;
+
   void _initializeFields() {
     _tableId = castToType<int>(snapshotData['table_id']);
     _status = snapshotData['status'] as String?;
     _guestsCount = castToType<int>(snapshotData['guests_count']);
+    _czasZmianyStatusu = snapshotData['czas_zmiany_statusu'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -73,12 +79,14 @@ Map<String, dynamic> createTablesRecordData({
   int? tableId,
   String? status,
   int? guestsCount,
+  DateTime? czasZmianyStatusu,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'table_id': tableId,
       'status': status,
       'guests_count': guestsCount,
+      'czas_zmiany_statusu': czasZmianyStatusu,
     }.withoutNulls,
   );
 
@@ -92,12 +100,13 @@ class TablesRecordDocumentEquality implements Equality<TablesRecord> {
   bool equals(TablesRecord? e1, TablesRecord? e2) {
     return e1?.tableId == e2?.tableId &&
         e1?.status == e2?.status &&
-        e1?.guestsCount == e2?.guestsCount;
+        e1?.guestsCount == e2?.guestsCount &&
+        e1?.czasZmianyStatusu == e2?.czasZmianyStatusu;
   }
 
   @override
-  int hash(TablesRecord? e) =>
-      const ListEquality().hash([e?.tableId, e?.status, e?.guestsCount]);
+  int hash(TablesRecord? e) => const ListEquality()
+      .hash([e?.tableId, e?.status, e?.guestsCount, e?.czasZmianyStatusu]);
 
   @override
   bool isValidKey(Object? o) => o is TablesRecord;

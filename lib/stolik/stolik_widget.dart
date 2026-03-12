@@ -321,6 +321,11 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                       },
                                                     ),
                                                   });
+                                                  await actions
+                                                      .odswiezStatusStolika(
+                                                    stolikTablesRecord
+                                                        .reference,
+                                                  );
                                                 } else {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
@@ -414,11 +419,10 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                     },
                                                   ),
                                                 });
-
-                                                await widget.tableRef!.update(
-                                                    createTablesRecordData(
-                                                  status: 'Oczekuje na kelnera',
-                                                ));
+                                                await actions
+                                                    .odswiezStatusStolika(
+                                                  stolikTablesRecord.reference,
+                                                );
                                               },
                                             ),
                                           ].divide(SizedBox(width: 8.0)),

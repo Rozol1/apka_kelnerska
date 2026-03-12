@@ -471,6 +471,9 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                             ),
                             onPressed: () async {
                               await widget.daneZamowienia!.reference.delete();
+                              await actions.odswiezStatusStolika(
+                                _model.stolikRef!,
+                              );
                             },
                           ),
                         ],
@@ -531,8 +534,8 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                         .update(createOrderedItemsRecordData(
                                       czyDostarczone: _model.checkboxValue,
                                     ));
-                                    await actions.sprawdzWydawke(
-                                      widget.daneZamowienia!.parentReference,
+                                    await actions.odswiezStatusStolika(
+                                      _model.stolikRef!,
                                     );
                                   }
                                 },
