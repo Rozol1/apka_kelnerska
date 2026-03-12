@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/components/opcje_filtrowania_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -8,6 +9,7 @@ import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'edytuj_menu_model.dart';
 export 'edytuj_menu_model.dart';
 
@@ -44,6 +46,8 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -199,6 +203,51 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
                     validator:
                         _model.textControllerValidator.asValidator(context),
                   ),
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        barrierColor: Color(0x72000000),
+                        enableDrag: false,
+                        context: context,
+                        builder: (context) {
+                          return GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            child: Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: OpcjeFiltrowaniaWidget(),
+                            ),
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
+
+                      safeSetState(() {});
+                    },
+                    child: Text(
+                      'Filtruj wyniki',
+                      style: FlutterFlowTheme.of(context).labelLarge.override(
+                            font: GoogleFonts.inter(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .labelLarge
+                                  .fontStyle,
+                            ),
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .labelLarge
+                                .fontStyle,
+                          ),
+                    ),
+                  ),
                   StreamBuilder<List<ProductsRecord>>(
                     stream: queryProductsRecord(),
                     builder: (context, snapshot) {
@@ -226,7 +275,9 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
                             final widoczneDania = functions
                                 .wyszukajDania(
                                     containerProductsRecordList.toList(),
-                                    _model.textController.text)
+                                    _model.textController.text,
+                                    FFAppState().wybranaKategoria,
+                                    FFAppState().wybraneAlergeny.toList())
                                 .toList();
 
                             return ListView.separated(

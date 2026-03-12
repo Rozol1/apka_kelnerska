@@ -117,25 +117,48 @@ List<String> polaczAlergeny(
 List<ProductsRecord> wyszukajDania(
   List<ProductsRecord>? bazaDan,
   String? szukanaFraza,
+  String? wybranaKategoria,
+  List<String>? wybraneAlergeny,
 ) {
 // Jeśli baza jest pusta, zwróć pustą listę
   if (bazaDan == null || bazaDan.isEmpty) {
     return [];
   }
 
-  // Jeśli nikt nic nie wpisał w wyszukiwarkę, pokaż wszystkie dania
-  if (szukanaFraza == null || szukanaFraza.trim().isEmpty) {
-    return bazaDan;
+  // Zaczynamy od pełnej bazy dań
+  Iterable<ProductsRecord> wynik = bazaDan;
+
+  // 1. FILTR KATEGORII
+  if (wybranaKategoria != null && wybranaKategoria.trim().isNotEmpty) {
+    wynik = wynik.where((danie) => danie.category == wybranaKategoria);
   }
 
-  // Zamieniamy wpisaną frazę na małe litery, żeby ignorować wielkość znaków
-  final fraza = szukanaFraza.toLowerCase().trim();
+  // 2. FILTR TEKSTOWY (WYSZUKIWARKA)
+  if (szukanaFraza != null && szukanaFraza.trim().isNotEmpty) {
+    final fraza = szukanaFraza.toLowerCase().trim();
+    wynik = wynik.where((danie) {
+      final nazwaDania = danie.name?.toLowerCase() ?? '';
+      return nazwaDania.contains(fraza);
+    });
+  }
 
-  // Filtrujemy listę sprawdzając, czy nazwa dania zawiera wpisaną frazę
-  return bazaDan.where((danie) {
-    final nazwaDania = danie.name?.toLowerCase() ?? '';
-    return nazwaDania.contains(fraza);
-  }).toList();
+  // 3. FILTR ALERGENÓW (WYKLUCZANIE)
+  if (wybraneAlergeny != null && wybraneAlergeny.isNotEmpty) {
+    wynik = wynik.where((danie) {
+      final alergenyDania = danie.allergens ?? [];
+
+      // Sprawdzamy, czy danie ma w sobie którykolwiek z wykluczonych alergenów
+      for (var alergen in wybraneAlergeny) {
+        if (alergenyDania.contains(alergen)) {
+          return false; // Znaleziono zakazany alergen - odrzucamy danie z listy!
+        }
+      }
+      return true; // Danie jest czyste, zostaje na liście
+    });
+  }
+
+  // Zwracamy gotową, odfiltrowaną listę
+  return wynik.toList();
 }
 
 double formatujCene(String? wpisanaCena) {
