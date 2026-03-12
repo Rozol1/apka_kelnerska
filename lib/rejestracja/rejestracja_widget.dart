@@ -826,8 +826,10 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                           .textFieldSurenameTextController.text,
                                     ));
 
+                                await authManager.sendEmailVerification();
+
                                 context.goNamedAuth(
-                                    StronaStartowaWidget.routeName,
+                                    EkranWeryfikacjiWidget.routeName,
                                     context.mounted);
                               },
                               text: 'Zarejestruj się',

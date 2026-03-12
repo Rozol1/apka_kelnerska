@@ -151,6 +151,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: DodajDoMenuWidget.routeName,
           path: DodajDoMenuWidget.routePath,
           builder: (context, params) => DodajDoMenuWidget(),
+        ),
+        FFRoute(
+          name: EkranWeryfikacjiWidget.routeName,
+          path: EkranWeryfikacjiWidget.routePath,
+          builder: (context, params) => EkranWeryfikacjiWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

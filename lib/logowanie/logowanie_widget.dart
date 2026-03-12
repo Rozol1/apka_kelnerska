@@ -389,6 +389,7 @@ class _LogowanieWidgetState extends State<LogowanieWidget> {
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
+                              await authManager.refreshUser();
                               GoRouter.of(context).prepareAuthEvent();
 
                               final user = await authManager.signInWithEmail(
@@ -400,9 +401,15 @@ class _LogowanieWidgetState extends State<LogowanieWidget> {
                                 return;
                               }
 
-                              context.goNamedAuth(
-                                  StronaStartowaWidget.routeName,
-                                  context.mounted);
+                              if (currentUserEmailVerified == true) {
+                                context.goNamedAuth(
+                                    StronaStartowaWidget.routeName,
+                                    context.mounted);
+                              } else {
+                                context.goNamedAuth(
+                                    EkranWeryfikacjiWidget.routeName,
+                                    context.mounted);
+                              }
                             },
                             text: 'Zaloguj się',
                             options: FFButtonOptions(
