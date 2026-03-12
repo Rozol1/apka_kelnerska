@@ -301,10 +301,18 @@ class _OpcjeFiltrowaniaWidgetState extends State<OpcjeFiltrowaniaWidget> {
             ),
             FFButtonWidget(
               onPressed: () async {
-                FFAppState().wybranaKategoria = _model.choiceChipsValue1!;
-                FFAppState().wybraneAlergeny =
-                    _model.choiceChipsValues2!.toList().cast<String>();
-                safeSetState(() {});
+                if (_model.choiceChipsValue1 == 'Wszystkie') {
+                  FFAppState().wybranaKategoria = '';
+                  FFAppState().wybraneAlergeny =
+                      _model.choiceChipsValues2!.toList().cast<String>();
+                  safeSetState(() {});
+                } else {
+                  FFAppState().wybranaKategoria = _model.choiceChipsValue1!;
+                  FFAppState().wybraneAlergeny =
+                      _model.choiceChipsValues2!.toList().cast<String>();
+                  safeSetState(() {});
+                }
+
                 Navigator.pop(context);
               },
               text: 'Zastosuj filtry',
