@@ -628,8 +628,14 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                                         ),
                                                   ),
                                                   Text(
-                                                    listViewProductsRecord.price
-                                                        .toString(),
+                                                    formatNumber(
+                                                      listViewProductsRecord
+                                                          .price,
+                                                      formatType:
+                                                          FormatType.custom,
+                                                      format: '0.00 zł',
+                                                      locale: '',
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyLarge
@@ -691,8 +697,7 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                                           .reference,
                                                   itemTotalPrice:
                                                       listViewProductsRecord
-                                                          .price
-                                                          .toDouble(),
+                                                          .price,
                                                   czyDostarczone: false,
                                                 ));
 

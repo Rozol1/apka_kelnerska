@@ -1072,8 +1072,8 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
                               await ProductsRecord.collection.doc().set({
                                 ...createProductsRecordData(
                                   name: _model.textController1.text,
-                                  price:
-                                      int.tryParse(_model.textController2.text),
+                                  price: double.tryParse(
+                                      _model.textController2.text),
                                   calories:
                                       int.tryParse(_model.textController3.text),
                                   description: _model.textController5.text,

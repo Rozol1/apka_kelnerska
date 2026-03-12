@@ -223,7 +223,7 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                           Text(
                             formatNumber(
                               functions.obliczKwote(
-                                  containerProductsRecord.price.toDouble(),
+                                  containerProductsRecord.price,
                                   widget.daneZamowienia?.quantity),
                               formatType: FormatType.custom,
                               format: '0.00 zł',
@@ -266,8 +266,7 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                         .update({
                                       ...createOrderedItemsRecordData(
                                         itemTotalPrice: functions.obliczKwote(
-                                            containerProductsRecord.price
-                                                .toDouble(),
+                                            containerProductsRecord.price,
                                             functions.zmniejszIlosc(widget
                                                 .daneZamowienia!.quantity)),
                                       ),
@@ -317,8 +316,7 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                       .update({
                                     ...createOrderedItemsRecordData(
                                       itemTotalPrice: functions.obliczKwote(
-                                          containerProductsRecord.price
-                                              .toDouble(),
+                                          containerProductsRecord.price,
                                           functions.zwiekszIlosc(widget
                                               .daneZamowienia!.quantity)),
                                     ),

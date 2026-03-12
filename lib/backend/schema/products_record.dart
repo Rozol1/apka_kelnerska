@@ -21,11 +21,6 @@ class ProductsRecord extends FirestoreRecord {
   String get name => _name ?? '';
   bool hasName() => _name != null;
 
-  // "price" field.
-  int? _price;
-  int get price => _price ?? 0;
-  bool hasPrice() => _price != null;
-
   // "category" field.
   String? _category;
   String get category => _category ?? '';
@@ -46,13 +41,18 @@ class ProductsRecord extends FirestoreRecord {
   List<String> get allergens => _allergens ?? const [];
   bool hasAllergens() => _allergens != null;
 
+  // "price" field.
+  double? _price;
+  double get price => _price ?? 0.0;
+  bool hasPrice() => _price != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
-    _price = castToType<int>(snapshotData['price']);
     _category = snapshotData['category'] as String?;
     _calories = castToType<int>(snapshotData['calories']);
     _description = snapshotData['description'] as String?;
     _allergens = getDataList(snapshotData['allergens']);
+    _price = castToType<double>(snapshotData['price']);
   }
 
   static CollectionReference get collection =>
@@ -91,18 +91,18 @@ class ProductsRecord extends FirestoreRecord {
 
 Map<String, dynamic> createProductsRecordData({
   String? name,
-  int? price,
   String? category,
   int? calories,
   String? description,
+  double? price,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'name': name,
-      'price': price,
       'category': category,
       'calories': calories,
       'description': description,
+      'price': price,
     }.withoutNulls,
   );
 
@@ -116,21 +116,21 @@ class ProductsRecordDocumentEquality implements Equality<ProductsRecord> {
   bool equals(ProductsRecord? e1, ProductsRecord? e2) {
     const listEquality = ListEquality();
     return e1?.name == e2?.name &&
-        e1?.price == e2?.price &&
         e1?.category == e2?.category &&
         e1?.calories == e2?.calories &&
         e1?.description == e2?.description &&
-        listEquality.equals(e1?.allergens, e2?.allergens);
+        listEquality.equals(e1?.allergens, e2?.allergens) &&
+        e1?.price == e2?.price;
   }
 
   @override
   int hash(ProductsRecord? e) => const ListEquality().hash([
         e?.name,
-        e?.price,
         e?.category,
         e?.calories,
         e?.description,
-        e?.allergens
+        e?.allergens,
+        e?.price
       ]);
 
   @override
