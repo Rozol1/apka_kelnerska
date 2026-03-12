@@ -291,15 +291,40 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                 size: 20.0,
                                               ),
                                               onPressed: () async {
-                                                await widget.tableRef!.update({
-                                                  ...mapToFirestore(
-                                                    {
-                                                      'guests_count':
-                                                          FieldValue.increment(
-                                                              -1),
-                                                    },
-                                                  ),
-                                                });
+                                                if (stolikTablesRecord
+                                                        .guestsCount >
+                                                    0) {
+                                                  await widget.tableRef!
+                                                      .update({
+                                                    ...mapToFirestore(
+                                                      {
+                                                        'guests_count':
+                                                            FieldValue
+                                                                .increment(-1),
+                                                      },
+                                                    ),
+                                                  });
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'Liczba gości nie może być mniejsza niż 0!',
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .error,
+                                                    ),
+                                                  );
+                                                }
                                               },
                                             ),
                                             Container(
