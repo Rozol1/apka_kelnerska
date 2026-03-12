@@ -95,25 +95,6 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Umami',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).displayMedium.override(
-                        font: GoogleFonts.interTight(
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FlutterFlowTheme.of(context)
-                              .displayMedium
-                              .fontStyle,
-                        ),
-                        color: FlutterFlowTheme.of(context).primary,
-                        fontSize: 32.0,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FlutterFlowTheme.of(context)
-                            .displayMedium
-                            .fontStyle,
-                      ),
-                ),
-                Text(
                   'System obsługi kelnerskiej',
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).titleMedium.override(
