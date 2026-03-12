@@ -1,10 +1,13 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'ekran_weryfikacji_model.dart';
 export 'ekran_weryfikacji_model.dart';
@@ -28,6 +31,13 @@ class _EkranWeryfikacjiWidgetState extends State<EkranWeryfikacjiWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => EkranWeryfikacjiModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.timerController.onStartTimer();
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -160,6 +170,105 @@ class _EkranWeryfikacjiWidgetState extends State<EkranWeryfikacjiWidget> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                  child: FlutterFlowTimer(
+                    initialTime: _model.timerInitialTimeMs,
+                    getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
+                      value,
+                      hours: false,
+                      milliSecond: false,
+                    ),
+                    controller: _model.timerController,
+                    updateStateInterval: Duration(milliseconds: 1000),
+                    onChanged: (value, displayTime, shouldUpdate) {
+                      _model.timerMilliseconds = value;
+                      _model.timerValue = displayTime;
+                      if (shouldUpdate) safeSetState(() {});
+                    },
+                    onEnded: () async {
+                      _model.odswiez = true;
+                      safeSetState(() {});
+                    },
+                    textAlign: TextAlign.start,
+                    style: FlutterFlowTheme.of(context).headlineSmall.override(
+                          font: GoogleFonts.interTight(
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .fontStyle,
+                          ),
+                          letterSpacing: 0.0,
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .headlineSmall
+                              .fontWeight,
+                          fontStyle: FlutterFlowTheme.of(context)
+                              .headlineSmall
+                              .fontStyle,
+                        ),
+                  ),
+                ),
+                if (_model.timerMilliseconds == 0)
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        await authManager.sendEmailVerification();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Nowy link został wysłany!',
+                              style: TextStyle(
+                                color: FlutterFlowTheme.of(context).primaryText,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).secondary,
+                          ),
+                        );
+                        _model.timerController.onResetTimer();
+
+                        _model.timerController.onStartTimer();
+                      },
+                      text: 'Wyślij e-mail ponownie',
+                      options: FFButtonOptions(
+                        width: double.infinity,
+                        height: 50.0,
+                        padding: EdgeInsets.all(8.0),
+                        iconPadding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primary,
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  font: GoogleFonts.interTight(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                        elevation: 0.0,
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                        ),
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
