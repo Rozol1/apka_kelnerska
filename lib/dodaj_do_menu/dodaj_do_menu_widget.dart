@@ -11,6 +11,7 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dodaj_do_menu_model.dart';
 export 'dodaj_do_menu_model.dart';
@@ -334,6 +335,10 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
                                         validator: _model
                                             .textController2Validator
                                             .asValidator(context),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9.,]'))
+                                        ],
                                       ),
                                     ),
                                     Text(
@@ -464,6 +469,10 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
                                         validator: _model
                                             .textController3Validator
                                             .asValidator(context),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]'))
+                                        ],
                                       ),
                                     ),
                                     Text(
