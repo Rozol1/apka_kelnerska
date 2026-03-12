@@ -215,7 +215,9 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                 );
 
                                                 await widget.tableRef!.update(
-                                                    createTablesRecordData());
+                                                    createTablesRecordData(
+                                                  guestsCount: 0,
+                                                ));
                                               }
                                             },
                                             text: 'Zwolnij stolik',
