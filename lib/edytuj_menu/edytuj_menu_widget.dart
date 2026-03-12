@@ -116,7 +116,7 @@ class _EdytujMenuWidgetState extends State<EdytujMenuWidget> {
                     focusNode: _model.textFieldFocusNode,
                     onChanged: (_) => EasyDebounce.debounce(
                       '_model.textController',
-                      Duration(milliseconds: 2000),
+                      Duration(milliseconds: 500),
                       () => safeSetState(() {}),
                     ),
                     obscureText: false,

@@ -1118,7 +1118,7 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
                                 ...createProductsRecordData(
                                   name: _model.textController1.text,
                                   description: _model.textController5.text,
-                                  price: double.tryParse(
+                                  price: functions.formatujCene(
                                       _model.textController2.text),
                                   calories:
                                       int.tryParse(_model.textController3.text),

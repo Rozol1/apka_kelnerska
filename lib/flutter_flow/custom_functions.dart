@@ -137,3 +137,15 @@ List<ProductsRecord> wyszukajDania(
     return nazwaDania.contains(fraza);
   }).toList();
 }
+
+double formatujCene(String? wpisanaCena) {
+  if (wpisanaCena == null || wpisanaCena.trim().isEmpty) {
+    return 0.0;
+  }
+
+  // Magia: zamieniamy przecinek na kropkę
+  String poprawiona = wpisanaCena.replaceAll(',', '.');
+
+  // Zamieniamy tekst na liczbę (jeśli się nie uda, dajemy 0.0)
+  return double.tryParse(poprawiona) ?? 0.0;
+}
