@@ -8,17 +8,19 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future odswiezStatusStolika(DocumentReference stolikRef) async {
-  // 1. Dajemy bazie ułamek sekundy na zapisanie nowych kliknięć
-  await Future.delayed(Duration(milliseconds: 200));
+import 'package:cloud_firestore/cloud_firestore.dart'; // Dodany import dla GetOptions
 
-  // 2. Pobieramy dokument stolika z bazy
-  final stolikDoc = await stolikRef.get();
+Future odswiezStatusStolika(DocumentReference stolikRef) async {
+  // 1. Zostawiamy małe opóźnienie dla pewności
+  await Future.delayed(Duration(milliseconds: 600));
+
+  // 2. WYMUSZAMY ODCZYT Z SERWERA (Ignorujemy stary cache telefonu!)
+  final stolikDoc =
+      await stolikRef.get(const GetOptions(source: Source.server));
   if (!stolikDoc.exists) return;
 
   final data = stolikDoc.data() as Map<String, dynamic>? ?? {};
 
-  // 3. POPRAWKA: Pobieramy pole 'guests_count' zgodnie z Twoją bazą danych
   int liczbaOsob = 0;
   if (data['guests_count'] != null) {
     liczbaOsob = (data['guests_count'] as num).toInt();
@@ -26,13 +28,16 @@ Future odswiezStatusStolika(DocumentReference stolikRef) async {
 
   final String aktualnyStatus = data['status'] as String? ?? '';
 
-  // 4. Pobieramy wszystkie aktualne zamówienia dla tego stolika
-  final zamowienia = await stolikRef.collection('ordered_items').get();
+  // 3. POBIERAMY DANIA RÓWNIEŻ Z SERWERA
+  final zamowieniaSnapshot = await stolikRef
+      .collection('ordered_items')
+      .get(const GetOptions(source: Source.server));
+  final zamowienia = zamowieniaSnapshot.docs;
 
   String nowyStatus = 'Wolny';
 
-  // 5. LOGIKA
-  if (zamowienia.docs.isEmpty) {
+  // 4. LOGIKA STATUSÓW
+  if (zamowienia.isEmpty) {
     if (liczbaOsob > 0) {
       nowyStatus = 'Oczekuje na kelnera';
     } else {
@@ -40,10 +45,14 @@ Future odswiezStatusStolika(DocumentReference stolikRef) async {
     }
   } else {
     bool wszystkoWydane = true;
-    for (var doc in zamowienia.docs) {
-      final docData = doc.data() as Map<String, dynamic>? ?? {};
-      // Sprawdzanie czy danie jest wydane
-      if (docData['czy_dostarczone'] != true) {
+    for (var doc in zamowienia) {
+      final docData = doc.data();
+      bool czyDostarczone = false;
+      if (docData.containsKey('czy_dostarczone')) {
+        czyDostarczone = docData['czy_dostarczone'] == true;
+      }
+
+      if (!czyDostarczone) {
         wszystkoWydane = false;
         break;
       }
@@ -51,11 +60,11 @@ Future odswiezStatusStolika(DocumentReference stolikRef) async {
     nowyStatus = wszystkoWydane ? 'Do posprzątania' : 'Zajęty';
   }
 
-  // 6. Zapisujemy w bazie
+  // 5. ZAPIS W BAZIE
   if (aktualnyStatus != nowyStatus) {
     await stolikRef.update({
       'status': nowyStatus,
-      'czas_zmiany_statusu': DateTime.now(),
+      'czas_zmiany_statusu': FieldValue.serverTimestamp(),
     });
   }
 }
