@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 Future odswiezStatusStolika(DocumentReference stolikRef) async {
-  // 1. Dajemy bazie ułamek sekundy na zapisanie nowych kliknięć (Plus/Minus)
+  // 1. Dajemy bazie ułamek sekundy na zapisanie nowych kliknięć
   await Future.delayed(Duration(milliseconds: 200));
 
   // 2. Pobieramy dokument stolika z bazy
@@ -18,10 +18,10 @@ Future odswiezStatusStolika(DocumentReference stolikRef) async {
 
   final data = stolikDoc.data() as Map<String, dynamic>? ?? {};
 
-  // 3. Ultra-bezpieczne pobieranie liczby osób (niezależnie czy to int czy double)
+  // 3. POPRAWKA: Pobieramy pole 'guests_count' zgodnie z Twoją bazą danych
   int liczbaOsob = 0;
-  if (data['liczba_osob'] != null) {
-    liczbaOsob = (data['liczba_osob'] as num).toInt();
+  if (data['guests_count'] != null) {
+    liczbaOsob = (data['guests_count'] as num).toInt();
   }
 
   final String aktualnyStatus = data['status'] as String? ?? '';
@@ -42,6 +42,7 @@ Future odswiezStatusStolika(DocumentReference stolikRef) async {
     bool wszystkoWydane = true;
     for (var doc in zamowienia.docs) {
       final docData = doc.data() as Map<String, dynamic>? ?? {};
+      // Sprawdzanie czy danie jest wydane
       if (docData['czy_dostarczone'] != true) {
         wszystkoWydane = false;
         break;
