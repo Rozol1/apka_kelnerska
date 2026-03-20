@@ -344,6 +344,7 @@ class _OpcjeFiltrowaniaWidgetState extends State<OpcjeFiltrowaniaWidget> {
                 borderRadius: BorderRadius.circular(24.0),
               ),
             ),
+            Spacer(),
           ].divide(SizedBox(height: 20.0)),
         ),
       ),
