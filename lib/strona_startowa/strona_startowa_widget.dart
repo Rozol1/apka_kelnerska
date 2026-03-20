@@ -2,8 +2,11 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/instant_timer.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'strona_startowa_model.dart';
 export 'strona_startowa_model.dart';
@@ -27,6 +30,18 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => StronaStartowaModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.instantTimer = InstantTimer.periodic(
+        duration: Duration(milliseconds: 1000),
+        callback: (timer) async {
+          _model.obecnyCzas = getCurrentTimestamp;
+          safeSetState(() {});
+        },
+        startImmediately: true,
+      );
+    });
   }
 
   @override
@@ -282,6 +297,36 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                                         .fontStyle,
                                               ),
                                         ),
+                                        if ((gridViewTablesRecord.status ==
+                                                'Oczekuje na kelnera') ||
+                                            (gridViewTablesRecord.status ==
+                                                'Zajęty'))
+                                          Text(
+                                            functions.obliczCzasStolika(
+                                                gridViewTablesRecord
+                                                    .czasZmianyStatusu,
+                                                _model.obecnyCzas),
+                                            style: FlutterFlowTheme.of(context)
+                                                .titleSmall
+                                                .override(
+                                                  font: GoogleFonts.interTight(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmall
+                                                            .fontStyle,
+                                                  ),
+                                                  color: Colors.black,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .fontStyle,
+                                                ),
+                                          ),
                                         Text(
                                           gridViewTablesRecord.status,
                                           textAlign: TextAlign.center,

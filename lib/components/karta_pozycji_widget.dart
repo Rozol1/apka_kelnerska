@@ -14,9 +14,11 @@ class KartaPozycjiWidget extends StatefulWidget {
   const KartaPozycjiWidget({
     super.key,
     required this.daneZamowienia,
+    required this.stolikRef,
   });
 
   final OrderedItemsRecord? daneZamowienia;
+  final DocumentReference? stolikRef;
 
   @override
   State<KartaPozycjiWidget> createState() => _KartaPozycjiWidgetState();
@@ -472,7 +474,7 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                             onPressed: () async {
                               await widget.daneZamowienia!.reference.delete();
                               await actions.odswiezStatusStolika(
-                                _model.stolikRef!,
+                                widget.stolikRef!,
                               );
                             },
                           ),
@@ -535,7 +537,7 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                       czyDostarczone: _model.checkboxValue,
                                     ));
                                     await actions.odswiezStatusStolika(
-                                      _model.stolikRef!,
+                                      widget.stolikRef!,
                                     );
                                   } else {
                                     await widget.daneZamowienia!.reference
@@ -543,7 +545,7 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
                                       czyDostarczone: _model.checkboxValue,
                                     ));
                                     await actions.odswiezStatusStolika(
-                                      _model.stolikRef!,
+                                      widget.stolikRef!,
                                     );
                                   }
                                 },

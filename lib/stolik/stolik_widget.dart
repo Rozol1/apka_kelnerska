@@ -618,6 +618,8 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                         'Key8ur_${pojedynczeDanieIndex}_of_${pojedynczeDanie.length}'),
                                                     daneZamowienia:
                                                         pojedynczeDanieItem,
+                                                    stolikRef:
+                                                        widget.tableRef!,
                                                   ),
                                                 );
                                               },

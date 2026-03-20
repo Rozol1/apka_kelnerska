@@ -172,3 +172,27 @@ double formatujCene(String? wpisanaCena) {
   // Zamieniamy tekst na liczbę (jeśli się nie uda, dajemy 0.0)
   return double.tryParse(poprawiona) ?? 0.0;
 }
+
+String obliczCzasStolika(
+  DateTime? czasZmiany,
+  DateTime? aktualnyCzas,
+) {
+// Jeśli brakuje danych, pokazujemy zera
+  if (czasZmiany == null || aktualnyCzas == null) return "00:00";
+
+  // Obliczamy różnicę w sekundach
+  final int uplynelo = aktualnyCzas.difference(czasZmiany).inSeconds;
+
+  if (uplynelo <= 0) return "00:00"; // Zabezpieczenie przed ujemnym czasem
+
+  // Konwersja na minuty i sekundy
+  final int minuty = uplynelo ~/ 60;
+  final int sekundy = uplynelo % 60;
+
+  // Dodajemy zera z przodu (żeby było 05 zamiast 5)
+  final String minutyStr = minuty.toString().padLeft(2, '0');
+  final String sekundyStr = sekundy.toString().padLeft(2, '0');
+
+  // Zwracamy gotowy tekst dla kelnera
+  return "$minutyStr:$sekundyStr";
+}
