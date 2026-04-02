@@ -1152,9 +1152,9 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                         userSurename: _model
                                             .textFieldSurenameTextController
                                             .text,
-                                        rola: 'kelner',
                                         restaurantRef: _model.szukanaRestauracja
                                             ?.firstOrNull?.reference,
+                                        rola: 'kelner',
                                       ));
 
                                   var restaurantsRecordReference =
@@ -1276,11 +1276,11 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                           userSurename: _model
                                               .textFieldSurenameTextController
                                               .text,
-                                          rola: 'kelner',
                                           restaurantRef: _model
                                               .szukanaRestauracja
                                               ?.firstOrNull
                                               ?.reference,
+                                          rola: 'kelner',
                                         ));
 
                                     await authManager.sendEmailVerification();
