@@ -1,6 +1,9 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
 import 'rejestracja_widget.dart' show RejestracjaWidget;
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class RejestracjaModel extends FlutterFlowModel<RejestracjaWidget> {
@@ -17,9 +20,10 @@ class RejestracjaModel extends FlutterFlowModel<RejestracjaWidget> {
   String? Function(BuildContext, String?)?
       textFieldSurenameTextControllerValidator;
   // State field(s) for TextField_Mail widget.
-  FocusNode? textFieldMailFocusNode;
-  TextEditingController? textFieldMailTextController;
-  String? Function(BuildContext, String?)? textFieldMailTextControllerValidator;
+  FocusNode? textFieldMailFocusNode1;
+  TextEditingController? textFieldMailTextController1;
+  String? Function(BuildContext, String?)?
+      textFieldMailTextController1Validator;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? passwordTextController;
@@ -31,6 +35,26 @@ class RejestracjaModel extends FlutterFlowModel<RejestracjaWidget> {
   late bool passwordVisibility2;
   String? Function(BuildContext, String?)?
       confirmPasswordTextControllerValidator;
+  // State field(s) for ChoiceChips widget.
+  FormFieldController<List<String>>? choiceChipsValueController;
+  String? get choiceChipsValue =>
+      choiceChipsValueController?.value?.firstOrNull;
+  set choiceChipsValue(String? val) =>
+      choiceChipsValueController?.value = val != null ? [val] : [];
+  // State field(s) for TextField_Mail widget.
+  FocusNode? textFieldMailFocusNode2;
+  TextEditingController? textFieldMailTextController2;
+  String? Function(BuildContext, String?)?
+      textFieldMailTextController2Validator;
+  // State field(s) for TextField_Mail widget.
+  FocusNode? textFieldMailFocusNode3;
+  TextEditingController? textFieldMailTextController3;
+  String? Function(BuildContext, String?)?
+      textFieldMailTextController3Validator;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  RestaurantsRecord? stworzonaRestauracja;
+  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
+  List<RestaurantsRecord>? szukanaRestauracja;
 
   @override
   void initState(BuildContext context) {
@@ -46,13 +70,19 @@ class RejestracjaModel extends FlutterFlowModel<RejestracjaWidget> {
     textFieldSurenameFocusNode?.dispose();
     textFieldSurenameTextController?.dispose();
 
-    textFieldMailFocusNode?.dispose();
-    textFieldMailTextController?.dispose();
+    textFieldMailFocusNode1?.dispose();
+    textFieldMailTextController1?.dispose();
 
     textFieldFocusNode1?.dispose();
     passwordTextController?.dispose();
 
     textFieldFocusNode2?.dispose();
     confirmPasswordTextController?.dispose();
+
+    textFieldMailFocusNode2?.dispose();
+    textFieldMailTextController2?.dispose();
+
+    textFieldMailFocusNode3?.dispose();
+    textFieldMailTextController3?.dispose();
   }
 }

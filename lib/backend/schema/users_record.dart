@@ -55,6 +55,16 @@ class UsersRecord extends FirestoreRecord {
   String get phoneNumber => _phoneNumber ?? '';
   bool hasPhoneNumber() => _phoneNumber != null;
 
+  // "restaurant_ref" field.
+  DocumentReference? _restaurantRef;
+  DocumentReference? get restaurantRef => _restaurantRef;
+  bool hasRestaurantRef() => _restaurantRef != null;
+
+  // "rola" field.
+  String? _rola;
+  String get rola => _rola ?? '';
+  bool hasRola() => _rola != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _uid = snapshotData['uid'] as String?;
@@ -64,6 +74,8 @@ class UsersRecord extends FirestoreRecord {
     _displayName = snapshotData['display_name'] as String?;
     _photoUrl = snapshotData['photo_url'] as String?;
     _phoneNumber = snapshotData['phone_number'] as String?;
+    _restaurantRef = snapshotData['restaurant_ref'] as DocumentReference?;
+    _rola = snapshotData['rola'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -108,6 +120,8 @@ Map<String, dynamic> createUsersRecordData({
   String? displayName,
   String? photoUrl,
   String? phoneNumber,
+  DocumentReference? restaurantRef,
+  String? rola,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -119,6 +133,8 @@ Map<String, dynamic> createUsersRecordData({
       'display_name': displayName,
       'photo_url': photoUrl,
       'phone_number': phoneNumber,
+      'restaurant_ref': restaurantRef,
+      'rola': rola,
     }.withoutNulls,
   );
 
@@ -137,7 +153,9 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.userSurename == e2?.userSurename &&
         e1?.displayName == e2?.displayName &&
         e1?.photoUrl == e2?.photoUrl &&
-        e1?.phoneNumber == e2?.phoneNumber;
+        e1?.phoneNumber == e2?.phoneNumber &&
+        e1?.restaurantRef == e2?.restaurantRef &&
+        e1?.rola == e2?.rola;
   }
 
   @override
@@ -149,7 +167,9 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.userSurename,
         e?.displayName,
         e?.photoUrl,
-        e?.phoneNumber
+        e?.phoneNumber,
+        e?.restaurantRef,
+        e?.rola
       ]);
 
   @override

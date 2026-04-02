@@ -9,6 +9,7 @@ import 'schema/users_record.dart';
 import 'schema/tables_record.dart';
 import 'schema/products_record.dart';
 import 'schema/ordered_items_record.dart';
+import 'schema/restaurants_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -21,6 +22,7 @@ export 'schema/users_record.dart';
 export 'schema/tables_record.dart';
 export 'schema/products_record.dart';
 export 'schema/ordered_items_record.dart';
+export 'schema/restaurants_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -168,6 +170,43 @@ Future<List<OrderedItemsRecord>> queryOrderedItemsRecordOnce({
     queryCollectionOnce(
       OrderedItemsRecord.collection(parent),
       OrderedItemsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query RestaurantsRecords (as a Stream and as a Future).
+Future<int> queryRestaurantsRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      RestaurantsRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<RestaurantsRecord>> queryRestaurantsRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      RestaurantsRecord.collection,
+      RestaurantsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<RestaurantsRecord>> queryRestaurantsRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      RestaurantsRecord.collection,
+      RestaurantsRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

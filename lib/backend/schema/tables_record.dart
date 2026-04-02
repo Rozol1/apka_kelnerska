@@ -35,11 +35,17 @@ class TablesRecord extends FirestoreRecord {
   DateTime? get czasZmianyStatusu => _czasZmianyStatusu;
   bool hasCzasZmianyStatusu() => _czasZmianyStatusu != null;
 
+  // "restaurant_ref" field.
+  DocumentReference? _restaurantRef;
+  DocumentReference? get restaurantRef => _restaurantRef;
+  bool hasRestaurantRef() => _restaurantRef != null;
+
   void _initializeFields() {
     _tableId = castToType<int>(snapshotData['table_id']);
     _status = snapshotData['status'] as String?;
     _guestsCount = castToType<int>(snapshotData['guests_count']);
     _czasZmianyStatusu = snapshotData['czas_zmiany_statusu'] as DateTime?;
+    _restaurantRef = snapshotData['restaurant_ref'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -80,6 +86,7 @@ Map<String, dynamic> createTablesRecordData({
   String? status,
   int? guestsCount,
   DateTime? czasZmianyStatusu,
+  DocumentReference? restaurantRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -87,6 +94,7 @@ Map<String, dynamic> createTablesRecordData({
       'status': status,
       'guests_count': guestsCount,
       'czas_zmiany_statusu': czasZmianyStatusu,
+      'restaurant_ref': restaurantRef,
     }.withoutNulls,
   );
 
@@ -101,12 +109,18 @@ class TablesRecordDocumentEquality implements Equality<TablesRecord> {
     return e1?.tableId == e2?.tableId &&
         e1?.status == e2?.status &&
         e1?.guestsCount == e2?.guestsCount &&
-        e1?.czasZmianyStatusu == e2?.czasZmianyStatusu;
+        e1?.czasZmianyStatusu == e2?.czasZmianyStatusu &&
+        e1?.restaurantRef == e2?.restaurantRef;
   }
 
   @override
-  int hash(TablesRecord? e) => const ListEquality()
-      .hash([e?.tableId, e?.status, e?.guestsCount, e?.czasZmianyStatusu]);
+  int hash(TablesRecord? e) => const ListEquality().hash([
+        e?.tableId,
+        e?.status,
+        e?.guestsCount,
+        e?.czasZmianyStatusu,
+        e?.restaurantRef
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is TablesRecord;

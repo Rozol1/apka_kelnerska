@@ -464,7 +464,7 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                     ),
                                   ),
                                   Text(
-                                    'Do posprzątania',
+                                    'Obsłużony',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(

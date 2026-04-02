@@ -40,6 +40,11 @@ class OrderedItemsRecord extends FirestoreRecord {
   bool get czyDostarczone => _czyDostarczone ?? false;
   bool hasCzyDostarczone() => _czyDostarczone != null;
 
+  // "restaurant_ref" field.
+  DocumentReference? _restaurantRef;
+  DocumentReference? get restaurantRef => _restaurantRef;
+  bool hasRestaurantRef() => _restaurantRef != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -48,6 +53,7 @@ class OrderedItemsRecord extends FirestoreRecord {
     _comment = snapshotData['comment'] as String?;
     _itemTotalPrice = castToType<double>(snapshotData['item_total_price']);
     _czyDostarczone = snapshotData['czy_dostarczone'] as bool?;
+    _restaurantRef = snapshotData['restaurant_ref'] as DocumentReference?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -95,6 +101,7 @@ Map<String, dynamic> createOrderedItemsRecordData({
   String? comment,
   double? itemTotalPrice,
   bool? czyDostarczone,
+  DocumentReference? restaurantRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -103,6 +110,7 @@ Map<String, dynamic> createOrderedItemsRecordData({
       'comment': comment,
       'item_total_price': itemTotalPrice,
       'czy_dostarczone': czyDostarczone,
+      'restaurant_ref': restaurantRef,
     }.withoutNulls,
   );
 
@@ -119,7 +127,8 @@ class OrderedItemsRecordDocumentEquality
         e1?.quantity == e2?.quantity &&
         e1?.comment == e2?.comment &&
         e1?.itemTotalPrice == e2?.itemTotalPrice &&
-        e1?.czyDostarczone == e2?.czyDostarczone;
+        e1?.czyDostarczone == e2?.czyDostarczone &&
+        e1?.restaurantRef == e2?.restaurantRef;
   }
 
   @override
@@ -128,7 +137,8 @@ class OrderedItemsRecordDocumentEquality
         e?.quantity,
         e?.comment,
         e?.itemTotalPrice,
-        e?.czyDostarczone
+        e?.czyDostarczone,
+        e?.restaurantRef
       ]);
 
   @override

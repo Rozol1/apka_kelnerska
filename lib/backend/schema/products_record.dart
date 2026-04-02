@@ -46,6 +46,11 @@ class ProductsRecord extends FirestoreRecord {
   double get price => _price ?? 0.0;
   bool hasPrice() => _price != null;
 
+  // "restaurant_ref" field.
+  DocumentReference? _restaurantRef;
+  DocumentReference? get restaurantRef => _restaurantRef;
+  bool hasRestaurantRef() => _restaurantRef != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _category = snapshotData['category'] as String?;
@@ -53,6 +58,7 @@ class ProductsRecord extends FirestoreRecord {
     _description = snapshotData['description'] as String?;
     _allergens = getDataList(snapshotData['allergens']);
     _price = castToType<double>(snapshotData['price']);
+    _restaurantRef = snapshotData['restaurant_ref'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -95,6 +101,7 @@ Map<String, dynamic> createProductsRecordData({
   int? calories,
   String? description,
   double? price,
+  DocumentReference? restaurantRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -103,6 +110,7 @@ Map<String, dynamic> createProductsRecordData({
       'calories': calories,
       'description': description,
       'price': price,
+      'restaurant_ref': restaurantRef,
     }.withoutNulls,
   );
 
@@ -120,7 +128,8 @@ class ProductsRecordDocumentEquality implements Equality<ProductsRecord> {
         e1?.calories == e2?.calories &&
         e1?.description == e2?.description &&
         listEquality.equals(e1?.allergens, e2?.allergens) &&
-        e1?.price == e2?.price;
+        e1?.price == e2?.price &&
+        e1?.restaurantRef == e2?.restaurantRef;
   }
 
   @override
@@ -130,7 +139,8 @@ class ProductsRecordDocumentEquality implements Equality<ProductsRecord> {
         e?.calories,
         e?.description,
         e?.allergens,
-        e?.price
+        e?.price,
+        e?.restaurantRef
       ]);
 
   @override
