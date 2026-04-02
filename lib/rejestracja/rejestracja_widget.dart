@@ -1152,8 +1152,6 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                         userSurename: _model
                                             .textFieldSurenameTextController
                                             .text,
-                                        email: _model
-                                            .textFieldMailTextController1.text,
                                         rola: 'kelner',
                                         restaurantRef: _model.szukanaRestauracja
                                             ?.firstOrNull?.reference,
@@ -1278,15 +1276,18 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                           userSurename: _model
                                               .textFieldSurenameTextController
                                               .text,
-                                          email: _model
-                                              .textFieldMailTextController1
-                                              .text,
                                           rola: 'kelner',
                                           restaurantRef: _model
                                               .szukanaRestauracja
                                               ?.firstOrNull
                                               ?.reference,
                                         ));
+
+                                    await authManager.sendEmailVerification();
+
+                                    context.goNamedAuth(
+                                        EkranWeryfikacjiWidget.routeName,
+                                        context.mounted);
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -1304,12 +1305,6 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                       ),
                                     );
                                   }
-
-                                  await authManager.sendEmailVerification();
-
-                                  context.goNamedAuth(
-                                      EkranWeryfikacjiWidget.routeName,
-                                      context.mounted);
 
                                   safeSetState(() {});
                                 },
