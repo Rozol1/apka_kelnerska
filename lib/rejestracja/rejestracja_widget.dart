@@ -1154,6 +1154,9 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                             .text,
                                         email: _model
                                             .textFieldMailTextController1.text,
+                                        rola: 'kelner',
+                                        restaurantRef: _model.szukanaRestauracja
+                                            ?.firstOrNull?.reference,
                                       ));
 
                                   var restaurantsRecordReference =
@@ -1179,14 +1182,8 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
 
                                   await currentUserReference!
                                       .update(createUsersRecordData(
-                                    rola: 'wlasciciel',
                                     restaurantRef:
                                         _model.stworzonaRestauracja?.reference,
-                                    email: currentUserEmail,
-                                    userName:
-                                        _model.textFieldNameTextController.text,
-                                    userSurename: _model
-                                        .textFieldSurenameTextController.text,
                                   ));
                                   await authManager.sendEmailVerification();
 
@@ -1284,20 +1281,12 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                           email: _model
                                               .textFieldMailTextController1
                                               .text,
+                                          rola: 'kelner',
+                                          restaurantRef: _model
+                                              .szukanaRestauracja
+                                              ?.firstOrNull
+                                              ?.reference,
                                         ));
-
-                                    await currentUserReference!
-                                        .update(createUsersRecordData(
-                                      rola: 'kelner',
-                                      restaurantRef: _model.szukanaRestauracja
-                                          ?.firstOrNull?.reference,
-                                      email: _model
-                                          .textFieldMailTextController1.text,
-                                      userName: _model
-                                          .textFieldNameTextController.text,
-                                      userSurename: _model
-                                          .textFieldSurenameTextController.text,
-                                    ));
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
