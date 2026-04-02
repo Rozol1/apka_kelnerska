@@ -1114,114 +1114,11 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                     .textFieldMailTextController3Validator
                                     .asValidator(context),
                               ),
-                            if (_model.choiceChipsValue ==
-                                'Zakładam nową restaurację')
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  GoRouter.of(context).prepareAuthEvent();
-                                  if (_model.passwordTextController.text !=
-                                      _model
-                                          .confirmPasswordTextController.text) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Passwords don\'t match!',
-                                        ),
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  final user =
-                                      await authManager.createAccountWithEmail(
-                                    context,
-                                    _model.textFieldMailTextController1.text,
-                                    _model.passwordTextController.text,
-                                  );
-                                  if (user == null) {
-                                    return;
-                                  }
-
-                                  await UsersRecord.collection
-                                      .doc(user.uid)
-                                      .update(createUsersRecordData(
-                                        userName: _model
-                                            .textFieldNameTextController.text,
-                                        userSurename: _model
-                                            .textFieldSurenameTextController
-                                            .text,
-                                        rola: functions.przypiszRole(
-                                            _model.choiceChipsValue),
-                                        restaurantRef: _model.wybraneRef,
-                                      ));
-
-                                  var restaurantsRecordReference =
-                                      RestaurantsRecord.collection.doc();
-                                  await restaurantsRecordReference
-                                      .set(createRestaurantsRecordData(
-                                    nazwa: _model
-                                        .textFieldMailTextController2.text,
-                                    ownerRef: currentUserReference,
-                                    kodDolaczenia: functions.generujKodPin(),
-                                  ));
-                                  _model.stworzonaRestauracja =
-                                      RestaurantsRecord.getDocumentFromData(
-                                          createRestaurantsRecordData(
-                                            nazwa: _model
-                                                .textFieldMailTextController2
-                                                .text,
-                                            ownerRef: currentUserReference,
-                                            kodDolaczenia:
-                                                functions.generujKodPin(),
-                                          ),
-                                          restaurantsRecordReference);
-                                  await authManager.sendEmailVerification();
-
-                                  context.goNamedAuth(
-                                      EkranWeryfikacjiWidget.routeName,
-                                      context.mounted);
-
-                                  safeSetState(() {});
-                                },
-                                text: 'Zarejestruj się',
-                                options: FFButtonOptions(
-                                  width: double.infinity,
-                                  height: 52.0,
-                                  padding: EdgeInsets.all(8.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .override(
-                                        font: GoogleFonts.interTight(
-                                          fontWeight: FontWeight.w600,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleMedium
-                                                  .fontStyle,
-                                        ),
-                                        color: Colors.white,
-                                        fontSize: 16.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w600,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .titleMedium
-                                            .fontStyle,
-                                      ),
-                                  elevation: 0.0,
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                              ),
-                            if (_model.choiceChipsValue ==
-                                'Dołączam do istniejącej restauracji')
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  _model.szukanaRestauracja =
+                            FFButtonWidget(
+                              onPressed: () async {
+                                if (_model.choiceChipsValue ==
+                                    'Dołączam do istniejącej restauracji') {
+                                  _model.znalezionaKnajpa =
                                       await queryRestaurantsRecordOnce(
                                     queryBuilder: (restaurantsRecord) =>
                                         restaurantsRecord.where(
@@ -1229,65 +1126,18 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                       isEqualTo: _model
                                           .textFieldMailTextController3.text,
                                     ),
-                                    limit: 1,
-                                  );
-                                  if ((_model.szukanaRestauracja != null &&
-                                          (_model.szukanaRestauracja)!
-                                              .isNotEmpty) ==
-                                      true) {
-                                    _model.wybraneRef = _model
-                                        .szukanaRestauracja
-                                        ?.firstOrNull
-                                        ?.reference;
+                                    singleRecord: true,
+                                  ).then((s) => s.firstOrNull);
+                                  if (_model.znalezionaKnajpa?.reference !=
+                                      null) {
+                                    _model.wybraneRef =
+                                        _model.znalezionaKnajpa?.reference;
                                     safeSetState(() {});
-                                    GoRouter.of(context).prepareAuthEvent();
-                                    if (_model.passwordTextController.text !=
-                                        _model.confirmPasswordTextController
-                                            .text) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Passwords don\'t match!',
-                                          ),
-                                        ),
-                                      );
-                                      return;
-                                    }
-
-                                    final user = await authManager
-                                        .createAccountWithEmail(
-                                      context,
-                                      _model.textFieldMailTextController1.text,
-                                      _model.passwordTextController.text,
-                                    );
-                                    if (user == null) {
-                                      return;
-                                    }
-
-                                    await UsersRecord.collection
-                                        .doc(user.uid)
-                                        .update(createUsersRecordData(
-                                          userName: _model
-                                              .textFieldNameTextController.text,
-                                          userSurename: _model
-                                              .textFieldSurenameTextController
-                                              .text,
-                                          rola: functions.przypiszRole(
-                                              _model.choiceChipsValue),
-                                          restaurantRef: _model.wybraneRef,
-                                        ));
-
-                                    await authManager.sendEmailVerification();
-
-                                    context.goNamedAuth(
-                                        EkranWeryfikacjiWidget.routeName,
-                                        context.mounted);
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
-                                          'Błędny kod PIN! Sprawdź go i spróbuj ponownie.',
+                                          'Błędny kod dołączenia!',
                                           style: TextStyle(
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
@@ -1300,43 +1150,110 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                       ),
                                     );
                                   }
+                                }
+                                GoRouter.of(context).prepareAuthEvent();
+                                if (_model.passwordTextController.text !=
+                                    _model.confirmPasswordTextController.text) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Passwords don\'t match!',
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
 
-                                  safeSetState(() {});
-                                },
-                                text: 'Zarejestruj się',
-                                options: FFButtonOptions(
-                                  width: double.infinity,
-                                  height: 52.0,
-                                  padding: EdgeInsets.all(8.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .override(
-                                        font: GoogleFonts.interTight(
-                                          fontWeight: FontWeight.w600,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleMedium
-                                                  .fontStyle,
-                                        ),
-                                        color: Colors.white,
-                                        fontSize: 16.0,
-                                        letterSpacing: 0.0,
+                                final user =
+                                    await authManager.createAccountWithEmail(
+                                  context,
+                                  _model.textFieldMailTextController1.text,
+                                  _model.passwordTextController.text,
+                                );
+                                if (user == null) {
+                                  return;
+                                }
+
+                                await UsersRecord.collection
+                                    .doc(user.uid)
+                                    .update(createUsersRecordData(
+                                      userName: _model
+                                          .textFieldNameTextController.text,
+                                      userSurename: _model
+                                          .textFieldSurenameTextController.text,
+                                      rola: functions.przypiszRole(
+                                          _model.choiceChipsValue),
+                                      restaurantRef: _model.wybraneRef,
+                                    ));
+
+                                await authManager.sendEmailVerification();
+                                if (_model.choiceChipsValue ==
+                                    'Zakładam nową restaurację') {
+                                  var restaurantsRecordReference =
+                                      RestaurantsRecord.collection.doc();
+                                  await restaurantsRecordReference
+                                      .set(createRestaurantsRecordData(
+                                    nazwa: _model
+                                        .textFieldMailTextController2.text,
+                                    kodDolaczenia: functions.generujKodPin(),
+                                  ));
+                                  _model.stworzonaRestauracja =
+                                      RestaurantsRecord.getDocumentFromData(
+                                          createRestaurantsRecordData(
+                                            nazwa: _model
+                                                .textFieldMailTextController2
+                                                .text,
+                                            kodDolaczenia:
+                                                functions.generujKodPin(),
+                                          ),
+                                          restaurantsRecordReference);
+
+                                  await currentUserReference!
+                                      .update(createUsersRecordData(
+                                    restaurantRef:
+                                        _model.stworzonaRestauracja?.reference,
+                                  ));
+                                }
+
+                                context.goNamedAuth(
+                                    EkranWeryfikacjiWidget.routeName,
+                                    context.mounted);
+
+                                safeSetState(() {});
+                              },
+                              text: 'Zarejestruj się',
+                              options: FFButtonOptions(
+                                width: double.infinity,
+                                height: 52.0,
+                                padding: EdgeInsets.all(8.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context).primary,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleMedium
+                                    .override(
+                                      font: GoogleFonts.interTight(
                                         fontWeight: FontWeight.w600,
                                         fontStyle: FlutterFlowTheme.of(context)
                                             .titleMedium
                                             .fontStyle,
                                       ),
-                                  elevation: 0.0,
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(12.0),
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleMedium
+                                          .fontStyle,
+                                    ),
+                                elevation: 0.0,
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1.0,
                                 ),
+                                borderRadius: BorderRadius.circular(12.0),
                               ),
+                            ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 24.0, 0.0, 0.0),
