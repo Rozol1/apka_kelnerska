@@ -204,3 +204,14 @@ String generujKodPin() {
   return String.fromCharCodes(
       Iterable.generate(6, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
 }
+
+String przypiszRole(String? wyborChoiceChip) {
+// Jeśli użytkownik wybrał opcję zakładania restauracji
+  if (wyborChoiceChip == 'Zakładam nową restaurację') {
+    return 'wlasciciel';
+  }
+  // W każdym innym wypadku (czyli dołącza jako kelner)
+  else {
+    return 'kelner';
+  }
+}

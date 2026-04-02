@@ -7,6 +7,10 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class RejestracjaModel extends FlutterFlowModel<RejestracjaWidget> {
+  ///  Local state fields for this page.
+
+  DocumentReference? wybraneRef;
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -51,9 +55,9 @@ class RejestracjaModel extends FlutterFlowModel<RejestracjaWidget> {
   TextEditingController? textFieldMailTextController3;
   String? Function(BuildContext, String?)?
       textFieldMailTextController3Validator;
-  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  // Stores action output result for [Backend Call - Create Document] action in Button1 widget.
   RestaurantsRecord? stworzonaRestauracja;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
+  // Stores action output result for [Firestore Query - Query a collection] action in Button2 widget.
   List<RestaurantsRecord>? szukanaRestauracja;
 
   @override

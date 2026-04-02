@@ -14,8 +14,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'rejestracja_model.dart';
 export 'rejestracja_model.dart';
 
-/// Stwórz stronę rejestracji użytkownika, powinna zawierać, imię, nazwisko,
-/// mail, hasło, potwierdzenie hasła
 class RejestracjaWidget extends StatefulWidget {
   const RejestracjaWidget({super.key});
 
@@ -1152,9 +1150,9 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                         userSurename: _model
                                             .textFieldSurenameTextController
                                             .text,
-                                        restaurantRef: _model.szukanaRestauracja
-                                            ?.firstOrNull?.reference,
-                                        rola: 'kelner',
+                                        rola: functions.przypiszRole(
+                                            _model.choiceChipsValue),
+                                        restaurantRef: _model.wybraneRef,
                                       ));
 
                                   var restaurantsRecordReference =
@@ -1243,6 +1241,11 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                           (_model.szukanaRestauracja)!
                                               .isNotEmpty) ==
                                       true) {
+                                    _model.wybraneRef = _model
+                                        .szukanaRestauracja
+                                        ?.firstOrNull
+                                        ?.reference;
+                                    safeSetState(() {});
                                     GoRouter.of(context).prepareAuthEvent();
                                     if (_model.passwordTextController.text !=
                                         _model.confirmPasswordTextController
@@ -1276,11 +1279,9 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                           userSurename: _model
                                               .textFieldSurenameTextController
                                               .text,
-                                          restaurantRef: _model
-                                              .szukanaRestauracja
-                                              ?.firstOrNull
-                                              ?.reference,
-                                          rola: 'kelner',
+                                          rola: functions.przypiszRole(
+                                              _model.choiceChipsValue),
+                                          restaurantRef: _model.wybraneRef,
                                         ));
 
                                     await authManager.sendEmailVerification();
