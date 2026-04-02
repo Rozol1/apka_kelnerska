@@ -1175,12 +1175,6 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                                 functions.generujKodPin(),
                                           ),
                                           restaurantsRecordReference);
-
-                                  await currentUserReference!
-                                      .update(createUsersRecordData(
-                                    restaurantRef:
-                                        _model.stworzonaRestauracja?.reference,
-                                  ));
                                   await authManager.sendEmailVerification();
 
                                   context.goNamedAuth(
