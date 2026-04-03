@@ -1,14 +1,17 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'ekran_weryfikacji_model.dart';
 export 'ekran_weryfikacji_model.dart';
 
@@ -49,6 +52,8 @@ class _EkranWeryfikacjiWidgetState extends State<EkranWeryfikacjiWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -121,6 +126,31 @@ class _EkranWeryfikacjiWidgetState extends State<EkranWeryfikacjiWidget> {
                     await authManager.refreshUser();
                     await actions.reloadUser();
                     if (currentUserEmailVerified == true) {
+                      if (valueOrDefault(currentUserDocument?.rola, '') ==
+                          'wlasciciel') {
+                        var restaurantsRecordReference =
+                            RestaurantsRecord.collection.doc();
+                        await restaurantsRecordReference
+                            .set(createRestaurantsRecordData(
+                          nazwa: FFAppState().tempNazwaRestauracji,
+                          kodDolaczenia: functions.generujKodPin(),
+                          ownerRef: currentUserReference,
+                        ));
+                        _model.utworzonaRestauracja =
+                            RestaurantsRecord.getDocumentFromData(
+                                createRestaurantsRecordData(
+                                  nazwa: FFAppState().tempNazwaRestauracji,
+                                  kodDolaczenia: functions.generujKodPin(),
+                                  ownerRef: currentUserReference,
+                                ),
+                                restaurantsRecordReference);
+
+                        await currentUserReference!
+                            .update(createUsersRecordData(
+                          restaurantRef: _model.utworzonaRestauracja?.reference,
+                        ));
+                      }
+
                       context.goNamed(StronaStartowaWidget.routeName);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -137,6 +167,8 @@ class _EkranWeryfikacjiWidgetState extends State<EkranWeryfikacjiWidget> {
                         ),
                       );
                     }
+
+                    safeSetState(() {});
                   },
                   text: 'Odśwież',
                   options: FFButtonOptions(

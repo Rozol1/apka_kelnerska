@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -12,6 +13,8 @@ class EkranWeryfikacjiModel extends FlutterFlowModel<EkranWeryfikacjiWidget> {
 
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  RestaurantsRecord? utworzonaRestauracja;
   // State field(s) for Timer widget.
   final timerInitialTimeMs = 120000;
   int timerMilliseconds = 120000;

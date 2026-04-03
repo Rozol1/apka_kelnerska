@@ -1116,6 +1116,7 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                               ),
                             FFButtonWidget(
                               onPressed: () async {
+                                var _shouldSetState = false;
                                 if (_model.choiceChipsValue ==
                                     'Dołączam do istniejącej restauracji') {
                                   _model.znalezionaKnajpa =
@@ -1128,6 +1129,7 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                     ),
                                     singleRecord: true,
                                   ).then((s) => s.firstOrNull);
+                                  _shouldSetState = true;
                                   if (_model.znalezionaKnajpa?.reference !=
                                       null) {
                                     _model.wybraneRef =
@@ -1149,6 +1151,8 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                                 .secondary,
                                       ),
                                     );
+                                    if (_shouldSetState) safeSetState(() {});
+                                    return;
                                   }
                                 }
                                 GoRouter.of(context).prepareAuthEvent();
@@ -1197,7 +1201,7 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                     EkranWeryfikacjiWidget.routeName,
                                     context.mounted);
 
-                                safeSetState(() {});
+                                if (_shouldSetState) safeSetState(() {});
                               },
                               text: 'Zarejestruj się',
                               options: FFButtonOptions(
