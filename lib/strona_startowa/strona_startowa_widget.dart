@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -158,154 +159,132 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                      child: StreamBuilder<List<TablesRecord>>(
-                        stream: queryTablesRecord(
-                          queryBuilder: (tablesRecord) =>
-                              tablesRecord.orderBy('table_id'),
-                        ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    FlutterFlowTheme.of(context).primary,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          List<TablesRecord> gridViewTablesRecordList =
-                              snapshot.data!;
-
-                          return GridView.builder(
-                            padding: EdgeInsets.zero,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 12.0,
-                              mainAxisSpacing: 12.0,
-                              childAspectRatio: 0.7,
-                            ),
-                            primary: false,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: gridViewTablesRecordList.length,
-                            itemBuilder: (context, gridViewIndex) {
-                              final gridViewTablesRecord =
-                                  gridViewTablesRecordList[gridViewIndex];
-                              return InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  context.pushNamed(
-                                    StolikWidget.routeName,
-                                    queryParameters: {
-                                      'tableRef': serializeParam(
-                                        gridViewTablesRecord.reference,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                  );
-                                },
-                                child: Container(
-                                  width: 100.0,
-                                  height: 100.0,
-                                  decoration: BoxDecoration(
-                                    color: () {
-                                      if (gridViewTablesRecord.status ==
-                                          'Zajęty') {
-                                        return FlutterFlowTheme.of(context)
-                                            .success;
-                                      } else if (gridViewTablesRecord.status ==
-                                          'Do posprzątania') {
-                                        return FlutterFlowTheme.of(context)
-                                            .error;
-                                      } else if (gridViewTablesRecord.status ==
-                                          'Oczekuje na kelnera') {
-                                        return Color(0xFFFFFF00);
-                                      } else {
-                                        return Colors.white;
-                                      }
-                                    }(),
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    border: Border.all(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      width: 2.0,
+                      child: AuthUserStreamWidget(
+                        builder: (context) => StreamBuilder<List<TablesRecord>>(
+                          stream: queryTablesRecord(
+                            queryBuilder: (tablesRecord) => tablesRecord
+                                .where(
+                                  'restaurant_ref',
+                                  isEqualTo: currentUserDocument?.restaurantRef,
+                                )
+                                .orderBy('table_id'),
+                          ),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50.0,
+                                  height: 50.0,
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      FlutterFlowTheme.of(context).primary,
                                     ),
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        if (gridViewTablesRecord.status ==
-                                            'Wolny')
-                                          Icon(
-                                            Icons.table_restaurant,
-                                            color: Colors.black,
-                                            size: 24.0,
-                                          ),
-                                        if (gridViewTablesRecord.status ==
-                                            'Zajęty')
-                                          Icon(
-                                            Icons.emoji_people,
-                                            color: Colors.black,
-                                            size: 24.0,
-                                          ),
-                                        if (gridViewTablesRecord.status ==
-                                            'Oczekuje na kelnera')
-                                          Icon(
-                                            Icons.edit_note,
-                                            color: Colors.black,
-                                            size: 24.0,
-                                          ),
-                                        if (gridViewTablesRecord.status ==
-                                            'Do posprzątania')
-                                          Icon(
-                                            Icons.cleaning_services_outlined,
-                                            color: Colors.black,
-                                            size: 24.0,
-                                          ),
-                                        Text(
-                                          'Stolik ${gridViewTablesRecord.tableId.toString()}',
-                                          style: FlutterFlowTheme.of(context)
-                                              .titleSmall
-                                              .override(
-                                                font: GoogleFonts.interTight(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
-                                                          .fontStyle,
-                                                ),
-                                                color: Colors.black,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w600,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .fontStyle,
-                                              ),
+                                ),
+                              );
+                            }
+                            List<TablesRecord> gridViewTablesRecordList =
+                                snapshot.data!;
+
+                            return GridView.builder(
+                              padding: EdgeInsets.zero,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 12.0,
+                                mainAxisSpacing: 12.0,
+                                childAspectRatio: 0.7,
+                              ),
+                              primary: false,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: gridViewTablesRecordList.length,
+                              itemBuilder: (context, gridViewIndex) {
+                                final gridViewTablesRecord =
+                                    gridViewTablesRecordList[gridViewIndex];
+                                return InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    context.pushNamed(
+                                      StolikWidget.routeName,
+                                      queryParameters: {
+                                        'tableRef': serializeParam(
+                                          gridViewTablesRecord.reference,
+                                          ParamType.DocumentReference,
                                         ),
-                                        if ((gridViewTablesRecord.status ==
-                                                'Oczekuje na kelnera') ||
-                                            (gridViewTablesRecord.status ==
-                                                'Zajęty'))
+                                      }.withoutNulls,
+                                    );
+                                  },
+                                  child: Container(
+                                    width: 100.0,
+                                    height: 100.0,
+                                    decoration: BoxDecoration(
+                                      color: () {
+                                        if (gridViewTablesRecord.status ==
+                                            'Zajęty') {
+                                          return FlutterFlowTheme.of(context)
+                                              .success;
+                                        } else if (gridViewTablesRecord
+                                                .status ==
+                                            'Do posprzątania') {
+                                          return FlutterFlowTheme.of(context)
+                                              .error;
+                                        } else if (gridViewTablesRecord
+                                                .status ==
+                                            'Oczekuje na kelnera') {
+                                          return Color(0xFFFFFF00);
+                                        } else {
+                                          return Colors.white;
+                                        }
+                                      }(),
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      border: Border.all(
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(16.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          if (gridViewTablesRecord.status ==
+                                              'Wolny')
+                                            Icon(
+                                              Icons.table_restaurant,
+                                              color: Colors.black,
+                                              size: 24.0,
+                                            ),
+                                          if (gridViewTablesRecord.status ==
+                                              'Zajęty')
+                                            Icon(
+                                              Icons.emoji_people,
+                                              color: Colors.black,
+                                              size: 24.0,
+                                            ),
+                                          if (gridViewTablesRecord.status ==
+                                              'Oczekuje na kelnera')
+                                            Icon(
+                                              Icons.edit_note,
+                                              color: Colors.black,
+                                              size: 24.0,
+                                            ),
+                                          if (gridViewTablesRecord.status ==
+                                              'Do posprzątania')
+                                            Icon(
+                                              Icons.cleaning_services_outlined,
+                                              color: Colors.black,
+                                              size: 24.0,
+                                            ),
                                           Text(
-                                            functions.obliczCzasStolika(
-                                                gridViewTablesRecord
-                                                    .czasZmianyStatusu,
-                                                _model.obecnyCzas),
+                                            'Stolik ${gridViewTablesRecord.tableId.toString()}',
                                             style: FlutterFlowTheme.of(context)
                                                 .titleSmall
                                                 .override(
@@ -327,13 +306,60 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                                           .fontStyle,
                                                 ),
                                           ),
-                                        Text(
-                                          gridViewTablesRecord.status,
-                                          textAlign: TextAlign.center,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodySmall
-                                              .override(
-                                                font: GoogleFonts.inter(
+                                          if ((gridViewTablesRecord.status ==
+                                                  'Oczekuje na kelnera') ||
+                                              (gridViewTablesRecord.status ==
+                                                  'Zajęty'))
+                                            Text(
+                                              functions.obliczCzasStolika(
+                                                  gridViewTablesRecord
+                                                      .czasZmianyStatusu,
+                                                  _model.obecnyCzas),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .titleSmall
+                                                  .override(
+                                                    font:
+                                                        GoogleFonts.interTight(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontStyle,
+                                                    ),
+                                                    color: Colors.black,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmall
+                                                            .fontStyle,
+                                                  ),
+                                            ),
+                                          Text(
+                                            gridViewTablesRecord.status,
+                                            textAlign: TextAlign.center,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodySmall
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmall
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmall
+                                                            .fontStyle,
+                                                  ),
+                                                  color: Colors.black,
+                                                  fontSize: 12.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -345,27 +371,16 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                                           .bodySmall
                                                           .fontStyle,
                                                 ),
-                                                color: Colors.black,
-                                                fontSize: 12.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodySmall
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodySmall
-                                                        .fontStyle,
-                                              ),
-                                        ),
-                                      ].divide(SizedBox(height: 8.0)),
+                                          ),
+                                        ].divide(SizedBox(height: 8.0)),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        },
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ].divide(SizedBox(height: 16.0)),

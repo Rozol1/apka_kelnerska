@@ -1,3 +1,18 @@
 {
-  "indexes": []
+  "indexes": [
+    {
+      "collectionGroup": "tables",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "restaurant_ref",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "table_id",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ]
 }
