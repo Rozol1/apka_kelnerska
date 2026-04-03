@@ -8,8 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'ustawienia_model.dart';
 export 'ustawienia_model.dart';
 
-/// to teraz jeszcze potrzebuję ustawień użytkownika dla tej apki w których
-/// powinna być opcja edycji ilości stolików, i zmiany menu, oraz zmiany hasła
 class UstawieniaWidget extends StatefulWidget {
   const UstawieniaWidget({super.key});
 

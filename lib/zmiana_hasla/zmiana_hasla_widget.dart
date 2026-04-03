@@ -9,8 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'zmiana_hasla_model.dart';
 export 'zmiana_hasla_model.dart';
 
-/// dodaj podstronę z ustawień do zmiany hasła, wymaga podania starego hasła i
-/// dwukrotnie nowego
 class ZmianaHaslaWidget extends StatefulWidget {
   const ZmianaHaslaWidget({super.key});
 

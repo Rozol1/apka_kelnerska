@@ -128,34 +128,7 @@ class _EkranWeryfikacjiWidgetState extends State<EkranWeryfikacjiWidget> {
                     if (currentUserEmailVerified == true) {
                       _model.pobranyUser = await UsersRecord.getDocumentOnce(
                           currentUserReference!);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Rola z bazy to: ${_model.pobranyUser?.rola}',
-                            style: TextStyle(
-                              color: FlutterFlowTheme.of(context).primaryText,
-                            ),
-                          ),
-                          duration: Duration(milliseconds: 4000),
-                          backgroundColor:
-                              FlutterFlowTheme.of(context).secondary,
-                        ),
-                      );
                       if (_model.pobranyUser?.rola == 'wlasciciel') {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Jestem w TRUE! Nazwa to: ${FFAppState().tempNazwaRestauracji}',
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
-                            ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).secondary,
-                          ),
-                        );
-
                         var restaurantsRecordReference =
                             RestaurantsRecord.collection.doc();
                         await restaurantsRecordReference
@@ -177,20 +150,6 @@ class _EkranWeryfikacjiWidgetState extends State<EkranWeryfikacjiWidget> {
                             .update(createUsersRecordData(
                           restaurantRef: _model.utworzonaRestauracja?.reference,
                         ));
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Poszedłem w FALSE!',
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
-                            ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).secondary,
-                          ),
-                        );
                       }
 
                       context.goNamed(StronaStartowaWidget.routeName);

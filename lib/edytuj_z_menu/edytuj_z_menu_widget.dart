@@ -16,7 +16,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'edytuj_z_menu_model.dart';
 export 'edytuj_z_menu_model.dart';
 
-/// Dodaj podstronę do edycji tych pozycji z menu
 class EdytujZMenuWidget extends StatefulWidget {
   const EdytujZMenuWidget({
     super.key,

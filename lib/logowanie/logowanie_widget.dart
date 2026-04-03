@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'logowanie_model.dart';
 export 'logowanie_model.dart';
 
-/// dodaj stronę logowania
 class LogowanieWidget extends StatefulWidget {
   const LogowanieWidget({super.key});
 
