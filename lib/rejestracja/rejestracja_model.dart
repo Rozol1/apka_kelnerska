@@ -57,8 +57,6 @@ class RejestracjaModel extends FlutterFlowModel<RejestracjaWidget> {
       textFieldMailTextController3Validator;
   // Stores action output result for [Firestore Query - Query a collection] action in Button1 widget.
   RestaurantsRecord? znalezionaKnajpa;
-  // Stores action output result for [Backend Call - Create Document] action in Button1 widget.
-  RestaurantsRecord? stworzonaRestauracja;
 
   @override
   void initState(BuildContext context) {

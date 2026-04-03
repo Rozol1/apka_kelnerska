@@ -1186,34 +1186,12 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
                                       restaurantRef: _model.wybraneRef,
                                     ));
 
+                                FFAppState().tempNazwaRestauracji =
+                                    _model.textFieldMailTextController2.text;
+                                FFAppState().tempPinRestauracji =
+                                    _model.textFieldMailTextController3.text;
+                                safeSetState(() {});
                                 await authManager.sendEmailVerification();
-                                if (_model.choiceChipsValue ==
-                                    'Zakładam nową restaurację') {
-                                  var restaurantsRecordReference =
-                                      RestaurantsRecord.collection.doc();
-                                  await restaurantsRecordReference
-                                      .set(createRestaurantsRecordData(
-                                    nazwa: _model
-                                        .textFieldMailTextController2.text,
-                                    kodDolaczenia: functions.generujKodPin(),
-                                  ));
-                                  _model.stworzonaRestauracja =
-                                      RestaurantsRecord.getDocumentFromData(
-                                          createRestaurantsRecordData(
-                                            nazwa: _model
-                                                .textFieldMailTextController2
-                                                .text,
-                                            kodDolaczenia:
-                                                functions.generujKodPin(),
-                                          ),
-                                          restaurantsRecordReference);
-
-                                  await currentUserReference!
-                                      .update(createUsersRecordData(
-                                    restaurantRef:
-                                        _model.stworzonaRestauracja?.reference,
-                                  ));
-                                }
 
                                 context.goNamedAuth(
                                     EkranWeryfikacjiWidget.routeName,
