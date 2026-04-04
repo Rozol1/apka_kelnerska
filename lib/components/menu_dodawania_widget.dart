@@ -45,7 +45,9 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
       _model.wynikZAkcji = await actions.pobierzAlergenyZbazy();
       _model.listaAlergenow = _model.wynikZAkcji!.toList().cast<String>();
       safeSetState(() {});
-      _model.wynikKategorii = await actions.pobierzKategorieZbazy();
+      _model.wynikKategorii = await actions.pobierzKategorieZbazy(
+        currentUserDocument?.restaurantRef,
+      );
       _model.listaKategorii = _model.wynikKategorii!.toList().cast<String>();
       safeSetState(() {});
     });

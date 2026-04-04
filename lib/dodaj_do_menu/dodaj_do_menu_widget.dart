@@ -42,7 +42,9 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
       _model.pobraneAlergeny = await actions.pobierzAlergenyZbazy();
       _model.listaAlergenow = _model.pobraneAlergeny!.toList().cast<String>();
       safeSetState(() {});
-      _model.pobraneKategorie = await actions.pobierzKategorieZbazy();
+      _model.pobraneKategorie = await actions.pobierzKategorieZbazy(
+        currentUserDocument?.restaurantRef,
+      );
       _model.listaKategorii = _model.pobraneKategorie!.toList().cast<String>();
       safeSetState(() {});
     });

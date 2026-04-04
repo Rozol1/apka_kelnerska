@@ -10,11 +10,15 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future<List<String>> pobierzKategorieZbazy() async {
+Future<List<String>> pobierzKategorieZbazy(
+    DocumentReference? restauracjaRef) async {
   try {
     final firestore = FirebaseFirestore.instance;
     // Pobieramy całe menu
-    final snapshot = await firestore.collection('products').get();
+    final snapshot = await firestore
+        .collection('products')
+        .where('restaurant_ref', isEqualTo: restauracjaRef)
+        .get();
 
     Set<String> unikalne = {};
 

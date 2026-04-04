@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -33,7 +34,9 @@ class _OpcjeFiltrowaniaWidgetState extends State<OpcjeFiltrowaniaWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.pobraneKategorie = await actions.pobierzKategorieZbazy();
+      _model.pobraneKategorie = await actions.pobierzKategorieZbazy(
+        currentUserDocument?.restaurantRef,
+      );
       _model.pobraneAlergeny = await actions.pobierzAlergenyZbazy();
       _model.listaKategorii = _model.pobraneKategorie!.toList().cast<String>();
       _model.listaAlergenow = _model.pobraneAlergeny!.toList().cast<String>();
