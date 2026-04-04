@@ -1102,6 +1102,8 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
                                           'Inna kategoria...'
                                       ? _model.textController4.text
                                       : _model.dropDownValue,
+                                  restaurantRef:
+                                      currentUserDocument?.restaurantRef,
                                 ),
                                 ...mapToFirestore(
                                   {

@@ -766,6 +766,9 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
                                                         listViewProductsRecord
                                                             .price,
                                                     czyDostarczone: false,
+                                                    restaurantRef:
+                                                        currentUserDocument
+                                                            ?.restaurantRef,
                                                   ));
                                                   Navigator.pop(context);
                                                   await actions
