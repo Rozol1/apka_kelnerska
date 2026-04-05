@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'kod_restauracji_model.dart';
 export 'kod_restauracji_model.dart';
@@ -48,13 +49,9 @@ class _KodRestauracjiWidgetState extends State<KodRestauracjiWidget> {
   @override
   Widget build(BuildContext context) {
     return AuthUserStreamWidget(
-      builder: (context) => StreamBuilder<List<TablesRecord>>(
-        stream: queryTablesRecord(
-          queryBuilder: (tablesRecord) => tablesRecord.where(
-            'restaurant_ref',
-            isEqualTo: currentUserDocument?.restaurantRef,
-          ),
-        ),
+      builder: (context) => StreamBuilder<RestaurantsRecord>(
+        stream:
+            RestaurantsRecord.getDocument(currentUserDocument!.restaurantRef!),
         builder: (context, snapshot) {
           // Customize what your widget looks like when it's loading.
           if (!snapshot.hasData) {
@@ -73,7 +70,8 @@ class _KodRestauracjiWidgetState extends State<KodRestauracjiWidget> {
               ),
             );
           }
-          List<TablesRecord> kodRestauracjiTablesRecordList = snapshot.data!;
+
+          final kodRestauracjiRestaurantsRecord = snapshot.data!;
 
           return GestureDetector(
             onTap: () {
@@ -139,7 +137,7 @@ class _KodRestauracjiWidgetState extends State<KodRestauracjiWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 16.0),
                           child: Text(
-                            'Restauracja - ',
+                            'Restauracja - ${kodRestauracjiRestaurantsRecord.nazwa}',
                             textAlign: TextAlign.center,
                             style: FlutterFlowTheme.of(context)
                                 .bodyLarge
@@ -164,31 +162,65 @@ class _KodRestauracjiWidgetState extends State<KodRestauracjiWidget> {
                       ),
                       Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0),
                         child: Text(
                           'Kod zaproszenia',
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
                                 font: GoogleFonts.inter(
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
+                                  fontWeight: FontWeight.w500,
                                   fontStyle: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .fontStyle,
                                 ),
                                 color:
                                     FlutterFlowTheme.of(context).secondaryText,
+                                fontSize: 20.0,
                                 letterSpacing: 0.0,
-                                fontWeight: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontWeight,
+                                fontWeight: FontWeight.w500,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontStyle,
                                 lineHeight: 1.4,
                               ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            await Clipboard.setData(ClipboardData(
+                                text: kodRestauracjiRestaurantsRecord
+                                    .kodDolaczenia));
+                          },
+                          child: Text(
+                            kodRestauracjiRestaurantsRecord.kodDolaczenia,
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  fontSize: 20.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                  lineHeight: 1.4,
+                                ),
+                          ),
                         ),
                       ),
                     ],
