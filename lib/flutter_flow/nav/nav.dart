@@ -156,6 +156,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: EkranWeryfikacjiWidget.routeName,
           path: EkranWeryfikacjiWidget.routePath,
           builder: (context, params) => EkranWeryfikacjiWidget(),
+        ),
+        FFRoute(
+          name: KodRestauracjiWidget.routeName,
+          path: KodRestauracjiWidget.routePath,
+          builder: (context, params) => KodRestauracjiWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

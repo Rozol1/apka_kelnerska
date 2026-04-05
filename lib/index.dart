@@ -12,3 +12,4 @@ export '/edytuj_z_menu/edytuj_z_menu_widget.dart' show EdytujZMenuWidget;
 export '/dodaj_do_menu/dodaj_do_menu_widget.dart' show DodajDoMenuWidget;
 export '/ekran_weryfikacji/ekran_weryfikacji_widget.dart'
     show EkranWeryfikacjiWidget;
+export '/kod_restauracji/kod_restauracji_widget.dart' show KodRestauracjiWidget;
