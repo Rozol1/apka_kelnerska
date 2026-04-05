@@ -411,15 +411,42 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                 size: 20.0,
                                               ),
                                               onPressed: () async {
-                                                await widget.tableRef!.update({
-                                                  ...mapToFirestore(
-                                                    {
-                                                      'guests_count':
-                                                          FieldValue.increment(
-                                                              1),
-                                                    },
-                                                  ),
-                                                });
+                                                if (stolikTablesRecord
+                                                        .guestsCount <
+                                                    16) {
+                                                  await widget.tableRef!
+                                                      .update({
+                                                    ...mapToFirestore(
+                                                      {
+                                                        'guests_count':
+                                                            FieldValue
+                                                                .increment(1),
+                                                      },
+                                                    ),
+                                                  });
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'Liczba gości przy jednym stoliku nie może być większa niż 15!',
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                    ),
+                                                  );
+                                                  return;
+                                                }
+
                                                 await actions
                                                     .odswiezStatusStolika(
                                                   stolikTablesRecord.reference,
