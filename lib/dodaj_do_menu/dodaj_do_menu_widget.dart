@@ -39,7 +39,9 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.pobraneAlergeny = await actions.pobierzAlergenyZbazy();
+      _model.pobraneAlergeny = await actions.pobierzAlergenyZbazy(
+        currentUserDocument?.restaurantRef,
+      );
       _model.listaAlergenow = _model.pobraneAlergeny!.toList().cast<String>();
       safeSetState(() {});
       _model.pobraneKategorie = await actions.pobierzKategorieZbazy(

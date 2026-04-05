@@ -37,7 +37,9 @@ class _OpcjeFiltrowaniaWidgetState extends State<OpcjeFiltrowaniaWidget> {
       _model.pobraneKategorie = await actions.pobierzKategorieZbazy(
         currentUserDocument?.restaurantRef,
       );
-      _model.pobraneAlergeny = await actions.pobierzAlergenyZbazy();
+      _model.pobraneAlergeny = await actions.pobierzAlergenyZbazy(
+        currentUserDocument?.restaurantRef,
+      );
       _model.listaKategorii = _model.pobraneKategorie!.toList().cast<String>();
       _model.listaAlergenow = _model.pobraneAlergeny!.toList().cast<String>();
       safeSetState(() {});

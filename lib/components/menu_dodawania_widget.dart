@@ -42,7 +42,9 @@ class _MenuDodawaniaWidgetState extends State<MenuDodawaniaWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.wynikZAkcji = await actions.pobierzAlergenyZbazy();
+      _model.wynikZAkcji = await actions.pobierzAlergenyZbazy(
+        currentUserDocument?.restaurantRef,
+      );
       _model.listaAlergenow = _model.wynikZAkcji!.toList().cast<String>();
       safeSetState(() {});
       _model.wynikKategorii = await actions.pobierzKategorieZbazy(

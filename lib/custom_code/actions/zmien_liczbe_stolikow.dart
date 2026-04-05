@@ -10,9 +10,12 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future zmienLiczbeStolikow(int nowaLiczba) async {
+Future zmienLiczbeStolikow(
+    int nowaLiczba, DocumentReference restauracjaRef) async {
   final tablesCollection = FirebaseFirestore.instance.collection('tables');
-  final snapshot = await tablesCollection.get();
+  final snapshot = await tablesCollection
+      .where('restaurant_ref', isEqualTo: restauracjaRef)
+      .get();
 
   // Sortujemy stoliki po ID, żeby wiedzieć które są ostatnie
   final currentDocs = snapshot.docs.toList()
@@ -28,6 +31,7 @@ Future zmienLiczbeStolikow(int nowaLiczba) async {
         'table_id': i,
         'status': 'Wolny',
         'guests_count': 0,
+        'restaurant_ref': restauracjaRef,
       });
     }
   } else if (nowaLiczba < aktualnaLiczba) {

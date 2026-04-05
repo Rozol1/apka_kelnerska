@@ -541,6 +541,7 @@ class _OpcjaLiczbaStolikowWidgetState extends State<OpcjaLiczbaStolikowWidget> {
                               onPressed: () async {
                                 await actions.zmienLiczbeStolikow(
                                   _model.licznikStolikow,
+                                  currentUserDocument!.restaurantRef!,
                                 );
 
                                 context

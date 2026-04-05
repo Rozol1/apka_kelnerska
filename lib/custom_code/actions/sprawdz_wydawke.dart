@@ -8,9 +8,13 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future sprawdzWydawke(DocumentReference stolikRef) async {
+Future sprawdzWydawke(
+    DocumentReference stolikRef, DocumentReference? restauracjaRef) async {
   // Pobieramy wszystkie dania przypisane do tego stolika
-  final zamowienia = await stolikRef.collection('ordered_items').get();
+  final zamowienia = await stolikRef
+      .collection('ordered_items')
+      .where('restaurant_ref', isEqualTo: restauracjaRef)
+      .get();
 
   if (zamowienia.docs.isEmpty)
     return; // Jeśli stolik jest pusty, nic nie robimy
