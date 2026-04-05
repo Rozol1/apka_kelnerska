@@ -145,6 +145,10 @@ class _EkranWeryfikacjiWidgetState extends State<EkranWeryfikacjiWidget> {
                                   ownerRef: _model.pobranyUser?.reference,
                                 ),
                                 restaurantsRecordReference);
+                        await actions.zmienLiczbeStolikow(
+                          3,
+                          _model.utworzonaRestauracja!.reference,
+                        );
 
                         await currentUserReference!
                             .update(createUsersRecordData(
