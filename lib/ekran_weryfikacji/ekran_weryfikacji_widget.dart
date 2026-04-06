@@ -5,7 +5,6 @@ import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
-import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
@@ -129,19 +128,22 @@ class _EkranWeryfikacjiWidgetState extends State<EkranWeryfikacjiWidget> {
                       _model.pobranyUser = await UsersRecord.getDocumentOnce(
                           currentUserReference!);
                       if (_model.pobranyUser?.rola == 'wlasciciel') {
+                        _model.wylosowanyKod =
+                            await actions.generujUnikalnyKodPin();
+
                         var restaurantsRecordReference =
                             RestaurantsRecord.collection.doc();
                         await restaurantsRecordReference
                             .set(createRestaurantsRecordData(
                           nazwa: FFAppState().tempNazwaRestauracji,
-                          kodDolaczenia: functions.generujKodPin(),
+                          kodDolaczenia: _model.wylosowanyKod,
                           ownerRef: _model.pobranyUser?.reference,
                         ));
                         _model.utworzonaRestauracja =
                             RestaurantsRecord.getDocumentFromData(
                                 createRestaurantsRecordData(
                                   nazwa: FFAppState().tempNazwaRestauracji,
-                                  kodDolaczenia: functions.generujKodPin(),
+                                  kodDolaczenia: _model.wylosowanyKod,
                                   ownerRef: _model.pobranyUser?.reference,
                                 ),
                                 restaurantsRecordReference);

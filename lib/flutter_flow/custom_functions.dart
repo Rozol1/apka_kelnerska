@@ -197,14 +197,6 @@ String obliczCzasStolika(
   return "$minutyStr:$sekundyStr";
 }
 
-String generujKodPin() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  final rnd = math.Random();
-  // Generuje losowy 6-znakowy kod
-  return String.fromCharCodes(
-      Iterable.generate(6, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
-}
-
 String przypiszRole(String? wyborChoiceChip) {
 // Jeśli użytkownik wybrał opcję zakładania restauracji
   if (wyborChoiceChip == 'Zakładam nową restaurację') {

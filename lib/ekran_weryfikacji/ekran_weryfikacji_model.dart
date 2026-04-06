@@ -15,6 +15,8 @@ class EkranWeryfikacjiModel extends FlutterFlowModel<EkranWeryfikacjiWidget> {
 
   // Stores action output result for [Backend Call - Read Document] action in Button widget.
   UsersRecord? pobranyUser;
+  // Stores action output result for [Custom Action - generujUnikalnyKodPin] action in Button widget.
+  String? wylosowanyKod;
   // Stores action output result for [Backend Call - Create Document] action in Button widget.
   RestaurantsRecord? utworzonaRestauracja;
   // State field(s) for Timer widget.
