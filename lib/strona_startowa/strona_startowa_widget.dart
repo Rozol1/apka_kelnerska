@@ -230,7 +230,7 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                               .success;
                                         } else if (gridViewTablesRecord
                                                 .status ==
-                                            'Do posprzątania') {
+                                            'Obsłużony') {
                                           return FlutterFlowTheme.of(context)
                                               .error;
                                         } else if (gridViewTablesRecord
@@ -277,7 +277,7 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                               size: 24.0,
                                             ),
                                           if (gridViewTablesRecord.status ==
-                                              'Do posprzątania')
+                                              'Obsłużony')
                                             Icon(
                                               Icons.cleaning_services_outlined,
                                               color: Colors.black,

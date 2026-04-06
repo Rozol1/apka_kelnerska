@@ -57,7 +57,7 @@ Future odswiezStatusStolika(DocumentReference stolikRef) async {
         break;
       }
     }
-    nowyStatus = wszystkoWydane ? 'Do posprzątania' : 'Zajęty';
+    nowyStatus = wszystkoWydane ? 'Obsłużony' : 'Zajęty';
   }
 
   // 5. ZAPIS W BAZIE

@@ -175,7 +175,7 @@ class _StolikWidgetState extends State<StolikWidget> {
                                               ),
                                         ),
                                         if (stolikTablesRecord.status ==
-                                            'Do posprzątania')
+                                            'Obsłużony')
                                           FFButtonWidget(
                                             onPressed: () async {
                                               var confirmDialogResponse =
