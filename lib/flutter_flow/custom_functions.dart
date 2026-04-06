@@ -177,24 +177,34 @@ String obliczCzasStolika(
   DateTime? czasZmiany,
   DateTime? aktualnyCzas,
 ) {
-// Jeśli brakuje danych, pokazujemy zera
-  if (czasZmiany == null || aktualnyCzas == null) return "00:00";
+  // 1. Zabezpieczenie przed brakiem danych
+  if (czasZmiany == null || aktualnyCzas == null) return "00:00:00";
 
-  // Obliczamy różnicę w sekundach
-  final int uplynelo = aktualnyCzas.difference(czasZmiany).inSeconds;
+  // 2. Obliczamy różnicę
+  Duration roznica = aktualnyCzas.difference(czasZmiany);
 
-  if (uplynelo <= 0) return "00:00"; // Zabezpieczenie przed ujemnym czasem
+  // 3. Sprawdzamy czy czas nie jest ujemny
+  if (roznica.isNegative) return "00:00:00";
 
-  // Konwersja na minuty i sekundy
-  final int minuty = uplynelo ~/ 60;
-  final int sekundy = uplynelo % 60;
+  // 4. Blokada na 24 godziny (86400 sekund)
+  const int sekundyWDoie = 24 * 60 * 60;
+  if (roznica.inSeconds >= sekundyWDoie) {
+    return "24:00:00";
+  }
 
-  // Dodajemy zera z przodu (żeby było 05 zamiast 5)
-  final String minutyStr = minuty.toString().padLeft(2, '0');
-  final String sekundyStr = sekundy.toString().padLeft(2, '0');
+  // 5. Pobieramy poszczególne jednostki
+  int godziny = roznica.inHours;
+  int minuty = roznica.inMinutes.remainder(60);
+  int sekundy = roznica.inSeconds.remainder(60);
 
-  // Zwracamy gotowy tekst dla kelnera
-  return "$minutyStr:$sekundyStr";
+  // 6. Formatujemy do HH:mm:ss (z zerami z przodu)
+  String hStr = godziny.toString().padLeft(2, '0');
+  String mStr = minuty.toString().padLeft(2, '0');
+  String sStr = sekundy.toString().padLeft(2, '0');
+
+  // Zwracamy format zależny od tego, czy minęła godzina
+  // Jeśli wolisz, żeby ZAWSZE były 3 człony (godziny:minuty:sekundy), użyj po prostu:
+  return "$hStr:$mStr:$sStr";
 }
 
 String przypiszRole(String? wyborChoiceChip) {
