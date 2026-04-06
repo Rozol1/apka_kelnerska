@@ -330,6 +330,7 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                                               .fontStyle,
                                                     ),
                                                     color: Colors.black,
+                                                    fontSize: 14.0,
                                                     letterSpacing: 0.0,
                                                     fontWeight: FontWeight.w600,
                                                     fontStyle:

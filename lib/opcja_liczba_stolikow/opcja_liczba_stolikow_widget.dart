@@ -35,7 +35,12 @@ class _OpcjaLiczbaStolikowWidgetState extends State<OpcjaLiczbaStolikowWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.pobraneStoliki = await queryTablesRecordOnce();
+      _model.pobraneStoliki = await queryTablesRecordOnce(
+        queryBuilder: (tablesRecord) => tablesRecord.where(
+          'restaurant_ref',
+          isEqualTo: currentUserDocument?.restaurantRef,
+        ),
+      );
       _model.licznikStolikow = _model.pobraneStoliki!.length;
       safeSetState(() {});
     });
