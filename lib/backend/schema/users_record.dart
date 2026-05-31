@@ -65,6 +65,16 @@ class UsersRecord extends FirestoreRecord {
   String get rola => _rola ?? '';
   bool hasRola() => _rola != null;
 
+  // "oczekuje_na_usuniecie" field.
+  bool? _oczekujeNaUsuniecie;
+  bool get oczekujeNaUsuniecie => _oczekujeNaUsuniecie ?? false;
+  bool hasOczekujeNaUsuniecie() => _oczekujeNaUsuniecie != null;
+
+  // "data_usuniecia" field.
+  DateTime? _dataUsuniecia;
+  DateTime? get dataUsuniecia => _dataUsuniecia;
+  bool hasDataUsuniecia() => _dataUsuniecia != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _uid = snapshotData['uid'] as String?;
@@ -76,6 +86,8 @@ class UsersRecord extends FirestoreRecord {
     _phoneNumber = snapshotData['phone_number'] as String?;
     _restaurantRef = snapshotData['restaurant_ref'] as DocumentReference?;
     _rola = snapshotData['rola'] as String?;
+    _oczekujeNaUsuniecie = snapshotData['oczekuje_na_usuniecie'] as bool?;
+    _dataUsuniecia = snapshotData['data_usuniecia'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -122,6 +134,8 @@ Map<String, dynamic> createUsersRecordData({
   String? phoneNumber,
   DocumentReference? restaurantRef,
   String? rola,
+  bool? oczekujeNaUsuniecie,
+  DateTime? dataUsuniecia,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -135,6 +149,8 @@ Map<String, dynamic> createUsersRecordData({
       'phone_number': phoneNumber,
       'restaurant_ref': restaurantRef,
       'rola': rola,
+      'oczekuje_na_usuniecie': oczekujeNaUsuniecie,
+      'data_usuniecia': dataUsuniecia,
     }.withoutNulls,
   );
 
@@ -155,7 +171,9 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.photoUrl == e2?.photoUrl &&
         e1?.phoneNumber == e2?.phoneNumber &&
         e1?.restaurantRef == e2?.restaurantRef &&
-        e1?.rola == e2?.rola;
+        e1?.rola == e2?.rola &&
+        e1?.oczekujeNaUsuniecie == e2?.oczekujeNaUsuniecie &&
+        e1?.dataUsuniecia == e2?.dataUsuniecia;
   }
 
   @override
@@ -169,7 +187,9 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.photoUrl,
         e?.phoneNumber,
         e?.restaurantRef,
-        e?.rola
+        e?.rola,
+        e?.oczekujeNaUsuniecie,
+        e?.dataUsuniecia
       ]);
 
   @override

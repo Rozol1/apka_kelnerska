@@ -217,3 +217,8 @@ String przypiszRole(String? wyborChoiceChip) {
     return 'kelner';
   }
 }
+
+DateTime obliczCzasUsuniecia() {
+// Pobieramy obecny czas telefonu i dodajemy do niego równo 48 godzin
+  return DateTime.now().add(const Duration(hours: 48));
+}

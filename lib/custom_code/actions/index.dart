@@ -7,3 +7,4 @@ export 'zmien_haslo_bezpiecznie.dart' show zmienHasloBezpiecznie;
 export 'reload_user.dart' show reloadUser;
 export 'odswiez_status_stolika.dart' show odswiezStatusStolika;
 export 'generuj_unikalny_kod_pin.dart' show generujUnikalnyKodPin;
+export 'usun_kaskadowo.dart' show usunKaskadowo;

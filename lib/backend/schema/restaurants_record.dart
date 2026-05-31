@@ -30,10 +30,22 @@ class RestaurantsRecord extends FirestoreRecord {
   DocumentReference? get ownerRef => _ownerRef;
   bool hasOwnerRef() => _ownerRef != null;
 
+  // "trwa_likwidacja_lokalu" field.
+  bool? _trwaLikwidacjaLokalu;
+  bool get trwaLikwidacjaLokalu => _trwaLikwidacjaLokalu ?? false;
+  bool hasTrwaLikwidacjaLokalu() => _trwaLikwidacjaLokalu != null;
+
+  // "data_likwidacji_lokalu" field.
+  DateTime? _dataLikwidacjiLokalu;
+  DateTime? get dataLikwidacjiLokalu => _dataLikwidacjiLokalu;
+  bool hasDataLikwidacjiLokalu() => _dataLikwidacjiLokalu != null;
+
   void _initializeFields() {
     _nazwa = snapshotData['nazwa'] as String?;
     _kodDolaczenia = snapshotData['kod_dolaczenia'] as String?;
     _ownerRef = snapshotData['owner_ref'] as DocumentReference?;
+    _trwaLikwidacjaLokalu = snapshotData['trwa_likwidacja_lokalu'] as bool?;
+    _dataLikwidacjiLokalu = snapshotData['data_likwidacji_lokalu'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -74,12 +86,16 @@ Map<String, dynamic> createRestaurantsRecordData({
   String? nazwa,
   String? kodDolaczenia,
   DocumentReference? ownerRef,
+  bool? trwaLikwidacjaLokalu,
+  DateTime? dataLikwidacjiLokalu,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'nazwa': nazwa,
       'kod_dolaczenia': kodDolaczenia,
       'owner_ref': ownerRef,
+      'trwa_likwidacja_lokalu': trwaLikwidacjaLokalu,
+      'data_likwidacji_lokalu': dataLikwidacjiLokalu,
     }.withoutNulls,
   );
 
@@ -93,12 +109,19 @@ class RestaurantsRecordDocumentEquality implements Equality<RestaurantsRecord> {
   bool equals(RestaurantsRecord? e1, RestaurantsRecord? e2) {
     return e1?.nazwa == e2?.nazwa &&
         e1?.kodDolaczenia == e2?.kodDolaczenia &&
-        e1?.ownerRef == e2?.ownerRef;
+        e1?.ownerRef == e2?.ownerRef &&
+        e1?.trwaLikwidacjaLokalu == e2?.trwaLikwidacjaLokalu &&
+        e1?.dataLikwidacjiLokalu == e2?.dataLikwidacjiLokalu;
   }
 
   @override
-  int hash(RestaurantsRecord? e) =>
-      const ListEquality().hash([e?.nazwa, e?.kodDolaczenia, e?.ownerRef]);
+  int hash(RestaurantsRecord? e) => const ListEquality().hash([
+        e?.nazwa,
+        e?.kodDolaczenia,
+        e?.ownerRef,
+        e?.trwaLikwidacjaLokalu,
+        e?.dataLikwidacjiLokalu
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is RestaurantsRecord;
