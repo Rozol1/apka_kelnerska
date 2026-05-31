@@ -145,7 +145,7 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                 backgroundColor: FlutterFlowTheme.of(context).primary,
                 automaticallyImplyLeading: false,
                 title: Text(
-                  'Umami - Panel Kelnera',
+                  'Panel Kelnera',
                   style: FlutterFlowTheme.of(context).headlineMedium.override(
                         font: GoogleFonts.interTight(
                           fontWeight: FontWeight.w600,
