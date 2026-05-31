@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/instant_timer.dart';
 import '/index.dart';
@@ -11,6 +12,8 @@ class StronaStartowaModel extends FlutterFlowModel<StronaStartowaWidget> {
 
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Backend Call - Read Document] action in strona_startowa widget.
+  RestaurantsRecord? pobranaRestauracja;
   InstantTimer? instantTimer;
 
   @override

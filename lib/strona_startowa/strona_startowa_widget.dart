@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/instant_timer.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,59 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.pobranaRestauracja = await RestaurantsRecord.getDocumentOnce(
+          currentUserDocument!.restaurantRef!);
+      if ((_model.pobranaRestauracja?.trwaLikwidacjaLokalu == true) &&
+          (getCurrentTimestamp >
+              _model.pobranaRestauracja!.dataLikwidacjiLokalu!)) {
+        if (valueOrDefault(currentUserDocument?.rola, '') == 'wlasciciel') {
+          await actions.usunKaskadowo(
+            currentUserDocument!.restaurantRef!.id,
+          );
+          await authManager.deleteUser(context);
+
+          context.pushNamed(LogowanieWidget.routeName);
+
+          return;
+        } else {
+          await showDialog(
+            context: context,
+            builder: (alertDialogContext) {
+              return AlertDialog(
+                title: Text('Konto usunięte'),
+                content: Text(
+                    'Restauracja została zlikwidowana. Twoje konto wygasło.'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(alertDialogContext),
+                    child: Text('Ok'),
+                  ),
+                ],
+              );
+            },
+          );
+          await currentUserReference!.delete();
+          await authManager.deleteUser(context);
+
+          context.pushNamed(LogowanieWidget.routeName);
+
+          return;
+        }
+      } else {
+        if ((valueOrDefault(currentUserDocument?.rola, '') == 'kelner') &&
+            (valueOrDefault<bool>(
+                    currentUserDocument?.oczekujeNaUsuniecie, false) ==
+                true) &&
+            (getCurrentTimestamp > currentUserDocument!.dataUsuniecia!)) {
+          await currentUserReference!.delete();
+          await authManager.deleteUser(context);
+
+          context.pushNamed(LogowanieWidget.routeName);
+
+          return;
+        }
+      }
+
       _model.instantTimer = InstantTimer.periodic(
         duration: Duration(milliseconds: 1000),
         callback: (timer) async {

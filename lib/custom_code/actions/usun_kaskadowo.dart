@@ -22,7 +22,11 @@ Future usunKaskadowo(String restaurantId) async {
         .where('restaurant_id', isEqualTo: restaurantId)
         .get();
     for (var doc in users.docs) {
-      batch.delete(doc.reference);
+      // Uzbrajamy samozniszczenie konta kelnera
+      batch.update(doc.reference, {
+        'oczekuje_na_usuniecie': true,
+        'data_usuniecia': DateTime.now().subtract(Duration(days: 1)),
+      });
     }
 
     // 2. Usuwamy wszystkie stoliki
