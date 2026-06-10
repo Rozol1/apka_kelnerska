@@ -41,6 +41,8 @@ class _KartaPozycjiWidgetState extends State<KartaPozycjiWidget> {
     _model.textController ??=
         TextEditingController(text: widget.daneZamowienia?.comment);
     _model.textFieldFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

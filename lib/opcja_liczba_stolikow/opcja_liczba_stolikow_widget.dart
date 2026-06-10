@@ -44,6 +44,8 @@ class _OpcjaLiczbaStolikowWidgetState extends State<OpcjaLiczbaStolikowWidget> {
       _model.licznikStolikow = _model.pobraneStoliki!.length;
       safeSetState(() {});
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

@@ -77,6 +77,8 @@ class _EdytujZMenuWidgetState extends State<EdytujZMenuWidget> {
 
     _model.nowyAlergenFieldTextController ??= TextEditingController();
     _model.nowyAlergenFieldFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

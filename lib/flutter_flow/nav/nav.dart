@@ -161,6 +161,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: KodRestauracjiWidget.routeName,
           path: KodRestauracjiWidget.routePath,
           builder: (context, params) => KodRestauracjiWidget(),
+        ),
+        FFRoute(
+          name: StronaHistoriaZamPageWidget.routeName,
+          path: StronaHistoriaZamPageWidget.routePath,
+          builder: (context, params) => StronaHistoriaZamPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

@@ -44,6 +44,8 @@ class _OpcjeFiltrowaniaWidgetState extends State<OpcjeFiltrowaniaWidget> {
       _model.listaAlergenow = _model.pobraneAlergeny!.toList().cast<String>();
       safeSetState(() {});
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

@@ -37,6 +37,8 @@ class _ZmianaHaslaWidgetState extends State<ZmianaHaslaWidget> {
 
     _model.potwierdzNoweHasloTextTextController ??= TextEditingController();
     _model.potwierdzNoweHasloTextFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

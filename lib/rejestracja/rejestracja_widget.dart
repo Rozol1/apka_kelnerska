@@ -54,6 +54,8 @@ class _RejestracjaWidgetState extends State<RejestracjaWidget> {
 
     _model.textFieldMailTextController3 ??= TextEditingController();
     _model.textFieldMailFocusNode3 ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

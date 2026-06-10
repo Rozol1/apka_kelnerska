@@ -37,6 +37,8 @@ class _KodRestauracjiWidgetState extends State<KodRestauracjiWidget> {
       _model.licznikStolikow = _model.pobraneStoliki!.length;
       safeSetState(() {});
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

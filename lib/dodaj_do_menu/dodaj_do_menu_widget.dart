@@ -68,6 +68,8 @@ class _DodajDoMenuWidgetState extends State<DodajDoMenuWidget> {
 
     _model.nowyAlergenDodajTextController ??= TextEditingController();
     _model.nowyAlergenDodajFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

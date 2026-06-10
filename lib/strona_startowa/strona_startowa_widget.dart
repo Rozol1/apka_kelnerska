@@ -97,6 +97,8 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
         startImmediately: true,
       );
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

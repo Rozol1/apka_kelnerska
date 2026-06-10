@@ -32,6 +32,8 @@ class _PotwierdzenieLikwidacjiWidgetState
   void initState() {
     super.initState();
     _model = createModel(context, () => PotwierdzenieLikwidacjiModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
