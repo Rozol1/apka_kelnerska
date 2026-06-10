@@ -1,4 +1,3 @@
-import '/components/order_item_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -7,8 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'strona_historia_zam_page_model.dart';
 export 'strona_historia_zam_page_model.dart';
 
-/// Strona historia zamówień, posiadająca trzy filtry od (data) do (data),
-/// numer stolika, i pod spodem greed view które wyciąga listę zamówień z bazy
 class StronaHistoriaZamPageWidget extends StatefulWidget {
   const StronaHistoriaZamPageWidget({super.key});
 
@@ -406,20 +403,7 @@ class _StronaHistoriaZamPageWidgetState
                                 primary: false,
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
-                                children: [
-                                  wrapWithModel(
-                                    model: _model.orderItemModel,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: OrderItemWidget(
-                                      table: '5',
-                                      time: '14:20',
-                                      total: '124,50 zł',
-                                      statusColor:
-                                          FlutterFlowTheme.of(context).success,
-                                      status: 'Zapłacono',
-                                    ),
-                                  ),
-                                ],
+                                children: [],
                               ),
                             ].divide(SizedBox(height: 16.0)),
                           ),

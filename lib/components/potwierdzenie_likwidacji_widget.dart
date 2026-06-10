@@ -9,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'potwierdzenie_likwidacji_model.dart';
 export 'potwierdzenie_likwidacji_model.dart';
 
-/// tak i nie
 class PotwierdzenieLikwidacjiWidget extends StatefulWidget {
   const PotwierdzenieLikwidacjiWidget({super.key});
 

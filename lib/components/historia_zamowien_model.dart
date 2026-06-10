@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'order_item_widget.dart' show OrderItemWidget;
+import 'historia_zamowien_widget.dart' show HistoriaZamowienWidget;
 import 'package:flutter/material.dart';
 
-class OrderItemModel extends FlutterFlowModel<OrderItemWidget> {
+class HistoriaZamowienModel extends FlutterFlowModel<HistoriaZamowienWidget> {
   @override
   void initState(BuildContext context) {}
 
