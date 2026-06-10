@@ -13,6 +13,20 @@
           "order": "ASCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "order_history",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "restaurant_ref",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "order_time",
+          "order": "DESCENDING"
+        }
+      ]
     }
   ]
 }

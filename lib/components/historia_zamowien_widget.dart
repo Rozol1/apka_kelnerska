@@ -12,6 +12,7 @@ class HistoriaZamowienWidget extends StatefulWidget {
     String? timestamp,
     String? price,
     String? statusLabel,
+    this.szczegolyZamowienia,
   })  : this.tableName = tableName ?? '',
         this.timestamp = timestamp ?? '',
         this.price = price ?? '',
@@ -21,6 +22,7 @@ class HistoriaZamowienWidget extends StatefulWidget {
   final String timestamp;
   final String price;
   final String statusLabel;
+  final List<String>? szczegolyZamowienia;
 
   @override
   State<HistoriaZamowienWidget> createState() => _HistoriaZamowienWidgetState();
@@ -141,6 +143,44 @@ class _HistoriaZamowienWidgetState extends State<HistoriaZamowienWidget> {
                                         .fontStyle,
                                     lineHeight: 1.4,
                                   ),
+                            ),
+                            Builder(
+                              builder: (context) {
+                                final listaWierszy =
+                                    widget.szczegolyZamowienia?.toList() ?? [];
+
+                                return Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: List.generate(listaWierszy.length,
+                                      (listaWierszyIndex) {
+                                    final listaWierszyItem =
+                                        listaWierszy[listaWierszyIndex];
+                                    return Text(
+                                      listaWierszyItem,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight: FontWeight.w300,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            fontSize: 12.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w300,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                    );
+                                  }),
+                                );
+                              },
                             ),
                           ].divide(SizedBox(height: 4.0)),
                         ),
