@@ -3,30 +3,29 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'strona_historia_zam_page_model.dart';
-export 'strona_historia_zam_page_model.dart';
+import 'strona_historia_zam_model.dart';
+export 'strona_historia_zam_model.dart';
 
-class StronaHistoriaZamPageWidget extends StatefulWidget {
-  const StronaHistoriaZamPageWidget({super.key});
+class StronaHistoriaZamWidget extends StatefulWidget {
+  const StronaHistoriaZamWidget({super.key});
 
-  static String routeName = 'StronaHistoriaZamPage';
-  static String routePath = '/stronaHistoriaZamPage';
+  static String routeName = 'StronaHistoriaZam';
+  static String routePath = '/stronaHistoriaZam';
 
   @override
-  State<StronaHistoriaZamPageWidget> createState() =>
-      _StronaHistoriaZamPageWidgetState();
+  State<StronaHistoriaZamWidget> createState() =>
+      _StronaHistoriaZamWidgetState();
 }
 
-class _StronaHistoriaZamPageWidgetState
-    extends State<StronaHistoriaZamPageWidget> {
-  late StronaHistoriaZamPageModel _model;
+class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
+  late StronaHistoriaZamModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => StronaHistoriaZamPageModel());
+    _model = createModel(context, () => StronaHistoriaZamModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -391,15 +390,8 @@ class _StronaHistoriaZamPageWidgetState
                                           .fontStyle,
                                     ),
                               ),
-                              GridView(
+                              ListView(
                                 padding: EdgeInsets.zero,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 16.0,
-                                  mainAxisSpacing: 16.0,
-                                  childAspectRatio: 1.0,
-                                ),
                                 primary: false,
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,

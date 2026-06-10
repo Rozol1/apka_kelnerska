@@ -180,6 +180,7 @@ class _StolikWidgetState extends State<StolikWidget> {
                                             'Obsłużony')
                                           FFButtonWidget(
                                             onPressed: () async {
+                                              var _shouldSetState = false;
                                               var confirmDialogResponse =
                                                   await showDialog<bool>(
                                                         context: context,
@@ -213,6 +214,46 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                       ) ??
                                                       false;
                                               if (confirmDialogResponse) {
+                                                _model.pobraneDania =
+                                                    await queryOrderedItemsRecordOnce(
+                                                  parent: stolikTablesRecord
+                                                      .reference,
+                                                );
+                                                _shouldSetState = true;
+                                                _model.gotoweSzczegoly =
+                                                    await actions
+                                                        .skompilujSzczegolyRachunku(
+                                                  _model.pobraneDania?.toList(),
+                                                );
+                                                _shouldSetState = true;
+
+                                                await OrderHistoryRecord
+                                                    .collection
+                                                    .doc()
+                                                    .set({
+                                                  ...createOrderHistoryRecordData(
+                                                    tableName:
+                                                        stolikTablesRecord
+                                                            .tableId
+                                                            .toString(),
+                                                    orderTime:
+                                                        getCurrentTimestamp,
+                                                    cena: functions
+                                                        .obliczSumeRachunku(
+                                                            _model.pobraneDania!
+                                                                .toList()),
+                                                    restaurantRef:
+                                                        currentUserDocument
+                                                            ?.restaurantRef,
+                                                  ),
+                                                  ...mapToFirestore(
+                                                    {
+                                                      'szczegoly_zamowienia':
+                                                          _model
+                                                              .gotoweSzczegoly,
+                                                    },
+                                                  ),
+                                                });
                                                 await actions.wyczyscStolik(
                                                   widget.tableRef!,
                                                 );
@@ -222,7 +263,14 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                   guestsCount: 0,
                                                   status: 'Wolny',
                                                 ));
+                                              } else {
+                                                if (_shouldSetState)
+                                                  safeSetState(() {});
+                                                return;
                                               }
+
+                                              if (_shouldSetState)
+                                                safeSetState(() {});
                                             },
                                             text: 'Zwolnij stolik',
                                             options: FFButtonOptions(

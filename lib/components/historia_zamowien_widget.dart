@@ -75,7 +75,7 @@ class _HistoriaZamowienWidgetState extends State<HistoriaZamowienWidget> {
                     width: 40.0,
                     height: 40.0,
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).accent15,
+                      color: Color(0x26EF8C61),
                       borderRadius: BorderRadius.circular(9999.0),
                       shape: BoxShape.rectangle,
                     ),
@@ -174,7 +174,7 @@ class _HistoriaZamowienWidgetState extends State<HistoriaZamowienWidget> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).success20,
+                      color: Color(0x3323978A),
                       borderRadius: BorderRadius.circular(4.0),
                       shape: BoxShape.rectangle,
                     ),

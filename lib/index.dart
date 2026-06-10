@@ -13,5 +13,5 @@ export '/dodaj_do_menu/dodaj_do_menu_widget.dart' show DodajDoMenuWidget;
 export '/ekran_weryfikacji/ekran_weryfikacji_widget.dart'
     show EkranWeryfikacjiWidget;
 export '/kod_restauracji/kod_restauracji_widget.dart' show KodRestauracjiWidget;
-export '/strona_historia_zam_page/strona_historia_zam_page_widget.dart'
-    show StronaHistoriaZamPageWidget;
+export '/strona_historia_zam/strona_historia_zam_widget.dart'
+    show StronaHistoriaZamWidget;
