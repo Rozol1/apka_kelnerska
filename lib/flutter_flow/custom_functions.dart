@@ -222,3 +222,16 @@ DateTime obliczCzasUsuniecia() {
 // Pobieramy obecny czas telefonu i dodajemy do niego równo 48 godzin
   return DateTime.now().add(const Duration(hours: 48));
 }
+
+double sumujWidoczneZamowienia(List<OrderHistoryRecord>? lista) {
+  double suma = 0.0;
+
+  if (lista != null) {
+    for (var doc in lista) {
+      // Jeśli Twoja cena w bazie to Integer, zmień doc.cena na doc.cena.toDouble()
+      suma += doc.cena;
+    }
+  }
+
+  return suma;
+}
