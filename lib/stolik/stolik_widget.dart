@@ -263,6 +263,10 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                   guestsCount: 0,
                                                   status: 'Wolny',
                                                 ));
+
+                                                context.pushNamed(
+                                                    StronaStartowaWidget
+                                                        .routeName);
                                               } else {
                                                 if (_shouldSetState)
                                                   safeSetState(() {});

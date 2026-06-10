@@ -94,12 +94,12 @@ class _HistoriaZamowienWidgetState extends State<HistoriaZamowienWidget> {
                           EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                       child: Container(
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.tableName,
+                              'Stolik ${widget.tableName}',
                               style: FlutterFlowTheme.of(context)
                                   .titleLarge
                                   .override(
@@ -144,43 +144,57 @@ class _HistoriaZamowienWidgetState extends State<HistoriaZamowienWidget> {
                                     lineHeight: 1.4,
                                   ),
                             ),
-                            Builder(
-                              builder: (context) {
-                                final listaWierszy =
-                                    widget.szczegolyZamowienia?.toList() ?? [];
+                            Expanded(
+                              child: Builder(
+                                builder: (context) {
+                                  final listaWierszy =
+                                      widget.szczegolyZamowienia?.toList() ??
+                                          [];
 
-                                return Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: List.generate(listaWierszy.length,
-                                      (listaWierszyIndex) {
-                                    final listaWierszyItem =
-                                        listaWierszy[listaWierszyIndex];
-                                    return Text(
-                                      listaWierszyItem,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight: FontWeight.w300,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            fontSize: 12.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w300,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: List.generate(listaWierszy.length,
+                                        (listaWierszyIndex) {
+                                      final listaWierszyItem =
+                                          listaWierszy[listaWierszyIndex];
+                                      return Expanded(
+                                        child: Container(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.45,
+                                          decoration: BoxDecoration(),
+                                          child: Text(
+                                            listaWierszyItem,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w300,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  fontSize: 12.0,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w300,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                           ),
-                                    );
-                                  }),
-                                );
-                              },
+                                        ),
+                                      );
+                                    }),
+                                  );
+                                },
+                              ),
                             ),
                           ].divide(SizedBox(height: 4.0)),
                         ),

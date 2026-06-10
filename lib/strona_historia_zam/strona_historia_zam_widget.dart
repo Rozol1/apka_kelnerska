@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/historia_zamowien_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -95,7 +96,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                       ),
                                       onPressed: () async {
                                         context.pushNamed(
-                                            StronaStartowaWidget.routeName);
+                                            UstawieniaWidget.routeName);
                                       },
                                     ),
                                     Spacer(),
@@ -487,10 +488,21 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                         final gridOrderHistoryRecord =
                                             gridOrderHistoryRecordList[
                                                 gridIndex];
-                                        return Container(
-                                            width: 100,
-                                            height: 100,
-                                            color: Colors.green);
+                                        return HistoriaZamowienWidget(
+                                          key: Key(
+                                              'Keysrg_${gridIndex}_of_${gridOrderHistoryRecordList.length}'),
+                                          tableName:
+                                              gridOrderHistoryRecord.tableName,
+                                          timestamp: gridOrderHistoryRecord
+                                              .orderTime
+                                              ?.toString(),
+                                          price: gridOrderHistoryRecord.cena
+                                              .toString(),
+                                          statusLabel: 'ZAMKNIĘTE',
+                                          szczegolyZamowienia:
+                                              gridOrderHistoryRecord
+                                                  .szczegolyZamowienia,
+                                        );
                                       },
                                     );
                                   },
