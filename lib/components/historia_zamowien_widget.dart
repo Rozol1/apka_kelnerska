@@ -164,7 +164,7 @@ class _HistoriaZamowienWidgetState extends State<HistoriaZamowienWidget> {
                                         child: Container(
                                           width:
                                               MediaQuery.sizeOf(context).width *
-                                                  0.45,
+                                                  0.41,
                                           decoration: BoxDecoration(),
                                           child: Text(
                                             listaWierszyItem,
