@@ -119,7 +119,7 @@ class _HistoriaZamowienWidgetState extends State<HistoriaZamowienWidget> {
                             ),
                             Text(
                               dateTimeFormat(
-                                "dd.MM.yyyy  hh:mm",
+                                "dd.MM.yyyy  HH:mm",
                                 widget.timestamp,
                                 locale:
                                     FFLocalizations.of(context).languageCode,

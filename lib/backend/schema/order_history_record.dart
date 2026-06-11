@@ -41,12 +41,18 @@ class OrderHistoryRecord extends FirestoreRecord {
   List<String> get szczegolyZamowienia => _szczegolyZamowienia ?? const [];
   bool hasSzczegolyZamowienia() => _szczegolyZamowienia != null;
 
+  // "wygasa_dnia" field.
+  DateTime? _wygasaDnia;
+  DateTime? get wygasaDnia => _wygasaDnia;
+  bool hasWygasaDnia() => _wygasaDnia != null;
+
   void _initializeFields() {
     _tableName = snapshotData['table_name'] as String?;
     _orderTime = snapshotData['order_time'] as DateTime?;
     _cena = castToType<double>(snapshotData['cena']);
     _restaurantRef = snapshotData['restaurant_ref'] as DocumentReference?;
     _szczegolyZamowienia = getDataList(snapshotData['szczegoly_zamowienia']);
+    _wygasaDnia = snapshotData['wygasa_dnia'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -88,6 +94,7 @@ Map<String, dynamic> createOrderHistoryRecordData({
   DateTime? orderTime,
   double? cena,
   DocumentReference? restaurantRef,
+  DateTime? wygasaDnia,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -95,6 +102,7 @@ Map<String, dynamic> createOrderHistoryRecordData({
       'order_time': orderTime,
       'cena': cena,
       'restaurant_ref': restaurantRef,
+      'wygasa_dnia': wygasaDnia,
     }.withoutNulls,
   );
 
@@ -112,7 +120,8 @@ class OrderHistoryRecordDocumentEquality
         e1?.orderTime == e2?.orderTime &&
         e1?.cena == e2?.cena &&
         e1?.restaurantRef == e2?.restaurantRef &&
-        listEquality.equals(e1?.szczegolyZamowienia, e2?.szczegolyZamowienia);
+        listEquality.equals(e1?.szczegolyZamowienia, e2?.szczegolyZamowienia) &&
+        e1?.wygasaDnia == e2?.wygasaDnia;
   }
 
   @override
@@ -121,7 +130,8 @@ class OrderHistoryRecordDocumentEquality
         e?.orderTime,
         e?.cena,
         e?.restaurantRef,
-        e?.szczegolyZamowienia
+        e?.szczegolyZamowienia,
+        e?.wygasaDnia
       ]);
 
   @override

@@ -11,60 +11,53 @@ import 'package:flutter/material.dart';
 // Imports
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future usunKaskadowo(String restaurantId) async {
+Future usunKaskadowo(DocumentReference? restaurantRef) async {
   final firestore = FirebaseFirestore.instance;
-  final batch = firestore.batch(); // Inicjujemy bezpieczną paczkę operacji
+  final batch = firestore.batch();
 
-  try {
-    // 1. Usuwamy WSZYSTKICH kelnerów przypisanych do tej restauracji z bazy
-    var users = await firestore
-        .collection('users')
-        .where('restaurant_id', isEqualTo: restaurantId)
-        .get();
-    for (var doc in users.docs) {
-      // Uzbrajamy samozniszczenie konta kelnera
-      batch.update(doc.reference, {
-        'oczekuje_na_usuniecie': true,
-        'data_usuniecia': DateTime.now().subtract(Duration(days: 1)),
-      });
-    }
+  // 1. Znajdź wszystkich kelnerów przypisanych do tej restauracji
+  final usersSnapshot = await firestore
+      .collection('users')
+      .where('restaurant_ref', isEqualTo: restaurantRef)
+      .get();
 
-    // 2. Usuwamy wszystkie stoliki
-    var tables = await firestore
-        .collection('tables')
-        .where('restaurant_id', isEqualTo: restaurantId)
-        .get();
-    for (var doc in tables.docs) {
-      batch.delete(doc.reference);
-    }
-
-    // 3. Usuwamy całe menu (produkty)
-    var products = await firestore
-        .collection('products')
-        .where('restaurant_id', isEqualTo: restaurantId)
-        .get();
-    for (var doc in products.docs) {
-      batch.delete(doc.reference);
-    }
-
-    // 4. Usuwamy wszystkie zamówienia (historię i bieżące)
-    var orders = await firestore
-        .collection('ordered_items')
-        .where('restaurant_id', isEqualTo: restaurantId)
-        .get();
-    for (var doc in orders.docs) {
-      batch.delete(doc.reference);
-    }
-
-    // 5. Na samym końcu usuwamy obiekt głównej restauracji
-    var restRef = firestore.collection('restaurants').doc(restaurantId);
-    batch.delete(restRef);
-
-    // Wysyłamy całe uderzenie do bazy w jednym ułamku sekundy
-    await batch.commit();
-  } catch (e) {
-    print('Krytyczny błąd usuwania kaskadowego: $e');
+  // ZMIANA: Zamiast usuwać, "odpinamy" kelnera od restauracji (ustawiamy null)
+  for (var doc in usersSnapshot.docs) {
+    batch.update(doc.reference, {'restaurant_ref': null});
   }
+
+  // 2. Usuń stoliki
+  final tablesSnapshot = await firestore
+      .collection('tables')
+      .where('restaurant_ref', isEqualTo: restaurantRef)
+      .get();
+  for (var doc in tablesSnapshot.docs) {
+    batch.delete(doc.reference);
+  }
+
+  // 3. Usuń produkty
+  final productsSnapshot = await firestore
+      .collection('products')
+      .where('restaurant_ref', isEqualTo: restaurantRef)
+      .get();
+  for (var doc in productsSnapshot.docs) {
+    batch.delete(doc.reference);
+  }
+
+  // 4. Usuń historię zamówień
+  final historySnapshot = await firestore
+      .collection('order_history')
+      .where('restaurant_ref', isEqualTo: restaurantRef)
+      .get();
+  for (var doc in historySnapshot.docs) {
+    batch.delete(doc.reference);
+  }
+
+  // 5. Na koniec usuń sam dokument restauracji
+  batch.delete(restaurantRef!);
+
+  // Zatwierdź wszystkie operacje naraz
+  await batch.commit();
 }
 // Set your action name, define your arguments and return parameter,
 // and then add the boilerplate code using the green button on the right!

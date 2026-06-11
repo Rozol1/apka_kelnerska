@@ -444,7 +444,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                               valueOrDefault<
                                                                   String>(
                                                                 dateTimeFormat(
-                                                                  "dd.MM.yyyy  hh:mm",
+                                                                  "dd.MM.yyyy  HH:mm",
                                                                   _model.dataOd,
                                                                   locale: FFLocalizations.of(
                                                                           context)
@@ -755,7 +755,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                               valueOrDefault<
                                                                   String>(
                                                                 dateTimeFormat(
-                                                                  "dd.MM.yyy  hh:mm",
+                                                                  "dd.MM.yyy  HH:mm",
                                                                   _model.dataDo,
                                                                   locale: FFLocalizations.of(
                                                                           context)

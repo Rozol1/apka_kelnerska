@@ -245,6 +245,9 @@ class _StolikWidgetState extends State<StolikWidget> {
                                                     restaurantRef:
                                                         currentUserDocument
                                                             ?.restaurantRef,
+                                                    wygasaDnia: functions
+                                                        .obliczDateWygasniecia(
+                                                            getCurrentTimestamp),
                                                   ),
                                                   ...mapToFirestore(
                                                     {

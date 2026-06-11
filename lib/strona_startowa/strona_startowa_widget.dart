@@ -35,67 +35,79 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.pobranaRestauracja = await RestaurantsRecord.getDocumentOnce(
-          currentUserDocument!.restaurantRef!);
-      if ((_model.pobranaRestauracja?.trwaLikwidacjaLokalu == true) &&
-          (getCurrentTimestamp >
-              _model.pobranaRestauracja!.dataLikwidacjiLokalu!)) {
-        if (valueOrDefault(currentUserDocument?.rola, '') == 'wlasciciel') {
-          await actions.usunKaskadowo(
-            currentUserDocument!.restaurantRef!.id,
-          );
-          await authManager.deleteUser(context);
+      if (currentUserDocument?.restaurantRef == null) {
+        await currentUserReference!.delete();
+        await authManager.deleteUser(context);
+        GoRouter.of(context).prepareAuthEvent();
+        await authManager.signOut();
+        GoRouter.of(context).clearRedirectLocation();
 
-          context.pushNamed(LogowanieWidget.routeName);
+        context.goNamedAuth(LogowanieWidget.routeName, context.mounted);
 
-          return;
-        } else {
-          await showDialog(
-            context: context,
-            builder: (alertDialogContext) {
-              return AlertDialog(
-                title: Text('Konto usunięte'),
-                content: Text(
-                    'Restauracja została zlikwidowana. Twoje konto wygasło.'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(alertDialogContext),
-                    child: Text('Ok'),
-                  ),
-                ],
-              );
-            },
-          );
-          await currentUserReference!.delete();
-          await authManager.deleteUser(context);
-
-          context.pushNamed(LogowanieWidget.routeName);
-
-          return;
-        }
+        return;
       } else {
-        if ((valueOrDefault(currentUserDocument?.rola, '') == 'kelner') &&
-            (valueOrDefault<bool>(
-                    currentUserDocument?.oczekujeNaUsuniecie, false) ==
-                true) &&
-            (getCurrentTimestamp > currentUserDocument!.dataUsuniecia!)) {
-          await currentUserReference!.delete();
-          await authManager.deleteUser(context);
+        _model.pobranaRestauracja = await RestaurantsRecord.getDocumentOnce(
+            currentUserDocument!.restaurantRef!);
+        if ((_model.pobranaRestauracja?.trwaLikwidacjaLokalu == true) &&
+            (getCurrentTimestamp >
+                _model.pobranaRestauracja!.dataLikwidacjiLokalu!)) {
+          if (valueOrDefault(currentUserDocument?.rola, '') == 'wlasciciel') {
+            await actions.usunKaskadowo(
+              currentUserDocument?.restaurantRef,
+            );
+            await authManager.deleteUser(context);
 
-          context.pushNamed(LogowanieWidget.routeName);
+            context.pushNamedAuth(LogowanieWidget.routeName, context.mounted);
 
-          return;
+            return;
+          } else {
+            await showDialog(
+              context: context,
+              builder: (alertDialogContext) {
+                return AlertDialog(
+                  title: Text('Konto usunięte'),
+                  content: Text(
+                      'Restauracja została zlikwidowana. Twoje konto wygasło.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(alertDialogContext),
+                      child: Text('Ok'),
+                    ),
+                  ],
+                );
+              },
+            );
+            await currentUserReference!.delete();
+            await authManager.deleteUser(context);
+
+            context.pushNamedAuth(LogowanieWidget.routeName, context.mounted);
+
+            return;
+          }
+        } else {
+          if ((valueOrDefault(currentUserDocument?.rola, '') == 'kelner') &&
+              (valueOrDefault<bool>(
+                      currentUserDocument?.oczekujeNaUsuniecie, false) ==
+                  true) &&
+              (getCurrentTimestamp > currentUserDocument!.dataUsuniecia!)) {
+            await currentUserReference!.delete();
+            await authManager.deleteUser(context);
+
+            context.pushNamedAuth(LogowanieWidget.routeName, context.mounted);
+
+            return;
+          }
         }
-      }
 
-      _model.instantTimer = InstantTimer.periodic(
-        duration: Duration(milliseconds: 1000),
-        callback: (timer) async {
-          _model.obecnyCzas = getCurrentTimestamp;
-          safeSetState(() {});
-        },
-        startImmediately: true,
-      );
+        _model.instantTimer = InstantTimer.periodic(
+          duration: Duration(milliseconds: 1000),
+          callback: (timer) async {
+            _model.obecnyCzas = getCurrentTimestamp;
+            safeSetState(() {});
+          },
+          startImmediately: true,
+        );
+      }
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
