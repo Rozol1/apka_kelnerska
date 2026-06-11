@@ -239,7 +239,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                         await showDatePicker(
                                                       context: context,
                                                       initialDate:
-                                                          DateTime(2026, 6, 6),
+                                                          getCurrentTimestamp,
                                                       firstDate: DateTime(1900),
                                                       lastDate: DateTime(2050),
                                                       builder:
@@ -315,8 +315,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                         context: context,
                                                         initialTime: TimeOfDay
                                                             .fromDateTime(
-                                                                DateTime(2026,
-                                                                    6, 6)),
+                                                                getCurrentTimestamp),
                                                         builder:
                                                             (context, child) {
                                                           return wrapInMaterialTimePickerTheme(
@@ -403,8 +402,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                         null) {
                                                       safeSetState(() {
                                                         _model.datePicked1 =
-                                                            DateTime(
-                                                                2026, 6, 6);
+                                                            getCurrentTimestamp;
                                                       });
                                                     }
                                                     _model.dataOd =
@@ -437,7 +435,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                               MainAxisSize.max,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .spaceBetween,
+                                                                  .center,
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
                                                                   .center,
@@ -748,7 +746,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                               MainAxisSize.max,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .spaceBetween,
+                                                                  .center,
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
                                                                   .center,
