@@ -239,7 +239,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                         await showDatePicker(
                                                       context: context,
                                                       initialDate:
-                                                          getCurrentTimestamp,
+                                                          DateTime(2020, 1, 1),
                                                       firstDate: DateTime(1900),
                                                       lastDate: DateTime(2050),
                                                       builder:
@@ -315,7 +315,8 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                         context: context,
                                                         initialTime: TimeOfDay
                                                             .fromDateTime(
-                                                                getCurrentTimestamp),
+                                                                DateTime(2020,
+                                                                    1, 1)),
                                                         builder:
                                                             (context, child) {
                                                           return wrapInMaterialTimePickerTheme(
@@ -402,7 +403,8 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                         null) {
                                                       safeSetState(() {
                                                         _model.datePicked1 =
-                                                            getCurrentTimestamp;
+                                                            DateTime(
+                                                                2020, 1, 1);
                                                       });
                                                     }
                                                     _model.dataOd =
