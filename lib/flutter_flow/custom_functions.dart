@@ -236,7 +236,3 @@ double sumujWidoczneZamowienia(List<OrderHistoryRecord>? lista) {
 
   return suma;
 }
-
-DateTime obliczDateWygasniecia(DateTime aktualnyCzas) {
-  return aktualnyCzas.add(const Duration(days: 45));
-}

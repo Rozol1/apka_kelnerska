@@ -9,3 +9,4 @@ export 'odswiez_status_stolika.dart' show odswiezStatusStolika;
 export 'generuj_unikalny_kod_pin.dart' show generujUnikalnyKodPin;
 export 'usun_kaskadowo.dart' show usunKaskadowo;
 export 'skompiluj_szczegoly_rachunku.dart' show skompilujSzczegolyRachunku;
+export 'usun_stare_zamowienia.dart' show usunStareZamowienia;

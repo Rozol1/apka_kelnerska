@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/instant_timer.dart';
+import 'dart:async';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
@@ -46,6 +47,11 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
 
         return;
       } else {
+        unawaited(
+          () async {
+            await actions.usunStareZamowienia();
+          }(),
+        );
         _model.pobranaRestauracja = await RestaurantsRecord.getDocumentOnce(
             currentUserDocument!.restaurantRef!);
         if ((_model.pobranaRestauracja?.trwaLikwidacjaLokalu == true) &&
