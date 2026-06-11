@@ -228,8 +228,9 @@ double sumujWidoczneZamowienia(List<OrderHistoryRecord>? lista) {
 
   if (lista != null) {
     for (var doc in lista) {
-      // Jeśli Twoja cena w bazie to Integer, zmień doc.cena na doc.cena.toDouble()
-      suma += doc.cena;
+      // Dart sam wie, że cena nie jest null,
+      // więc tylko wymuszamy format ułamkowy (.toDouble()), by uniknąć crashu UI.
+      suma += doc.cena.toDouble();
     }
   }
 

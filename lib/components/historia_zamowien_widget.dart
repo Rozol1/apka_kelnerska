@@ -9,18 +9,16 @@ class HistoriaZamowienWidget extends StatefulWidget {
   const HistoriaZamowienWidget({
     super.key,
     String? tableName,
-    String? timestamp,
-    String? price,
+    this.timestamp,
+    this.price,
     String? statusLabel,
     this.szczegolyZamowienia,
   })  : this.tableName = tableName ?? '',
-        this.timestamp = timestamp ?? '',
-        this.price = price ?? '',
         this.statusLabel = statusLabel ?? '';
 
   final String tableName;
-  final String timestamp;
-  final String price;
+  final DateTime? timestamp;
+  final double? price;
   final String statusLabel;
   final List<String>? szczegolyZamowienia;
 
@@ -120,7 +118,12 @@ class _HistoriaZamowienWidgetState extends State<HistoriaZamowienWidget> {
                                   ),
                             ),
                             Text(
-                              widget.timestamp,
+                              dateTimeFormat(
+                                "dd.MM.yyyy  hh:mm",
+                                widget.timestamp,
+                                locale:
+                                    FFLocalizations.of(context).languageCode,
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .labelSmall
                                   .override(
@@ -209,7 +212,12 @@ class _HistoriaZamowienWidgetState extends State<HistoriaZamowienWidget> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    widget.price,
+                    '${formatNumber(
+                      widget.price,
+                      formatType: FormatType.custom,
+                      format: '00.00',
+                      locale: '',
+                    )} zł',
                     style: FlutterFlowTheme.of(context).titleMedium.override(
                           font: GoogleFonts.interTight(
                             fontWeight: FontWeight.bold,

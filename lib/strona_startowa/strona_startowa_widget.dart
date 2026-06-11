@@ -261,9 +261,12 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                   ),
                                   Text(
                                     dateTimeFormat(
-                                        "dd.MM.yyyy - HH:mm",
-                                        stronaStartowaRestaurantsRecord
-                                            .dataLikwidacjiLokalu!),
+                                      "dd.MM.yyyy - HH:mm",
+                                      stronaStartowaRestaurantsRecord
+                                          .dataLikwidacjiLokalu!,
+                                      locale: FFLocalizations.of(context)
+                                          .languageCode,
+                                    ),
                                     textAlign: TextAlign.center,
                                     style: FlutterFlowTheme.of(context)
                                         .titleMedium
@@ -367,9 +370,12 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                   ),
                                   Text(
                                     dateTimeFormat(
-                                        "dd.MM.yyyy - HH:mm",
-                                        stronaStartowaRestaurantsRecord
-                                            .dataLikwidacjiLokalu!),
+                                      "dd.MM.yyyy - HH:mm",
+                                      stronaStartowaRestaurantsRecord
+                                          .dataLikwidacjiLokalu!,
+                                      locale: FFLocalizations.of(context)
+                                          .languageCode,
+                                    ),
                                     textAlign: TextAlign.center,
                                     style: FlutterFlowTheme.of(context)
                                         .titleMedium
@@ -460,8 +466,12 @@ class _StronaStartowaWidgetState extends State<StronaStartowaWidget> {
                                         ),
                                   ),
                                   Text(
-                                    dateTimeFormat("dd.MM.yyyy - HH:mm",
-                                        currentUserDocument!.dataUsuniecia!),
+                                    dateTimeFormat(
+                                      "dd.MM.yyyy - HH:mm",
+                                      currentUserDocument!.dataUsuniecia!,
+                                      locale: FFLocalizations.of(context)
+                                          .languageCode,
+                                    ),
                                     textAlign: TextAlign.center,
                                     style: FlutterFlowTheme.of(context)
                                         .titleMedium

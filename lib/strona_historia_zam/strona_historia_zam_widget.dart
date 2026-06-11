@@ -190,7 +190,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'Od daty',
+                                                  'Od dnia',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -239,7 +239,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                         await showDatePicker(
                                                       context: context,
                                                       initialDate:
-                                                          DateTime(2020, 1, 1),
+                                                          DateTime(2026, 6, 6),
                                                       firstDate: DateTime(1900),
                                                       lastDate: DateTime(2050),
                                                       builder:
@@ -315,8 +315,8 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                         context: context,
                                                         initialTime: TimeOfDay
                                                             .fromDateTime(
-                                                                DateTime(2020,
-                                                                    1, 1)),
+                                                                DateTime(2026,
+                                                                    6, 6)),
                                                         builder:
                                                             (context, child) {
                                                           return wrapInMaterialTimePickerTheme(
@@ -404,7 +404,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                       safeSetState(() {
                                                         _model.datePicked1 =
                                                             DateTime(
-                                                                2020, 1, 1);
+                                                                2026, 6, 6);
                                                       });
                                                     }
                                                     _model.dataOd =
@@ -443,7 +443,17 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                                   .center,
                                                           children: [
                                                             Text(
-                                                              '2023-10-01',
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                dateTimeFormat(
+                                                                  "dd.MM.yyyy  hh:mm",
+                                                                  _model.dataOd,
+                                                                  locale: FFLocalizations.of(
+                                                                          context)
+                                                                      .languageCode,
+                                                                ),
+                                                                'Wybierz',
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
@@ -473,14 +483,6 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                                         1.4,
                                                                   ),
                                                             ),
-                                                            Icon(
-                                                              Icons
-                                                                  .calendar_today_rounded,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryText,
-                                                              size: 18.0,
-                                                            ),
                                                           ].divide(SizedBox(
                                                               width: 8.0)),
                                                         ),
@@ -501,7 +503,7 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'Do daty',
+                                                  'Do dnia',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelSmall
@@ -752,7 +754,17 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                                   .center,
                                                           children: [
                                                             Text(
-                                                              '2023-10-07',
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                dateTimeFormat(
+                                                                  "dd.MM.yyy  hh:mm",
+                                                                  _model.dataDo,
+                                                                  locale: FFLocalizations.of(
+                                                                          context)
+                                                                      .languageCode,
+                                                                ),
+                                                                'Wybierz',
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
@@ -781,14 +793,6 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                                     lineHeight:
                                                                         1.4,
                                                                   ),
-                                                            ),
-                                                            Icon(
-                                                              Icons
-                                                                  .event_available_rounded,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryText,
-                                                              size: 18.0,
                                                             ),
                                                           ].divide(SizedBox(
                                                               width: 8.0)),
@@ -859,11 +863,9 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                                   'Keysrg_${listaZamowienIndex}_of_${listaZamowien.length}'),
                                               tableName:
                                                   listaZamowienItem.tableName,
-                                              timestamp: dateTimeFormat(
-                                                  "dd.MM.yyyy  hh:mm",
-                                                  listaZamowienItem.orderTime),
-                                              price: listaZamowienItem.cena
-                                                  .toString(),
+                                              timestamp:
+                                                  listaZamowienItem.orderTime,
+                                              price: listaZamowienItem.cena,
                                               statusLabel: 'ZAMKNIĘTE',
                                               szczegolyZamowienia:
                                                   listaZamowienItem
@@ -946,7 +948,9 @@ class _StronaHistoriaZamWidgetState extends State<StronaHistoriaZamWidget> {
                                         functions.sumujWidoczneZamowienia(
                                             stronaHistoriaZamOrderHistoryRecordList
                                                 .toList()),
-                                        formatType: FormatType.decimal,
+                                        formatType: FormatType.custom,
+                                        format: '00.00',
+                                        locale: '',
                                       )} zł',
                                       style: FlutterFlowTheme.of(context)
                                           .titleLarge
